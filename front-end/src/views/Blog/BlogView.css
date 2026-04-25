@@ -1,0 +1,257 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+}
+
+.blog-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background: white;
+  font-family: -apple-system, system-ui, "Segoe UI", sans-serif;
+  color: #333;
+}
+
+/* Reader / Content Area */
+.reader {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px 60px;
+  background: white;
+  scrollbar-width: thin;
+  scrollbar-color: #ddd transparent;
+}
+
+.reader::-webkit-scrollbar {
+  width: 8px;
+}
+
+.reader::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 4px;
+}
+
+.active-heading {
+  color: #2563eb;
+  background-color: #f1f5f9;
+  padding: 4px;
+  border-left: 4px solid #2563eb;
+}
+
+/* Content Markdown */
+.content h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 32px 0 20px;
+  transition: all 0.3s ease;
+}
+
+.content h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+  margin: 28px 0 16px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.content h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+  margin: 20px 0 12px;
+  transition: all 0.3s ease;
+}
+
+/* Active Heading Highlight */
+.content h2.active-heading,
+.content h3.active-heading {
+  background: linear-gradient(90deg, #eff6ff 0%, transparent 100%);
+  border-left: 4px solid #2563eb;
+  padding-left: 12px;
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.content h1.active-heading {
+  background: linear-gradient(90deg, #eff6ff 0%, transparent 100%);
+  border-left: 4px solid #2563eb;
+  padding-left: 12px;
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.content p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.content strong {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.content ul {
+  padding-left: 24px;
+  margin: 16px 0;
+}
+
+.content li {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.content code {
+  font-family: "Menlo", "Monaco", "Courier New", monospace;
+  font-size: 13px;
+  background: #f5f5f5;
+  border: 1px solid #e5e5e5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #d63384;
+}
+
+.content pre {
+  background: #f8f8f8;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  padding: 16px;
+  margin: 20px 0;
+  overflow-x: auto;
+  position: relative;
+}
+
+.code-label {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 11px;
+  color: #888;
+  background: #f0f0f0;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #1a1a1a;
+}
+
+/* Outline / TOC Sidebar */
+.outline {
+  width: 280px;
+  flex-shrink: 0;
+  background: #f8f8f8;
+  border-left: 1px solid #e5e5e5;
+  overflow-y: auto;
+  padding: 24px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #ddd transparent;
+}
+
+.outline::-webkit-scrollbar {
+  width: 8px;
+}
+
+.outline::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 4px;
+}
+
+.outline-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0 20px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.toc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* TOC Items */
+.toc-item {
+  display: block;
+  width: 100%;
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 12px;
+  color: #666;
+  border-left: 3px solid transparent;
+}
+
+.toc-item:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.toc-item.active {
+  background-color: #e8e8e8;
+  color: #2563eb;
+  border-left-color: #2563eb;
+  font-weight: 600;
+}
+
+/* H3 items indentation */
+.toc-item.level-3 {
+  padding-left: 40px;
+  font-size: 11px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .blog-container {
+    flex-direction: column;
+  }
+
+  .reader {
+    flex: 1;
+    padding: 32px 40px;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .outline {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #e5e5e5;
+    max-height: 280px;
+    padding: 16px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .reader {
+    padding: 20px 24px;
+  }
+
+  .outline {
+    display: none;
+  }
+}
