@@ -1,0 +1,155 @@
+/* ============================================================
+   KnowledgeGraph — Design Tokens
+   SOURCE OF TRUTH: extracted from Visily designs
+   AI agents must import this file and use ONLY these values
+   ============================================================ */
+
+:root {
+
+  /* ── COLORS ─────────────────────────────────────────────── */
+
+  /* Backgrounds */
+  --color-bg-page:        #F5F4EF;   /* Homepage warm off-white */
+  --color-bg-article:     #FFFFFF;   /* Article/reading page */
+  --color-bg-surface:     #FFFFFF;   /* Cards, modals */
+  --color-bg-nav:         #1A1A1A;   /* Navbar */
+  --color-bg-muted:       #F9FAFB;   /* Sidebar widgets, newsletter */
+  --color-bg-code:        #F8F8F8;   /* Code blocks */
+  --color-bg-hover:       #F3F4F6;   /* Hover state bg */
+  --color-bg-toc-active:  #EBF3FF;   /* TOC active item bg */
+
+  /* Text */
+  --color-text-primary:   #111827;   /* Headings, body */
+  --color-text-secondary: #374151;   /* Article body copy */
+  --color-text-muted:     #6B7280;   /* Meta, subtitles, sidebar */
+  --color-text-light:     #9CA3AF;   /* Placeholders, timestamps */
+  --color-text-toc:       #1A56A0;   /* TOC active item */
+
+  /* Borders */
+  --color-border:         #E5E7EB;   /* All dividers and card borders */
+  --color-border-light:   #F3F4F6;   /* Very subtle separators */
+  --color-border-toc:     #4F8EF7;   /* TOC active left border */
+
+  /* Accent */
+  --color-accent:         #4F8EF7;   /* CTA button, links, active states */
+  --color-accent-hover:   #3B7EE8;   /* Accent hover */
+
+  /* Trending numbers */
+  --color-num-muted:      #D1D5DB;   /* Large muted numbers (01, 02, 03) */
+
+  /* ── CATEGORY BADGE COLORS ───────────────────────────────── */
+  /* Pattern: --badge-[category]-[bg|text|border] */
+
+  --badge-research-bg:    #EBF3FF;
+  --badge-research-text:  #1A56A0;
+  --badge-research-border:#BFDBFE;
+
+  --badge-ai-bg:          #EDE9FE;
+  --badge-ai-text:        #5B21B6;
+  --badge-ai-border:      #C4B5FD;
+
+  --badge-web-bg:         #ECFDF5;
+  --badge-web-text:       #065F46;
+  --badge-web-border:     #A7F3D0;
+
+  --badge-systems-bg:     #FEF3C7;
+  --badge-systems-text:   #92400E;
+  --badge-systems-border: #FCD34D;
+
+  --badge-data-bg:        #FEE2E2;
+  --badge-data-text:      #991B1B;
+  --badge-data-border:    #FCA5A5;
+
+  --badge-design-bg:      #FDF2F8;
+  --badge-design-text:    #9D174D;
+  --badge-design-border:  #F9A8D4;
+
+  --badge-engineering-bg:   #F0FDF4;
+  --badge-engineering-text: #166534;
+  --badge-engineering-border:#86EFAC;
+
+
+  /* ── TYPOGRAPHY ─────────────────────────────────────────── */
+
+  --font-body:            'Inter', -apple-system, sans-serif;
+  --font-mono:            'JetBrains Mono', 'Fira Code', monospace;
+  --font-display:         'Lora', Georgia, serif;
+
+  /* Font sizes */
+  --text-hero:            48px;  /* Homepage hero headline */
+  --text-h1:              32px;  /* Article title */
+  --text-h2:              22px;  /* Section heading */
+  --text-h3:              18px;  /* Sub-section heading */
+  --text-body:            16px;  /* Body copy */
+  --text-sm:              14px;  /* Sidebar titles, card titles */
+  --text-xs:              13px;  /* Meta, nav links, excerpts */
+  --text-xxs:             12px;  /* Author, timestamps, tags */
+  --text-badge:           10px;  /* Category badges, section labels */
+
+  /* Font weights */
+  --weight-regular:       400;
+  --weight-medium:        500;
+  --weight-semibold:      600;
+  --weight-bold:          700;
+
+  /* Line heights */
+  --lh-hero:              1.1;
+  --lh-heading:           1.2;
+  --lh-body:              1.75;
+  --lh-tight:             1.35;
+  --lh-snug:              1.5;
+
+  /* Letter spacing */
+  --ls-badge:             0.10em;  /* Category badges */
+  --ls-section:           0.12em; /* Section labels (ON THIS PAGE, etc.) */
+
+
+  /* ── SPACING ─────────────────────────────────────────────── */
+  /* All spacing is multiples of 4px. Never use arbitrary values. */
+
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+
+
+  /* ── BORDER RADIUS ───────────────────────────────────────── */
+
+  --radius-sm:    4px;    /* Badges, small chips */
+  --radius-md:    8px;    /* Inputs, code blocks, small cards */
+  --radius-lg:    12px;   /* Standard cards, sidebar widgets */
+  --radius-xl:    16px;   /* Featured article card, large containers */
+  --radius-pill:  999px;  /* Filter pills */
+
+
+  /* ── COMPONENT-SPECIFIC SIZES ────────────────────────────── */
+
+  --nav-height:           56px;
+  --sidebar-width:        260px;  /* Right sidebar (homepage) */
+  --toc-width:            220px;  /* TOC sidebar (article page) */
+  --content-max-width:    640px;  /* Article body content */
+  --page-max-width:       1200px; /* Overall page container */
+  --article-max-width:    780px;  /* Article page container */
+
+  /* Avatar sizes */
+  --avatar-sm:            20px;   /* List card author */
+  --avatar-md:            24px;   /* Article byline */
+  --avatar-lg:            44px;   /* Contact / profile card */
+
+  /* Thumbnail */
+  --thumb-w:              72px;
+  --thumb-h:              56px;
+
+  /* Nav CTA button */
+  --nav-cta-bg:           #4F8EF7;
+  --nav-logo-icon-size:   22px;
+  --nav-logo-icon-radius: 6px;
+
+}

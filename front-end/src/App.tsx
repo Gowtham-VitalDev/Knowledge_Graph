@@ -1,17 +1,17 @@
-// import reactLogo from "./assets/react.svg";
-// import viteLogo from "./assets/vite.svg";
-// import heroImg from "./assets/hero.png";
-import "./App.css";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import FeedView from "./views/Feed/FeedView";
 import BlogView from "./views/Blog/BlogView";
 
-function App() {
+const App = () => {
   return (
-    <>
-      <div>
-        <BlogView />
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<FeedView />} />
+        <Route path="/article/:slug" element={<BlogView />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

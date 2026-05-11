@@ -1,0 +1,56 @@
+.category-badge {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: var(--text-badge);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-badge);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  border-width: 0.5px;
+  border-style: solid;
+  line-height: 1.4;
+}
+
+.category-badge--research {
+  background: var(--badge-research-bg);
+  color: var(--badge-research-text);
+  border-color: var(--badge-research-border);
+}
+
+.category-badge--ai-ml,
+.category-badge--machine-learning {
+  background: var(--badge-ai-bg);
+  color: var(--badge-ai-text);
+  border-color: var(--badge-ai-border);
+}
+
+.category-badge--web {
+  background: var(--badge-web-bg);
+  color: var(--badge-web-text);
+  border-color: var(--badge-web-border);
+}
+
+.category-badge--systems {
+  background: var(--badge-systems-bg);
+  color: var(--badge-systems-text);
+  border-color: var(--badge-systems-border);
+}
+
+.category-badge--data {
+  background: var(--badge-data-bg);
+  color: var(--badge-data-text);
+  border-color: var(--badge-data-border);
+}
+
+.category-badge--design {
+  background: var(--badge-design-bg);
+  color: var(--badge-design-text);
+  border-color: var(--badge-design-border);
+}
+
+.category-badge--engineering {
+  background: var(--badge-engineering-bg);
+  color: var(--badge-engineering-text);
+  border-color: var(--badge-engineering-border);
+}

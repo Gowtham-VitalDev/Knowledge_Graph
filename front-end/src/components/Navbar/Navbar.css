@@ -1,0 +1,118 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--nav-height);
+  background: var(--color-bg-nav);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-6);
+}
+
+.navbar__inner {
+  width: 100%;
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: #fff;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  font-family: var(--font-body);
+}
+
+.navbar__logo-icon {
+  width: var(--nav-logo-icon-size);
+  height: var(--nav-logo-icon-size);
+  background: var(--nav-cta-bg);
+  border-radius: var(--nav-logo-icon-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--text-xxs);
+  font-weight: var(--weight-bold);
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar__link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  color: rgba(255, 255, 255, 0.65);
+  transition: color 0.15s ease;
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  color: #fff;
+}
+
+.navbar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.navbar__icon-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s ease;
+}
+
+.navbar__icon-btn:hover {
+  color: #fff;
+}
+
+.navbar__signin {
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: rgba(255, 255, 255, 0.65);
+  transition: color 0.15s ease;
+}
+
+.navbar__signin:hover {
+  color: #fff;
+}
+
+.navbar__cta {
+  background: var(--nav-cta-bg);
+  color: #fff;
+  border: none;
+  font-family: var(--font-body);
+  font-size: var(--text-xxs);
+  font-weight: var(--weight-semibold);
+  padding: 7px 14px;
+  border-radius: 7px;
+  transition: background 0.15s ease;
+}
+
+.navbar__cta:hover {
+  background: var(--color-accent-hover);
+}
