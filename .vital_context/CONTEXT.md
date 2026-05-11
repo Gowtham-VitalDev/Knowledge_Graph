@@ -22,7 +22,7 @@
 | # | Phase | Goal | Status |
 |---|-------|------|--------|
 | 0 | Foundations | Repo, tooling, Vite/React/TS scaffold, Tailwind, Express skeleton | done |
-| 1 | Core Experience (MVP) | Page 1 Feed + Page 2 Blog View with outline panel and scroll spy | active |
+| 1 | Core Experience (MVP) | Page 1 Feed + Page 2 Blog View with outline panel and scroll spy | done |
 | 2 | Expansion | Markdown content from backend, search, category filters with live data, auth/sign-in flow | pending |
 | 3 | Polish & Hardening | Responsive/mobile layout, dark mode, performance, accessibility audit | pending |
 | 4 | Launch | Deploy frontend + backend, telemetry, post-launch iteration | pending |
