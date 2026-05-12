@@ -5,52 +5,46 @@
   font-weight: var(--weight-semibold);
   text-transform: uppercase;
   letter-spacing: var(--ls-badge);
-  padding: 3px 8px;
-  border-radius: var(--radius-sm);
-  border-width: 0.5px;
-  border-style: solid;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
   line-height: 1.4;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid currentColor;
+}
+
+/* Hero variant — solid blue pill (used on featured/hero card) */
+.category-badge--hero {
+  background: var(--color-accent);
+  color: #fff;
+  border-bottom: none;
 }
 
 .category-badge--research {
-  background: var(--badge-research-bg);
   color: var(--badge-research-text);
-  border-color: var(--badge-research-border);
 }
 
 .category-badge--ai-ml,
 .category-badge--machine-learning {
-  background: var(--badge-ai-bg);
   color: var(--badge-ai-text);
-  border-color: var(--badge-ai-border);
 }
 
 .category-badge--web {
-  background: var(--badge-web-bg);
   color: var(--badge-web-text);
-  border-color: var(--badge-web-border);
 }
 
 .category-badge--systems {
-  background: var(--badge-systems-bg);
   color: var(--badge-systems-text);
-  border-color: var(--badge-systems-border);
 }
 
 .category-badge--data {
-  background: var(--badge-data-bg);
   color: var(--badge-data-text);
-  border-color: var(--badge-data-border);
 }
 
 .category-badge--design {
-  background: var(--badge-design-bg);
   color: var(--badge-design-text);
-  border-color: var(--badge-design-border);
 }
 
 .category-badge--engineering {
-  background: var(--badge-engineering-bg);
   color: var(--badge-engineering-text);
-  border-color: var(--badge-engineering-border);
 }

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import type { Article } from "../../types/article";
 import CategoryBadge from "../CategoryBadge/CategoryBadge";
+import AuthorAvatar from "../AuthorAvatar/AuthorAvatar";
 import { formatShortDate } from "../../utils/formatDate";
 import "./FeaturedArticleCard.css";
 
@@ -15,15 +16,11 @@ const FeaturedArticleCard = ({ article }: FeaturedArticleCardProps) => {
         <img src={article.coverImageUrl} alt="" />
       </div>
       <div className="featured-card__body">
-        <CategoryBadge category={article.category} />
+        <CategoryBadge category={article.category} hero />
         <h2 className="featured-card__title">{article.title}</h2>
         <p className="featured-card__excerpt">{article.excerpt}</p>
         <div className="featured-card__byline">
-          <img
-            src={article.author.avatarUrl}
-            alt=""
-            className="featured-card__avatar"
-          />
+          <AuthorAvatar name={article.author.name} size="md" />
           <div className="featured-card__meta">
             <span className="featured-card__author">{article.author.name}</span>
             <span>

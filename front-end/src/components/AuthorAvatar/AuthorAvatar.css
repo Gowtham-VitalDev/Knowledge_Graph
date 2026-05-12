@@ -1,0 +1,30 @@
+.author-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: var(--weight-semibold);
+  flex-shrink: 0;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.author-avatar--sm {
+  width: var(--avatar-sm);
+  height: var(--avatar-sm);
+  font-size: 8px;
+}
+
+.author-avatar--md {
+  width: var(--avatar-md);
+  height: var(--avatar-md);
+  font-size: 9px;
+}
+
+.author-avatar--lg {
+  width: var(--avatar-lg);
+  height: var(--avatar-lg);
+  font-size: 16px;
+}

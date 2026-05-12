@@ -16,7 +16,7 @@ export interface Category {
 
 export interface Author {
   name: string;
-  avatarUrl: string;
+  avatarUrl?: string;
 }
 
 export interface Article {

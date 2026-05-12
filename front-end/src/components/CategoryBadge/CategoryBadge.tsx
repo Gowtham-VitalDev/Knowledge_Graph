@@ -4,12 +4,14 @@ import "./CategoryBadge.css";
 
 interface CategoryBadgeProps {
   category: CategoryId;
+  hero?: boolean;
   className?: string;
 }
 
-const CategoryBadge = ({ category, className = "" }: CategoryBadgeProps) => {
+const CategoryBadge = ({ category, hero = false, className = "" }: CategoryBadgeProps) => {
+  const heroClass = hero ? "category-badge--hero" : "";
   return (
-    <span className={`category-badge category-badge--${category} ${className}`}>
+    <span className={`category-badge category-badge--${category} ${heroClass} ${className}`.trim()}>
       {getCategoryBadgeLabel(category)}
     </span>
   );

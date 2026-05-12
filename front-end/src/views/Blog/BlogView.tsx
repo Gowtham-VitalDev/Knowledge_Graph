@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import BlogNavbar from "../../components/BlogNavbar/BlogNavbar";
 import CategoryBadge from "../../components/CategoryBadge/CategoryBadge";
+import AuthorAvatar from "../../components/AuthorAvatar/AuthorAvatar";
 import Outline from "../../components/Outline/Outline";
 import type { OutlineHeading } from "../../components/Outline/Outline";
 import { getArticleBySlug, ARTICLES } from "../../data/articles";
@@ -102,13 +103,16 @@ const BlogView = () => {
               <CategoryBadge category={article.category} />
             </div>
             <h1 className="blog-article__title">{article.title}</h1>
-            <p className="blog-article__byline">
-              By{" "}
-              <span className="blog-article__byline-author">
-                {article.author.name}
-              </span>{" "}
-              · {article.readTimeMinutes} min read
-            </p>
+            <div className="blog-article__byline">
+              <AuthorAvatar name={article.author.name} size="md" />
+              <p className="blog-article__byline-text">
+                By{" "}
+                <span className="blog-article__byline-author">
+                  {article.author.name}
+                </span>{" "}
+                · {article.readTimeMinutes} min read
+              </p>
+            </div>
           </header>
 
           <div className="blog-article__body">

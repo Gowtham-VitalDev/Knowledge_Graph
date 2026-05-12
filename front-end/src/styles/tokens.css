@@ -1,6 +1,6 @@
 /* ============================================================
    KnowledgeGraph — Design Tokens
-   SOURCE OF TRUTH: extracted from Visily designs
+   SOURCE OF TRUTH: Schema 3 — warm cream editorial palette
    AI agents must import this file and use ONLY these values
    ============================================================ */
 
@@ -9,78 +9,77 @@
   /* ── COLORS ─────────────────────────────────────────────── */
 
   /* Backgrounds */
-  --color-bg-page:        #F5F4EF;   /* Homepage warm off-white */
-  --color-bg-article:     #FFFFFF;   /* Article/reading page */
-  --color-bg-surface:     #FFFFFF;   /* Cards, modals */
-  --color-bg-nav:         #1A1A1A;   /* Navbar */
-  --color-bg-muted:       #F9FAFB;   /* Sidebar widgets, newsletter */
-  --color-bg-code:        #F8F8F8;   /* Code blocks */
-  --color-bg-hover:       #F3F4F6;   /* Hover state bg */
-  --color-bg-toc-active:  #EBF3FF;   /* TOC active item bg */
+  --color-bg-page:        #f0ece0;   /* Page background — warm cream */
+  --color-bg-article:     #faf7ef;   /* Article/reading page */
+  --color-bg-surface:     #faf7ef;   /* Cards, sidebar widgets */
+  --color-bg-nav:         #1a1a1a;   /* Navbar */
+  --color-bg-muted:       #faf7ef;   /* Sidebar widgets, newsletter */
+  --color-bg-code:        #f0ead9;   /* Code blocks — warm cream */
+  --color-bg-hover:       #e8e2d4;   /* Hover state bg */
+  --color-bg-toc-active:  #e8edff;   /* TOC active item bg */
 
   /* Text */
-  --color-text-primary:   #111827;   /* Headings, body */
-  --color-text-secondary: #374151;   /* Article body copy */
-  --color-text-muted:     #6B7280;   /* Meta, subtitles, sidebar */
-  --color-text-light:     #9CA3AF;   /* Placeholders, timestamps */
-  --color-text-toc:       #1A56A0;   /* TOC active item */
+  --color-text-primary:   #1a1a1a;   /* Headings, body */
+  --color-text-secondary: #2d2d2d;   /* Article body copy */
+  --color-text-muted:     #8a7e6c;   /* Meta, subtitles, sidebar — warm brown */
+  --color-text-light:     #a89a85;   /* Placeholders, timestamps */
+  --color-text-toc:       #1f54ff;   /* TOC active item */
 
   /* Borders */
-  --color-border:         #E5E7EB;   /* All dividers and card borders */
-  --color-border-light:   #F3F4F6;   /* Very subtle separators */
-  --color-border-toc:     #4F8EF7;   /* TOC active left border */
+  --color-border:         #d9d1bd;   /* All dividers and card borders — warm tan */
+  --color-border-light:   #e8e2d4;   /* Very subtle separators */
+  --color-border-toc:     #1f54ff;   /* TOC active left border */
 
   /* Accent */
-  --color-accent:         #4F8EF7;   /* CTA button, links, active states */
-  --color-accent-hover:   #3B7EE8;   /* Accent hover */
+  --color-accent:         #1f54ff;   /* CTA button, links, active states */
+  --color-accent-hover:   #1844dd;   /* Accent hover */
 
   /* Trending numbers */
-  --color-num-muted:      #D1D5DB;   /* Large muted numbers (01, 02, 03) */
+  --color-num-muted:      #c8bfae;   /* Large muted numbers (01, 02, 03) */
+
+  /* ── SYNTAX HIGHLIGHT TOKENS (code blocks) ───────────────── */
+  --syntax-keyword:       #9c2a55;
+  --syntax-function:      #1f54ff;
+  --syntax-string:        #7a6516;
+  --syntax-comment:       #a89a85;
 
   /* ── CATEGORY BADGE COLORS ───────────────────────────────── */
-  /* Pattern: --badge-[category]-[bg|text|border] */
+  /* Schema 3: border-bottom only — text + border per category  */
 
-  --badge-research-bg:    #EBF3FF;
-  --badge-research-text:  #1A56A0;
-  --badge-research-border:#BFDBFE;
+  --badge-research-text:  #1f54ff;
+  --badge-research-border:#1f54ff;
 
-  --badge-ai-bg:          #EDE9FE;
-  --badge-ai-text:        #5B21B6;
-  --badge-ai-border:      #C4B5FD;
+  --badge-ai-text:        #7c3aed;
+  --badge-ai-border:      #7c3aed;
 
-  --badge-web-bg:         #ECFDF5;
-  --badge-web-text:       #065F46;
-  --badge-web-border:     #A7F3D0;
+  --badge-web-text:       #059669;
+  --badge-web-border:     #059669;
 
-  --badge-systems-bg:     #FEF3C7;
-  --badge-systems-text:   #92400E;
-  --badge-systems-border: #FCD34D;
+  --badge-systems-text:   #b45309;
+  --badge-systems-border: #b45309;
 
-  --badge-data-bg:        #FEE2E2;
-  --badge-data-text:      #991B1B;
-  --badge-data-border:    #FCA5A5;
+  --badge-data-text:      #dc2626;
+  --badge-data-border:    #dc2626;
 
-  --badge-design-bg:      #FDF2F8;
-  --badge-design-text:    #9D174D;
-  --badge-design-border:  #F9A8D4;
+  --badge-design-text:    #be185d;
+  --badge-design-border:  #be185d;
 
-  --badge-engineering-bg:   #F0FDF4;
-  --badge-engineering-text: #166534;
-  --badge-engineering-border:#86EFAC;
+  --badge-engineering-text: #16a34a;
+  --badge-engineering-border:#16a34a;
 
 
   /* ── TYPOGRAPHY ─────────────────────────────────────────── */
 
   --font-body:            'Inter', -apple-system, sans-serif;
   --font-mono:            'JetBrains Mono', 'Fira Code', monospace;
-  --font-display:         'Lora', Georgia, serif;
+  --font-display:         'Playfair Display', Georgia, serif;
 
   /* Font sizes */
   --text-hero:            48px;  /* Homepage hero headline */
   --text-h1:              32px;  /* Article title */
   --text-h2:              22px;  /* Section heading */
   --text-h3:              18px;  /* Sub-section heading */
-  --text-body:            16px;  /* Body copy */
+  --text-body:            17px;  /* Body copy — Schema 3 spec */
   --text-sm:              14px;  /* Sidebar titles, card titles */
   --text-xs:              13px;  /* Meta, nav links, excerpts */
   --text-xxs:             12px;  /* Author, timestamps, tags */
@@ -139,16 +138,16 @@
   --article-max-width:    780px;  /* Article page container */
 
   /* Avatar sizes */
-  --avatar-sm:            20px;   /* List card author */
-  --avatar-md:            24px;   /* Article byline */
-  --avatar-lg:            44px;   /* Contact / profile card */
+  --avatar-sm:            20px;
+  --avatar-md:            24px;
+  --avatar-lg:            44px;
 
   /* Thumbnail */
   --thumb-w:              72px;
   --thumb-h:              56px;
 
   /* Nav CTA button */
-  --nav-cta-bg:           #4F8EF7;
+  --nav-cta-bg:           #1f54ff;
   --nav-logo-icon-size:   22px;
   --nav-logo-icon-radius: 6px;
 
