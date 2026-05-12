@@ -13,21 +13,21 @@ const FeaturedArticleCard = ({ article }: FeaturedArticleCardProps) => {
   return (
     <Link to={`/article/${article.slug}`} className="featured-card">
       <div className="featured-card__media">
-        <img src={article.coverImageUrl} alt="" />
+        <img src={article.coverImageUrl} alt={article.title} />
       </div>
       <div className="featured-card__body">
         <CategoryBadge category={article.category} hero />
         <h2 className="featured-card__title">{article.title}</h2>
         <p className="featured-card__excerpt">{article.excerpt}</p>
-        <div className="featured-card__byline">
+        <div className="featured-card__meta">
           <AuthorAvatar name={article.author.name} size="md" />
-          <div className="featured-card__meta">
+          <span className="featured-card__meta-text">
             <span className="featured-card__author">{article.author.name}</span>
-            <span>
-              {formatShortDate(article.publishedAt)} ·{" "}
-              {article.readTimeMinutes} min read
-            </span>
-          </div>
+            {" · "}
+            {formatShortDate(article.publishedAt)}
+            {" · "}
+            {article.readTimeMinutes} min read
+          </span>
         </div>
       </div>
     </Link>

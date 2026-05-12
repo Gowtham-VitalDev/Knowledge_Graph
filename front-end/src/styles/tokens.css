@@ -1,7 +1,7 @@
 /* ============================================================
    KnowledgeGraph — Design Tokens
-   SOURCE OF TRUTH: Schema 3 — warm cream editorial palette
-   AI agents must import this file and use ONLY these values
+   SOURCE OF TRUTH: Final Schema — clean editorial palette
+   AI agents must use ONLY these values. Never hardcode hex.
    ============================================================ */
 
 :root {
@@ -9,81 +9,104 @@
   /* ── COLORS ─────────────────────────────────────────────── */
 
   /* Backgrounds */
-  --color-bg-page:        #f0ece0;   /* Page background — warm cream */
-  --color-bg-article:     #faf7ef;   /* Article/reading page */
-  --color-bg-surface:     #faf7ef;   /* Cards, sidebar widgets */
-  --color-bg-nav:         #1a1a1a;   /* Navbar */
-  --color-bg-muted:       #faf7ef;   /* Sidebar widgets, newsletter */
-  --color-bg-code:        #f0ead9;   /* Code blocks — warm cream */
-  --color-bg-hover:       #e8e2d4;   /* Hover state bg */
-  --color-bg-toc-active:  #e8edff;   /* TOC active item bg */
+  --color-bg-page:        #F7F6F3;   /* Page background */
+  --color-bg-surface:     #FFFFFF;   /* Cards, modals, surface */
+  --color-bg-nav:         #FFFFFF;   /* Navbar — light */
+  --color-bg-muted:       #F7F6F3;   /* Sidebar widgets, newsletter */
+  --color-bg-code:        #F3F4F6;   /* Code blocks */
+  --color-bg-hover:       #E6E4E0;   /* Hover state bg */
+  --color-bg-toc-active:  #EEF2FF;   /* TOC active item bg */
 
   /* Text */
-  --color-text-primary:   #1a1a1a;   /* Headings, body */
-  --color-text-secondary: #2d2d2d;   /* Article body copy */
-  --color-text-muted:     #8a7e6c;   /* Meta, subtitles, sidebar — warm brown */
-  --color-text-light:     #a89a85;   /* Placeholders, timestamps */
-  --color-text-toc:       #1f54ff;   /* TOC active item */
+  --color-text-primary:   #262626;   /* Headings, body */
+  --color-text-secondary: #374151;   /* Article body copy */
+  --color-text-muted:     #9B9B9B;   /* Meta, subtitles, sidebar */
+  --color-text-light:     #B0B0B0;   /* Placeholders, timestamps */
+  --color-text-toc:       #2563EB;   /* TOC active item */
 
   /* Borders */
-  --color-border:         #d9d1bd;   /* All dividers and card borders — warm tan */
-  --color-border-light:   #e8e2d4;   /* Very subtle separators */
-  --color-border-toc:     #1f54ff;   /* TOC active left border */
+  --color-border:         #E6E4E0;   /* All dividers and card borders */
+  --color-border-light:   #F0EEE9;   /* Very subtle separators */
+  --color-border-toc:     #2563EB;   /* TOC active left border */
 
   /* Accent */
-  --color-accent:         #1f54ff;   /* CTA button, links, active states */
-  --color-accent-hover:   #1844dd;   /* Accent hover */
+  --color-accent:         #2563EB;   /* CTA button, links, active states */
+  --color-accent-hover:   #1D4ED8;   /* Accent hover */
 
   /* Trending numbers */
-  --color-num-muted:      #c8bfae;   /* Large muted numbers (01, 02, 03) */
+  --color-num-muted:      #D1D5DB;   /* Large muted numbers (01, 02, 03) */
 
-  /* ── SYNTAX HIGHLIGHT TOKENS (code blocks) ───────────────── */
+  /* ── SYNTAX HIGHLIGHT TOKENS ─────────────────────────────── */
   --syntax-keyword:       #9c2a55;
-  --syntax-function:      #1f54ff;
+  --syntax-function:      #2563EB;
   --syntax-string:        #7a6516;
-  --syntax-comment:       #a89a85;
+  --syntax-comment:       #9B9B9B;
 
   /* ── CATEGORY BADGE COLORS ───────────────────────────────── */
-  /* Schema 3: border-bottom only — text + border per category  */
+  /* Pattern: --badge-[category]-[bg|text|border]              */
 
-  --badge-research-text:  #1f54ff;
-  --badge-research-border:#1f54ff;
+  --badge-ai-bg:          #EEF2FF;
+  --badge-ai-text:        #2563EB;
+  --badge-ai-border:      #DCE9FF;
 
-  --badge-ai-text:        #7c3aed;
-  --badge-ai-border:      #7c3aed;
+  --badge-systems-bg:     #F2F8F2;
+  --badge-systems-text:   #0B7A3E;
+  --badge-systems-border: #D9EFE0;
 
-  --badge-web-text:       #059669;
-  --badge-web-border:     #059669;
+  --badge-web-bg:         #FFF8EA;
+  --badge-web-text:       #B26A00;
+  --badge-web-border:     #FFECC9;
 
-  --badge-systems-text:   #b45309;
-  --badge-systems-border: #b45309;
+  --badge-data-bg:        #F4F7FB;
+  --badge-data-text:      #0F5A8E;
+  --badge-data-border:    #E3EEF9;
 
-  --badge-data-text:      #dc2626;
-  --badge-data-border:    #dc2626;
+  --badge-design-bg:      #FFF6FA;
+  --badge-design-text:    #8B3D62;
+  --badge-design-border:  #FFEAF2;
 
-  --badge-design-text:    #be185d;
-  --badge-design-border:  #be185d;
+  /* Fallback for categories not in the 5-set */
+  --badge-research-bg:    #EEF2FF;
+  --badge-research-text:  #2563EB;
+  --badge-research-border:#DCE9FF;
 
-  --badge-engineering-text: #16a34a;
-  --badge-engineering-border:#16a34a;
+  --badge-engineering-bg:   #F2F8F2;
+  --badge-engineering-text: #0B7A3E;
+  --badge-engineering-border:#D9EFE0;
+
+  --badge-machine-learning-bg:    #EEF2FF;
+  --badge-machine-learning-text:  #2563EB;
+  --badge-machine-learning-border:#DCE9FF;
 
 
   /* ── TYPOGRAPHY ─────────────────────────────────────────── */
 
-  --font-body:            'Inter', -apple-system, sans-serif;
-  --font-mono:            'JetBrains Mono', 'Fira Code', monospace;
-  --font-display:         'Playfair Display', Georgia, serif;
+  --font-body:            Georgia, 'Merriweather', serif;
+  --font-ui:              'Inter', -apple-system, sans-serif;
+  --font-mono:            'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
+  --font-display:         Georgia, 'Merriweather', serif;
 
   /* Font sizes */
-  --text-hero:            48px;  /* Homepage hero headline */
-  --text-h1:              32px;  /* Article title */
-  --text-h2:              22px;  /* Section heading */
-  --text-h3:              18px;  /* Sub-section heading */
-  --text-body:            17px;  /* Body copy — Schema 3 spec */
-  --text-sm:              14px;  /* Sidebar titles, card titles */
-  --text-xs:              13px;  /* Meta, nav links, excerpts */
-  --text-xxs:             12px;  /* Author, timestamps, tags */
-  --text-badge:           10px;  /* Category badges, section labels */
+  --text-hero:            48px;
+  --text-h1:              34px;
+  --text-h2:              24px;
+  --text-h3:              18px;
+  --text-body:            16px;
+  --text-sm:              14px;
+  --text-xs:              12px;
+  --text-xxs:             12px;
+  --text-badge:           12px;
+
+  /* Line heights (explicit px per schema) */
+  --lh-hero:              56px;
+  --lh-h1:                42px;
+  --lh-h2:                32px;
+  --lh-body:              26px;
+  --lh-sm:                20px;
+  --lh-xs:                16px;
+  --lh-heading:           1.2;
+  --lh-tight:             1.35;
+  --lh-snug:              1.5;
 
   /* Font weights */
   --weight-regular:       400;
@@ -91,20 +114,12 @@
   --weight-semibold:      600;
   --weight-bold:          700;
 
-  /* Line heights */
-  --lh-hero:              1.1;
-  --lh-heading:           1.2;
-  --lh-body:              1.75;
-  --lh-tight:             1.35;
-  --lh-snug:              1.5;
-
   /* Letter spacing */
-  --ls-badge:             0.10em;  /* Category badges */
-  --ls-section:           0.12em; /* Section labels (ON THIS PAGE, etc.) */
+  --ls-badge:             0.08em;
+  --ls-section:           0.08em;
 
 
   /* ── SPACING ─────────────────────────────────────────────── */
-  /* All spacing is multiples of 4px. Never use arbitrary values. */
 
   --space-1:   4px;
   --space-2:   8px;
@@ -121,33 +136,29 @@
 
   /* ── BORDER RADIUS ───────────────────────────────────────── */
 
-  --radius-sm:    4px;    /* Badges, small chips */
-  --radius-md:    8px;    /* Inputs, code blocks, small cards */
-  --radius-lg:    12px;   /* Standard cards, sidebar widgets */
-  --radius-xl:    16px;   /* Featured article card, large containers */
-  --radius-pill:  999px;  /* Filter pills */
+  --radius-sm:    4px;
+  --radius-md:    8px;
+  --radius-lg:    12px;
+  --radius-xl:    16px;
+  --radius-pill:  999px;
 
 
   /* ── COMPONENT-SPECIFIC SIZES ────────────────────────────── */
 
-  --nav-height:           56px;
-  --sidebar-width:        260px;  /* Right sidebar (homepage) */
-  --toc-width:            220px;  /* TOC sidebar (article page) */
-  --content-max-width:    640px;  /* Article body content */
-  --page-max-width:       1200px; /* Overall page container */
-  --article-max-width:    780px;  /* Article page container */
+  --nav-height:           64px;
+  --sidebar-width:        260px;
+  --toc-width:            220px;
+  --content-max-width:    640px;
+  --page-max-width:       1180px;
+  --article-max-width:    780px;
 
   /* Avatar sizes */
   --avatar-sm:            20px;
   --avatar-md:            24px;
   --avatar-lg:            44px;
 
-  /* Thumbnail */
-  --thumb-w:              72px;
-  --thumb-h:              56px;
-
-  /* Nav CTA button */
-  --nav-cta-bg:           #1f54ff;
+  /* Nav */
+  --nav-cta-bg:           #2563EB;
   --nav-logo-icon-size:   22px;
   --nav-logo-icon-radius: 6px;
 

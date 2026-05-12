@@ -13,7 +13,7 @@ const ListArticleCard = ({ article }: ListArticleCardProps) => {
   return (
     <Link to={`/article/${article.slug}`} className="list-card">
       <div className="list-card__text">
-        <CategoryBadge category={article.category} />
+        <CategoryBadge category={article.category} outline />
         <h3 className="list-card__title">{article.title}</h3>
         <p className="list-card__excerpt">{article.excerpt}</p>
         <div className="list-card__byline">
@@ -25,11 +25,7 @@ const ListArticleCard = ({ article }: ListArticleCardProps) => {
           <span>{article.readTimeMinutes} min read</span>
         </div>
       </div>
-      <img
-        src={article.thumbnailUrl}
-        alt=""
-        className="list-card__thumb"
-      />
+      <img src={article.thumbnailUrl} alt="" className="list-card__thumb" />
     </Link>
   );
 };
