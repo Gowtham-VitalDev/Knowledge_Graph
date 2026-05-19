@@ -116,3 +116,91 @@
   --glow-card-list:  0 10px 30px rgba(255,45,149,0.08);
 
 }
+
+/* ============================================================
+   LIGHT THEME OVERRIDES — html[data-theme="light"]
+   Only color + glow tokens change. Typography/spacing/radius
+   are theme-neutral and stay from :root above.
+   ============================================================ */
+
+html[data-theme="light"] {
+
+  /* ── CORE PALETTE ────────────────────────────────────────── */
+  --color-bg:      #F7F6F3;
+  --color-surface: #FFFFFF;
+  --color-nav:     rgba(247,246,243,0.85);
+  --color-accent:  #2563EB;
+  --color-text:    #1A1A1A;
+  --color-muted:   #6B7280;
+  --color-border:  #E5E7EB;
+  --color-code-bg: #F3F4F6;
+
+  /* ── GLOWS (blue instead of pink) ───────────────────────── */
+  --glow-accent-sm:  0 8px 28px rgba(37,99,235,0.10);
+  --glow-accent-md:  0 12px 36px rgba(37,99,235,0.14);
+  --glow-accent-lg:  0 18px 48px rgba(37,99,235,0.12);
+  --glow-card-hover: 0 12px 36px rgba(37,99,235,0.10);
+  --glow-card-list:  0 10px 30px rgba(37,99,235,0.08);
+
+  /* ── CATEGORY BADGES — light-safe accessible palette ─────── */
+  --cat-ai-models-bg:      #E8F6FF;
+  --cat-ai-models-text:    #0369A1;
+  --cat-ai-models-border:  #BAE0F5;
+
+  --cat-quantum-bg:        #EEF0FF;
+  --cat-quantum-text:      #3730A3;
+  --cat-quantum-border:    #C7CBF7;
+
+  --cat-crypto-bg:         #E6FFF4;
+  --cat-crypto-text:       #065F46;
+  --cat-crypto-border:     #A7F3D0;
+
+  --cat-synth-bio-bg:      #FDF2FF;
+  --cat-synth-bio-text:    #7E22CE;
+  --cat-synth-bio-border:  #E9D5FF;
+
+  --cat-vr-ar-bg:          #EEF2FF;
+  --cat-vr-ar-text:        #1D4ED8;
+  --cat-vr-ar-border:      #C7D2FE;
+
+  --cat-cybersec-bg:       #FFF0F7;
+  --cat-cybersec-text:     #9D174D;
+  --cat-cybersec-border:   #FBCFE8;
+
+  --cat-neural-bg:         #F5F0FF;
+  --cat-neural-text:       #6D28D9;
+  --cat-neural-border:     #DDD6FE;
+
+  --cat-default-bg:        #F3F4F6;
+  --cat-default-text:      #374151;
+  --cat-default-border:    #D1D5DB;
+}
+
+/* Pure CSS fallback — only active when JS is disabled */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --color-bg:      #F7F6F3;
+    --color-surface: #FFFFFF;
+    --color-nav:     rgba(247,246,243,0.85);
+    --color-accent:  #2563EB;
+    --color-text:    #1A1A1A;
+    --color-muted:   #6B7280;
+    --color-border:  #E5E7EB;
+    --color-code-bg: #F3F4F6;
+
+    --glow-accent-sm:  0 8px 28px rgba(37,99,235,0.10);
+    --glow-accent-md:  0 12px 36px rgba(37,99,235,0.14);
+    --glow-accent-lg:  0 18px 48px rgba(37,99,235,0.12);
+    --glow-card-hover: 0 12px 36px rgba(37,99,235,0.10);
+    --glow-card-list:  0 10px 30px rgba(37,99,235,0.08);
+
+    --cat-ai-models-bg:     #E8F6FF; --cat-ai-models-text:   #0369A1; --cat-ai-models-border:  #BAE0F5;
+    --cat-quantum-bg:       #EEF0FF; --cat-quantum-text:     #3730A3; --cat-quantum-border:    #C7CBF7;
+    --cat-crypto-bg:        #E6FFF4; --cat-crypto-text:      #065F46; --cat-crypto-border:     #A7F3D0;
+    --cat-synth-bio-bg:     #FDF2FF; --cat-synth-bio-text:   #7E22CE; --cat-synth-bio-border:  #E9D5FF;
+    --cat-vr-ar-bg:         #EEF2FF; --cat-vr-ar-text:       #1D4ED8; --cat-vr-ar-border:      #C7D2FE;
+    --cat-cybersec-bg:      #FFF0F7; --cat-cybersec-text:    #9D174D; --cat-cybersec-border:   #FBCFE8;
+    --cat-neural-bg:        #F5F0FF; --cat-neural-text:      #6D28D9; --cat-neural-border:     #DDD6FE;
+    --cat-default-bg:       #F3F4F6; --cat-default-text:     #374151; --cat-default-border:    #D1D5DB;
+  }
+}
