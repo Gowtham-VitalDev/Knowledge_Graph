@@ -1,71 +1,63 @@
 .category-badge {
-  display: inline-block;
-  font-family: var(--font-ui);
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
   font-size: var(--text-badge);
+  line-height: var(--lh-badge);
   font-weight: var(--weight-bold);
-  text-transform: uppercase;
   letter-spacing: var(--ls-badge);
-  padding: 6px 8px;
-  border-radius: var(--radius-pill);
-  border: 1px solid transparent;
-  line-height: var(--lh-xs);
-}
-
-/* Hero/featured variant — solid accent pill */
-.category-badge--hero {
-  background: var(--color-accent);
-  color: #fff;
-  border-color: var(--color-accent);
+  text-transform: uppercase;
   padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid;
+  white-space: nowrap;
 }
 
-/* List card variant — transparent bg, accent color + border */
-.category-badge--outline {
-  background: transparent;
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+.category-badge--ai-ml {
+  background: var(--cat-ai-models-bg);
+  color: var(--cat-ai-models-text);
+  border-color: var(--cat-ai-models-border);
 }
-
-/* Per-category bg fill variants (default) */
-.category-badge--research {
-  background: var(--badge-research-bg);
-  color: var(--badge-research-text);
-  border-color: var(--badge-research-border);
+.category-badge--quantum {
+  background: var(--cat-quantum-bg);
+  color: var(--cat-quantum-text);
+  border-color: var(--cat-quantum-border);
 }
-
-.category-badge--ai-ml,
-.category-badge--machine-learning {
-  background: var(--badge-ai-bg);
-  color: var(--badge-ai-text);
-  border-color: var(--badge-ai-border);
+.category-badge--crypto {
+  background: var(--cat-crypto-bg);
+  color: var(--cat-crypto-text);
+  border-color: var(--cat-crypto-border);
 }
-
-.category-badge--web {
-  background: var(--badge-web-bg);
-  color: var(--badge-web-text);
-  border-color: var(--badge-web-border);
+.category-badge--synth-bio {
+  background: var(--cat-synth-bio-bg);
+  color: var(--cat-synth-bio-text);
+  border-color: var(--cat-synth-bio-border);
 }
-
-.category-badge--systems {
-  background: var(--badge-systems-bg);
-  color: var(--badge-systems-text);
-  border-color: var(--badge-systems-border);
+.category-badge--vr-ar {
+  background: var(--cat-vr-ar-bg);
+  color: var(--cat-vr-ar-text);
+  border-color: var(--cat-vr-ar-border);
 }
-
-.category-badge--data {
-  background: var(--badge-data-bg);
-  color: var(--badge-data-text);
-  border-color: var(--badge-data-border);
+.category-badge--cybersec {
+  background: var(--cat-cybersec-bg);
+  color: var(--cat-cybersec-text);
+  border-color: var(--cat-cybersec-border);
 }
-
-.category-badge--design {
-  background: var(--badge-design-bg);
-  color: var(--badge-design-text);
-  border-color: var(--badge-design-border);
+.category-badge--neural {
+  background: var(--cat-neural-bg);
+  color: var(--cat-neural-text);
+  border-color: var(--cat-neural-border);
 }
-
-.category-badge--engineering {
-  background: var(--badge-engineering-bg);
-  color: var(--badge-engineering-text);
-  border-color: var(--badge-engineering-border);
+.category-badge--default,
+.category-badge--research,
+.category-badge--systems,
+.category-badge--web,
+.category-badge--data,
+.category-badge--design,
+.category-badge--engineering,
+.category-badge--machine-learning,
+.category-badge--robotics {
+  background: var(--cat-default-bg);
+  color: var(--cat-default-text);
+  border-color: var(--cat-default-border);
 }

@@ -1,68 +1,36 @@
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 
-const NAV_LINKS = [
-  { label: "Feed", href: "/", active: true },
-  { label: "AI & ML", href: "#" },
-  { label: "Systems", href: "#" },
-  { label: "Web", href: "#" },
-  { label: "Data", href: "#" },
-];
-
 const Navbar = () => {
   return (
-    <header className="navbar">
+    <nav className="navbar">
       <div className="navbar__inner">
         <Link to="/" className="navbar__logo">
-          <span className="navbar__logo-icon">K</span>
-          <span>KnowledgeGraph</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+          NeonScroll
         </Link>
 
-        <nav className="navbar__links" aria-label="Primary">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className={`navbar__link ${
-                link.active ? "navbar__link--active" : ""
-              }`}
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
+        <ul className="navbar__links">
+          <li><Link to="/">Feed</Link></li>
+          <li><a href="#">Topics</a></li>
+          <li><a href="#">Bookmarks</a></li>
+        </ul>
 
-        <div className="navbar__right">
-          <button
-            type="button"
-            className="navbar__icon-btn"
-            aria-label="Search"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <circle
-                cx="11"
-                cy="11"
-                r="7"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <path
-                d="m20 20-3-3"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
+        <div className="navbar__actions">
+          <button type="button" className="navbar__icon-btn" aria-label="Search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
             </svg>
           </button>
-          <button type="button" className="navbar__signin">
-            Sign in
-          </button>
-          <button type="button" className="navbar__cta">
-            Get started
-          </button>
+          <div className="navbar__avatar" aria-hidden="true">
+            <img src="https://i.pravatar.cc/64?u=neonscroll-user" alt="" />
+          </div>
+          <button type="button" className="navbar__cta">Subscribe</button>
         </div>
       </div>
-    </header>
+    </nav>
   );
 };
 

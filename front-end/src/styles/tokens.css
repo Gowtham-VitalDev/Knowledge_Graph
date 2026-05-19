@@ -1,123 +1,84 @@
 /* ============================================================
-   KnowledgeGraph — Design Tokens
-   SOURCE OF TRUTH: Final Schema — clean editorial palette
-   AI agents must use ONLY these values. Never hardcode hex.
+   NeonScroll — Design Tokens
+   Dark futuristic editorial palette
+   SOURCE OF TRUTH: Do not hardcode hex values in components.
    ============================================================ */
 
 :root {
 
   /* ── COLORS ─────────────────────────────────────────────── */
 
-  /* Backgrounds */
-  --color-bg-page:        #F7F6F3;   /* Page background */
-  --color-bg-surface:     #FFFFFF;   /* Cards, modals, surface */
-  --color-bg-nav:         #FFFFFF;   /* Navbar — light */
-  --color-bg-muted:       #F7F6F3;   /* Sidebar widgets, newsletter */
-  --color-bg-code:        #F3F4F6;   /* Code blocks */
-  --color-bg-hover:       #E6E4E0;   /* Hover state bg */
-  --color-bg-toc-active:  #EEF2FF;   /* TOC active item bg */
+  --color-bg:            #0c0c10;
+  --color-surface:       #0f1014;
+  --color-nav:           rgba(15,15,18,0.56);
+  --color-accent:        #FF2D95;
+  --color-text:          #E6E7EA;
+  --color-muted:         #9A9CA2;
+  --color-border:        #1f2026;
+  --color-code-bg:       #0b0b0d;
 
-  /* Text */
-  --color-text-primary:   #262626;   /* Headings, body */
-  --color-text-secondary: #374151;   /* Article body copy */
-  --color-text-muted:     #9B9B9B;   /* Meta, subtitles, sidebar */
-  --color-text-light:     #B0B0B0;   /* Placeholders, timestamps */
-  --color-text-toc:       #2563EB;   /* TOC active item */
+  /* ── CATEGORY COLORS ─────────────────────────────────────── */
 
-  /* Borders */
-  --color-border:         #E6E4E0;   /* All dividers and card borders */
-  --color-border-light:   #F0EEE9;   /* Very subtle separators */
-  --color-border-toc:     #2563EB;   /* TOC active left border */
+  --cat-ai-models-bg:      #0e1220;
+  --cat-ai-models-text:    #5ee3ff;
+  --cat-ai-models-border:  #06202a;
 
-  /* Accent */
-  --color-accent:         #2563EB;   /* CTA button, links, active states */
-  --color-accent-hover:   #1D4ED8;   /* Accent hover */
+  --cat-quantum-bg:        #100e18;
+  --cat-quantum-text:      #8ec5ff;
+  --cat-quantum-border:    #14121a;
 
-  /* Trending numbers */
-  --color-num-muted:      #D1D5DB;   /* Large muted numbers (01, 02, 03) */
+  --cat-crypto-bg:         #0f1016;
+  --cat-crypto-text:       #8affc1;
+  --cat-crypto-border:     #0b1410;
 
-  /* ── SYNTAX HIGHLIGHT TOKENS ─────────────────────────────── */
-  --syntax-keyword:       #9c2a55;
-  --syntax-function:      #2563EB;
-  --syntax-string:        #7a6516;
-  --syntax-comment:       #9B9B9B;
+  --cat-synth-bio-bg:      #111018;
+  --cat-synth-bio-text:    #ff9ae6;
+  --cat-synth-bio-border:  #2a1624;
 
-  /* ── CATEGORY BADGE COLORS ───────────────────────────────── */
-  /* Pattern: --badge-[category]-[bg|text|border]              */
+  --cat-vr-ar-bg:          #0e1116;
+  --cat-vr-ar-text:        #8aa1ff;
+  --cat-vr-ar-border:      #11131a;
 
-  --badge-ai-bg:          #EEF2FF;
-  --badge-ai-text:        #2563EB;
-  --badge-ai-border:      #DCE9FF;
+  --cat-cybersec-bg:       #0e1120;
+  --cat-cybersec-text:     #FF7BBF;
+  --cat-cybersec-border:   #141221;
 
-  --badge-systems-bg:     #F2F8F2;
-  --badge-systems-text:   #0B7A3E;
-  --badge-systems-border: #D9EFE0;
+  --cat-neural-bg:         #0e1116;
+  --cat-neural-text:       #C7A3FF;
+  --cat-neural-border:     #1a1320;
 
-  --badge-web-bg:         #FFF8EA;
-  --badge-web-text:       #B26A00;
-  --badge-web-border:     #FFECC9;
-
-  --badge-data-bg:        #F4F7FB;
-  --badge-data-text:      #0F5A8E;
-  --badge-data-border:    #E3EEF9;
-
-  --badge-design-bg:      #FFF6FA;
-  --badge-design-text:    #8B3D62;
-  --badge-design-border:  #FFEAF2;
-
-  /* Fallback for categories not in the 5-set */
-  --badge-research-bg:    #EEF2FF;
-  --badge-research-text:  #2563EB;
-  --badge-research-border:#DCE9FF;
-
-  --badge-engineering-bg:   #F2F8F2;
-  --badge-engineering-text: #0B7A3E;
-  --badge-engineering-border:#D9EFE0;
-
-  --badge-machine-learning-bg:    #EEF2FF;
-  --badge-machine-learning-text:  #2563EB;
-  --badge-machine-learning-border:#DCE9FF;
-
+  --cat-default-bg:        #111217;
+  --cat-default-text:      #9A9CA2;
+  --cat-default-border:    #1f2026;
 
   /* ── TYPOGRAPHY ─────────────────────────────────────────── */
 
-  --font-body:            Georgia, 'Merriweather', serif;
-  --font-ui:              'Inter', -apple-system, sans-serif;
-  --font-mono:            'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace;
-  --font-display:         Georgia, 'Merriweather', serif;
+  --font-body:   'Merriweather', Georgia, 'Spectral', serif;
+  --font-mono:   'Menlo', 'Monaco', 'Courier New', monospace;
+  --font-ui:     -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  /* Font sizes */
-  --text-hero:            48px;
-  --text-h1:              34px;
-  --text-h2:              24px;
-  --text-h3:              18px;
-  --text-body:            16px;
-  --text-sm:              14px;
-  --text-xs:              12px;
-  --text-xxs:             12px;
-  --text-badge:           12px;
+  --text-hero:   56px;
+  --lh-hero:     72px;
+  --text-h1:     28px;
+  --lh-h1:       36px;
+  --text-h2:     20px;
+  --lh-h2:       28px;
+  --text-body:   16px;
+  --lh-body:     26px;
+  --text-sm:     14px;
+  --lh-sm:       20px;
+  --text-xs:     12px;
+  --lh-xs:       16px;
+  --text-badge:  11px;
+  --lh-badge:    14px;
 
-  /* Line heights (explicit px per schema) */
-  --lh-hero:              56px;
-  --lh-h1:                42px;
-  --lh-h2:                32px;
-  --lh-body:              26px;
-  --lh-sm:                20px;
-  --lh-xs:                16px;
-  --lh-heading:           1.2;
-  --lh-tight:             1.35;
-  --lh-snug:              1.5;
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-extrabold:800;
 
-  /* Font weights */
-  --weight-regular:       400;
-  --weight-medium:        500;
-  --weight-semibold:      600;
-  --weight-bold:          700;
-
-  /* Letter spacing */
-  --ls-badge:             0.08em;
-  --ls-section:           0.08em;
-
+  --ls-badge: 0.08em;
 
   /* ── SPACING ─────────────────────────────────────────────── */
 
@@ -131,35 +92,27 @@
   --space-10:  40px;
   --space-12:  48px;
   --space-16:  64px;
-  --space-20:  80px;
-
 
   /* ── BORDER RADIUS ───────────────────────────────────────── */
 
-  --radius-sm:    4px;
-  --radius-md:    8px;
-  --radius-lg:    12px;
-  --radius-xl:    16px;
-  --radius-pill:  999px;
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   20px;
+  --radius-pill: 999px;
 
+  /* ── LAYOUT ──────────────────────────────────────────────── */
 
-  /* ── COMPONENT-SPECIFIC SIZES ────────────────────────────── */
+  --nav-height:        72px;
+  --sidebar-width:     320px;
+  --page-max-width:    1180px;
 
-  --nav-height:           64px;
-  --sidebar-width:        260px;
-  --toc-width:            220px;
-  --content-max-width:    640px;
-  --page-max-width:       1180px;
-  --article-max-width:    780px;
+  /* ── SHADOWS / GLOWS ─────────────────────────────────────── */
 
-  /* Avatar sizes */
-  --avatar-sm:            20px;
-  --avatar-md:            24px;
-  --avatar-lg:            44px;
-
-  /* Nav */
-  --nav-cta-bg:           #2563EB;
-  --nav-logo-icon-size:   22px;
-  --nav-logo-icon-radius: 6px;
+  --glow-accent-sm:  0 8px 28px rgba(255,45,149,0.12);
+  --glow-accent-md:  0 12px 36px rgba(255,45,149,0.14);
+  --glow-accent-lg:  0 18px 48px rgba(255,45,149,0.12);
+  --glow-card-hover: 0 12px 36px rgba(255,45,149,0.10);
+  --glow-card-list:  0 10px 30px rgba(255,45,149,0.08);
 
 }

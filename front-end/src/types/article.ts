@@ -1,12 +1,19 @@
 export type CategoryId =
-  | "research"
   | "ai-ml"
-  | "machine-learning"
-  | "web"
+  | "quantum"
+  | "crypto"
+  | "synth-bio"
+  | "vr-ar"
+  | "cybersec"
+  | "neural"
+  | "robotics"
+  | "research"
   | "systems"
+  | "web"
   | "data"
   | "design"
-  | "engineering";
+  | "engineering"
+  | "machine-learning";
 
 export interface Category {
   id: CategoryId;
@@ -38,8 +45,7 @@ export interface Article {
 export interface TrendingItem {
   rank: number;
   title: string;
-  authorName: string;
-  readTimeMinutes: number;
+  reads: string;
   articleSlug: string;
 }
 

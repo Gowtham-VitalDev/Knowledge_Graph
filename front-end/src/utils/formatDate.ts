@@ -18,3 +18,9 @@ export function formatShortDate(iso: string): string {
   if (Number.isNaN(d.getTime())) return iso;
   return `${MONTHS_SHORT[d.getMonth()]} ${d.getDate()}`;
 }
+
+export function formatDate(dateStr: string): string {
+  const d = new Date(dateStr);
+  if (Number.isNaN(d.getTime())) return dateStr;
+  return `${MONTHS_SHORT[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+}

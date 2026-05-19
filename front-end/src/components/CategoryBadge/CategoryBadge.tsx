@@ -4,26 +4,13 @@ import "./CategoryBadge.css";
 
 interface CategoryBadgeProps {
   category: CategoryId;
-  hero?: boolean;
-  outline?: boolean;
-  className?: string;
 }
 
-const CategoryBadge = ({
-  category,
-  hero = false,
-  outline = false,
-  className = "",
-}: CategoryBadgeProps) => {
-  const variant = hero
-    ? "category-badge--hero"
-    : outline
-      ? "category-badge--outline"
-      : `category-badge--${category}`;
-
+const CategoryBadge = ({ category }: CategoryBadgeProps) => {
+  const label = getCategoryBadgeLabel(category);
   return (
-    <span className={`category-badge ${variant} ${className}`.trim()}>
-      {getCategoryBadgeLabel(category)}
+    <span className={`category-badge category-badge--${category}`}>
+      {label}
     </span>
   );
 };
