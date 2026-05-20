@@ -57,6 +57,15 @@
   display: none !important;
 }
 
+/* Mobile sticky accordion wrapper */
+.blog-article__toc-mobile {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 50;
+  background: var(--color-bg);
+  padding: var(--space-2) 0;
+}
+
 /* ── ARTICLE HEADER ─────────────────────────────────────────── */
 .blog-article__header {
   padding-bottom: var(--space-6);
@@ -226,7 +235,6 @@ html[data-theme="light"] .blog-article__body blockquote {
   /* Show the in-article mobile accordion slot */
   .blog-article__toc-mobile {
     display: block;
-    margin-bottom: var(--space-5);
   }
 
   .blog-article__body {
