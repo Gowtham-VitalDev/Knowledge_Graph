@@ -12,10 +12,11 @@
 
 ## Current Stage
 
-- **Stage:** Stage 1 — Core Experience (Frontend MVP)
-- **Objective:** Deliver Page 1 (Feed/List view) and finalize Page 2 (Blog/Article view) with outline panel, click-to-scroll, and scroll spy. All data hardcoded.
-- **Status:** Done — Both pages fully implemented with seed data, React Router wired, design tokens applied, build/lint/dev all green.
-- **Exit Criteria:** Both pages render the approved designs, outline panel works (click + scroll spy), category filter pills toggle active state, all UI-only widgets (search, sign in, newsletter, share/bookmark, load more) are present and styled.
+- **Stage:** Stage 2 — NeonScroll V2 UX (Dark Futuristic Theme)
+- **Branch:** `V2-DarkUX`
+- **Objective:** Complete UI overhaul to NeonScroll dark futuristic design system. Light/dark theme toggle. Article page rebuilt to spec. Mobile responsive layouts. Vercel deployment config.
+- **Status:** Done — All V2 UX work complete. Feed + Blog pages rebuilt. Theme toggle working. Mobile TOC accordion sticky. Vercel SPA config deployed.
+- **Exit Criteria:** NeonScroll dark theme renders correctly, light theme preserved as toggle option, article page has sticky right-column TOC on desktop and sticky accordion TOC on mobile, Vercel deployment works with SPA rewrites.
 
 ## Phases
 
@@ -23,31 +24,42 @@
 |---|-------|------|--------|
 | 0 | Foundations | Repo, tooling, Vite/React/TS scaffold, Tailwind, Express skeleton | done |
 | 1 | Core Experience (MVP) | Page 1 Feed + Page 2 Blog View with outline panel and scroll spy | done |
-| 2 | Expansion | Markdown content from backend, search, category filters with live data, auth/sign-in flow | pending |
-| 3 | Polish & Hardening | Responsive/mobile layout, dark mode, performance, accessibility audit | pending |
-| 4 | Launch | Deploy frontend + backend, telemetry, post-launch iteration | pending |
+| 2 | NeonScroll V2 UX | Dark futuristic design system, light/dark toggle, article page rebuild, mobile responsive, Vercel deploy | done |
+| 3 | Expansion | Markdown content from backend, search, category filters with live data, auth/sign-in flow | pending |
+| 4 | Polish & Hardening | Performance, accessibility audit, SEO | pending |
+| 5 | Launch | Backend deploy, telemetry, post-launch iteration | pending |
 
 ## Active Tasks
 
 | ID | Task | Requirements | Status | Owner |
 |----|------|--------------|--------|-------|
-| task-20260506-001 | Build Page 1 — Feed view (navbar, hero, filters, article cards, sidebar, footer) | V1-REQ-001, V1-REQ-002, V1-REQ-003, V1-REQ-004, V1-REQ-005 | done | Gowtham |
+| task-20260506-001 | Build Page 1 — Feed view (navbar, hero, filters, article cards, sidebar, footer) | V1-REQ-001–005 | done | Gowtham |
 | task-20260506-002 | Wire React Router routes (/ → Feed, /article/:slug → Blog) | V1-REQ-006 | done | Gowtham |
 | task-20260506-003 | Polish BlogView — extract markdown, add navbar + breadcrumb + share/bookmark UI | V1-REQ-007, V1-REQ-008 | done | Gowtham |
 | task-20260506-004 | Define Article TypeScript interface + static seed data | V1-REQ-009 | done | Gowtham |
+| task-20260519-001 | NeonScroll V2 UX overhaul — Feed page redesign with dark futuristic tokens | V2-REQ-001 | done | Gowtham |
+| task-20260519-002 | Light/dark theme toggle — zero-flicker, localStorage persistence, ThemeContext | V2-REQ-002 | done | Gowtham |
+| task-20260519-003 | Vercel SPA deployment config (vercel.json with catch-all rewrite) | V2-REQ-003 | done | Gowtham |
+| task-20260519-004 | Article page rebuild — sticky right-column TOC, reading progress bar | V2-REQ-004 | done | Gowtham |
+| task-20260519-005 | Mobile TOC — collapsible accordion above article body, sticky below navbar | V2-REQ-005 | done | Gowtham |
 
 ## Key Decisions
 
 | # | Decision | Choice | Why |
 |---|----------|--------|-----|
 | 1 | Frontend framework | React 19 + Vite | Modern DX, fast HMR, TS-first |
-| 2 | Styling | Tailwind CSS v4 + scoped CSS files per view | Utility-first speed; per-view CSS for complex layouts (BlogView already uses this) |
+| 2 | Styling | Tailwind CSS v4 + scoped CSS files per view | Utility-first speed; per-view CSS for complex layouts |
 | 3 | Markdown rendering | react-markdown + remark-gfm | Mature, plugin ecosystem, handles GFM tables/strikethrough |
 | 4 | Routing | react-router-dom v7 | Already installed; standard React routing |
 | 5 | Backend | Node.js + Express 5 + TypeScript | Lightweight API skeleton, easy to expand post-MVP |
-| 6 | HTTP client | axios | Installed but unused in MVP — reserved for Stage 2 |
+| 6 | HTTP client | axios | Installed but unused in MVP — reserved for Stage 3 |
 | 7 | Data source (MVP) | Hardcoded in frontend | No backend dependency for MVP per design brief |
 | 8 | Outline panel scroll spy | IntersectionObserver (`rootMargin: "-80px 0px -70% 0px"`) | Replaced fragile setTimeout+querySelector; stable heading IDs via slugify() |
+| 9 | Theme system | `data-theme` attribute on `<html>` + CSS custom properties | Zero-flicker with inline IIFE in `<head>`; React ThemeContext syncs with DOM |
+| 10 | Dark theme | NeonScroll — `#0c0c10` bg, `#FF2D95` accent | Approved futuristic design direction from V2 UX schema |
+| 11 | Light theme | Warm cream editorial — `#F7F6F3` bg, `#2563EB` accent | Preserved from Stage 1, toggled via `html[data-theme="light"]` CSS overrides |
+| 12 | Mobile TOC | Two Outline instances in BlogView; CSS controls visibility per breakpoint | Desktop gets sticky aside in right grid column; mobile gets sticky accordion above body |
+| 13 | Deployment | Vercel with `vercel.json` catch-all SPA rewrite | `rootDirectory` set in Vercel dashboard UI (not in vercel.json — schema rejects it) |
 
 Full decision log with alternatives in [architecture.md](architecture.md).
 
