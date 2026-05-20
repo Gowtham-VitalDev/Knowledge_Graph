@@ -1,0 +1,7 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "rootDirectory": "front-end",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
