@@ -106,6 +106,7 @@ const BlogView = () => {
       <BlogNavbar breadcrumb={article.breadcrumb} />
 
       <div className="blog-layout">
+        {/* Left / main column */}
         <article className="blog-article" ref={articleRef}>
           <header className="blog-article__header">
             <div className="blog-article__badge-row">
@@ -124,6 +125,19 @@ const BlogView = () => {
             </div>
           </header>
 
+          {/*
+            Mobile accordion TOC lives here — between header and body.
+            On desktop it's hidden (CSS); on mobile it collapses/expands.
+            The sticky desktop TOC is in the right grid column below.
+          */}
+          <div className="blog-article__toc-mobile">
+            <Outline
+              headings={headings}
+              activeId={activeId}
+              onHeadingClick={handleHeadingClick}
+            />
+          </div>
+
           <div className="blog-article__body">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
@@ -141,11 +155,14 @@ const BlogView = () => {
           </div>
         </article>
 
-        <Outline
-          headings={headings}
-          activeId={activeId}
-          onHeadingClick={handleHeadingClick}
-        />
+        {/* Right column: desktop sticky TOC only */}
+        <div className="blog-toc-desktop">
+          <Outline
+            headings={headings}
+            activeId={activeId}
+            onHeadingClick={handleHeadingClick}
+          />
+        </div>
       </div>
     </div>
   );

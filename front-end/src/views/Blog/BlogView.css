@@ -42,10 +42,25 @@
   min-width: 0;
 }
 
+/* Mobile TOC slot: hidden on desktop (the right column handles it) */
+.blog-article__toc-mobile {
+  display: none;
+}
+
+/* Desktop TOC column */
+.blog-toc-desktop {
+  display: block;
+}
+
+/* On the desktop TOC column we only want the sticky aside, not the accordion */
+.blog-toc-desktop .outline-accordion {
+  display: none !important;
+}
+
 /* ── ARTICLE HEADER ─────────────────────────────────────────── */
 .blog-article__header {
   padding-bottom: var(--space-6);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -184,16 +199,15 @@ html[data-theme="light"] .blog-article__body pre {
 
 /* Blockquote */
 .blog-article__body blockquote {
-  background: rgba(255,255,255,0.02);
-  border-left: 4px solid rgba(255,45,149,0.14);
-  padding: 16px 20px;
-  border-radius: var(--radius-md);
-  margin: var(--space-5) 0;
+  background: transparent;
+  border-left: 4px solid rgba(255,45,149,0.12);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  margin: var(--space-4) 0;
   color: var(--color-muted);
 }
 
 html[data-theme="light"] .blog-article__body blockquote {
-  background: rgba(37,99,235,0.04);
   border-left: 4px solid rgba(37,99,235,0.2);
 }
 
@@ -201,7 +215,18 @@ html[data-theme="light"] .blog-article__body blockquote {
 @media (max-width: 1024px) {
   .blog-layout {
     grid-template-columns: 1fr;
-    gap: var(--space-8);
+    gap: var(--space-6);
+  }
+
+  /* Hide the desktop right-column TOC slot entirely */
+  .blog-toc-desktop {
+    display: none;
+  }
+
+  /* Show the in-article mobile accordion slot */
+  .blog-article__toc-mobile {
+    display: block;
+    margin-bottom: var(--space-5);
   }
 
   .blog-article__body {
@@ -211,16 +236,21 @@ html[data-theme="light"] .blog-article__body blockquote {
 
 @media (max-width: 768px) {
   .blog-layout {
-    padding: var(--space-6) var(--space-4) var(--space-12);
+    padding: var(--space-5) var(--space-4) var(--space-12);
   }
 
   .blog-article__title {
-    font-size: 26px;
-    line-height: 34px;
+    font-size: 22px;
+    line-height: 30px;
   }
 
   .blog-article__body {
-    font-size: 16px;
-    line-height: 26px;
+    font-size: 15px;
+    line-height: 24px;
+  }
+
+  .blog-article__body pre {
+    padding: 12px;
+    font-size: 12px;
   }
 }
