@@ -17,16 +17,18 @@ const Outline = ({ headings, activeId, onHeadingClick }: OutlineProps) => {
 
   return (
     <aside className="outline" aria-label="On this page">
-      <h2 className="outline__title">On this page</h2>
+      <span className="outline__label">On this page</span>
       <div className="outline__list">
         {headings.map((heading) => (
           <button
             key={heading.id}
             type="button"
             onClick={() => onHeadingClick(heading.id)}
-            className={`outline__item outline__item--level-${heading.level} ${
-              activeId === heading.id ? "outline__item--active" : ""
-            }`}
+            className={[
+              "outline__item",
+              `outline__item--level-${heading.level}`,
+              activeId === heading.id ? "outline__item--active" : "",
+            ].join(" ").trim()}
           >
             {heading.text}
           </button>

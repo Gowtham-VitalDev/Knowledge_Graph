@@ -37,24 +37,33 @@ const extractHeadings = (markdown: string): OutlineHeading[] => {
   return headings;
 };
 
-const DEFAULT_SLUG = "scaling-graph-neural-networks-for-fraud-detection";
-
 const BlogView = () => {
   const { slug } = useParams<{ slug: string }>();
   const article = useMemo(() => {
-    const target = slug ?? DEFAULT_SLUG;
+    const target = slug ?? "";
     return getArticleBySlug(target) ?? ARTICLES[0];
   }, [slug]);
 
-  const headings = useMemo(
-    () => extractHeadings(article.body),
-    [article.body],
-  );
+  const headings = useMemo(() => extractHeadings(article.body), [article.body]);
 
-  const [activeId, setActiveId] = useState<string | null>(
-    headings[0]?.id ?? null,
-  );
+  const [activeId, setActiveId] = useState<string | null>(headings[0]?.id ?? null);
+  const [progress, setProgress] = useState(0);
   const articleRef = useRef<HTMLElement>(null);
+
+  // Reading progress bar
+  useEffect(() => {
+    const onScroll = () => {
+      const el = articleRef.current;
+      if (!el) return;
+      const { top, height } = el.getBoundingClientRect();
+      const windowH = window.innerHeight;
+      const scrolled = Math.max(0, -top);
+      const total = height - windowH;
+      setProgress(total > 0 ? Math.min(100, (scrolled / total) * 100) : 0);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Scroll spy via IntersectionObserver
   useEffect(() => {
@@ -71,14 +80,9 @@ const BlogView = () => {
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) {
-          setActiveId(visible[0].target.id);
-        }
+        if (visible[0]) setActiveId(visible[0].target.id);
       },
-      {
-        rootMargin: "-80px 0px -70% 0px",
-        threshold: 0,
-      },
+      { rootMargin: "-80px 0px -70% 0px", threshold: 0 },
     );
 
     elements.forEach((el) => observer.observe(el));
@@ -94,6 +98,11 @@ const BlogView = () => {
 
   return (
     <div className="blog-page">
+      {/* Reading progress bar */}
+      <div className="blog-progress" aria-hidden="true">
+        <div className="blog-progress__fill" style={{ width: `${progress}%` }} />
+      </div>
+
       <BlogNavbar breadcrumb={article.breadcrumb} />
 
       <div className="blog-layout">
@@ -110,7 +119,7 @@ const BlogView = () => {
                 <span className="blog-article__byline-author">
                   {article.author.name}
                 </span>{" "}
-                · {article.readTimeMinutes} min read
+                · {article.readTimeMinutes} min read · {article.publishedAt}
               </p>
             </div>
           </header>
@@ -119,14 +128,12 @@ const BlogView = () => {
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
-                h2: ({ children }) => {
-                  const text = String(children);
-                  return <h2 id={slugify(text)}>{children}</h2>;
-                },
-                h3: ({ children }) => {
-                  const text = String(children);
-                  return <h3 id={slugify(text)}>{children}</h3>;
-                },
+                h2: ({ children }) => (
+                  <h2 id={slugify(String(children))}>{children}</h2>
+                ),
+                h3: ({ children }) => (
+                  <h3 id={slugify(String(children))}>{children}</h3>
+                ),
               }}
             >
               {article.body}
