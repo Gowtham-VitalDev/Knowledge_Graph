@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
-import { TRENDING } from "../../data/trending";
+import type { TrendingItem } from "../../types/article";
 import "./TrendingList.css";
 
-const TrendingList = () => {
+interface TrendingListProps {
+  items: TrendingItem[];
+}
+
+const TrendingList = ({ items }: TrendingListProps) => {
   return (
     <section className="trending" aria-labelledby="trending-title">
       <div className="trending__header">
@@ -12,7 +16,7 @@ const TrendingList = () => {
         <h2 id="trending-title" className="trending__title">Surging Protocols</h2>
       </div>
       <div className="trending__list">
-        {TRENDING.map((item) => (
+        {items.map((item) => (
           <Link key={item.rank} to={`/article/${item.articleSlug}`} className="trending__row">
             <span className="trending__rank">{String(item.rank).padStart(2, "0")}</span>
             <div className="trending__body">

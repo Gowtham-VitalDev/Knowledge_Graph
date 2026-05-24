@@ -7,7 +7,9 @@ import CategoryBadge from "../../components/CategoryBadge/CategoryBadge";
 import AuthorAvatar from "../../components/AuthorAvatar/AuthorAvatar";
 import Outline from "../../components/Outline/Outline";
 import type { OutlineHeading } from "../../components/Outline/Outline";
-import { getArticleBySlug, ARTICLES } from "../../data/articles";
+import type { Article } from "../../types/article";
+import { fetchArticleBySlug } from "../../api/articles";
+import { adaptArticle } from "../../api/adapters";
 import "./BlogView.css";
 
 const slugify = (text: string): string =>
@@ -39,16 +41,32 @@ const extractHeadings = (markdown: string): OutlineHeading[] => {
 
 const BlogView = () => {
   const { slug } = useParams<{ slug: string }>();
-  const article = useMemo(() => {
-    const target = slug ?? "";
-    return getArticleBySlug(target) ?? ARTICLES[0];
+  const [article, setArticle] = useState<Article | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (!slug) return;
+    setLoading(true);
+    setError(false);
+    fetchArticleBySlug(slug)
+      .then((data) => setArticle(adaptArticle(data)))
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
   }, [slug]);
 
-  const headings = useMemo(() => extractHeadings(article.body), [article.body]);
+  const headings = useMemo(
+    () => (article ? extractHeadings(article.body) : []),
+    [article]
+  );
 
-  const [activeId, setActiveId] = useState<string | null>(headings[0]?.id ?? null);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const articleRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (headings.length > 0) setActiveId(headings[0].id);
+  }, [headings]);
 
   // Reading progress bar
   useEffect(() => {
@@ -95,6 +113,9 @@ const BlogView = () => {
     target.scrollIntoView({ behavior: "smooth", block: "start" });
     setActiveId(id);
   };
+
+  if (loading) return <div className="blog-page"><BlogNavbar breadcrumb={[]} /><p style={{ padding: "2rem" }}>Loading...</p></div>;
+  if (error || !article) return <div className="blog-page"><BlogNavbar breadcrumb={[]} /><p style={{ padding: "2rem" }}>Article not found.</p></div>;
 
   return (
     <div className="blog-page">

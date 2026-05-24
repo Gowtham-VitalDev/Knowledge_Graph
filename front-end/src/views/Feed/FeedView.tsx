@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import FilterPills from "../../components/FilterPills/FilterPills";
 import FeaturedArticleCard from "../../components/FeaturedArticleCard/FeaturedArticleCard";
@@ -6,12 +7,39 @@ import TrendingList from "../../components/TrendingList/TrendingList";
 import TopicCloud from "../../components/TopicCloud/TopicCloud";
 import NewsletterWidget from "../../components/NewsletterWidget/NewsletterWidget";
 import Footer from "../../components/Footer/Footer";
-import { getHeroArticle, getFeedArticles } from "../../data/articles";
+import { fetchArticles } from "../../api/articles";
+import { fetchTrending } from "../../api/trending";
+import { fetchTags } from "../../api/tags";
+import { adaptArticle, adaptTrending } from "../../api/adapters";
+import type { Article, TrendingItem, Topic } from "../../types/article";
 import "./FeedView.css";
 
 const FeedView = () => {
-  const hero = getHeroArticle();
-  const list = getFeedArticles();
+  const [hero, setHero] = useState<Article | null>(null);
+  const [list, setList] = useState<Article[]>([]);
+  const [trending, setTrending] = useState<TrendingItem[]>([]);
+  const [topics, setTopics] = useState<Topic[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    Promise.all([
+      fetchArticles({ limit: 10 }),
+      fetchTrending(),
+      fetchTags(),
+    ])
+      .then(([articlesRes, trendingRes, tagsRes]) => {
+        const adapted = articlesRes.data.map(adaptArticle);
+        const heroArticle = adapted.find((a) => a.isHero) ?? adapted[0] ?? null;
+        const feedArticles = adapted.filter((a) => a !== heroArticle);
+        setHero(heroArticle);
+        setList(feedArticles);
+        setTrending(trendingRes.map(adaptTrending));
+        setTopics(tagsRes.map((t) => ({ label: t.name, slug: t.slug })));
+      })
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <div className="feed-page">
@@ -41,13 +69,19 @@ const FeedView = () => {
         <div className="feed-grid__main">
           <span className="feed-grid__section-label">Latest Transmissions</span>
 
-          {hero && <FeaturedArticleCard article={hero} />}
+          {loading && <p className="feed-state">Loading...</p>}
+          {error && <p className="feed-state feed-state--error">Failed to load articles. Is the server running?</p>}
 
-          <div className="feed-grid__list">
-            {list.map((article) => (
-              <ListArticleCard key={article.slug} article={article} />
-            ))}
-          </div>
+          {!loading && !error && (
+            <>
+              {hero && <FeaturedArticleCard article={hero} />}
+              <div className="feed-grid__list">
+                {list.map((article) => (
+                  <ListArticleCard key={article.slug} article={article} />
+                ))}
+              </div>
+            </>
+          )}
 
           <div className="feed-load-more">
             <button type="button" className="feed-load-more__btn">
@@ -61,8 +95,8 @@ const FeedView = () => {
 
         <aside className="feed-grid__sidebar">
           <NewsletterWidget />
-          <TrendingList />
-          <TopicCloud />
+          <TrendingList items={trending} />
+          <TopicCloud topics={topics} />
         </aside>
       </div>
 
