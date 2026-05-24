@@ -118,7 +118,18 @@ const BlogView = () => {
 
   const [activeId, setActiveId] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [tocOpen, setTocOpen] = useState<boolean>(() => {
+    return localStorage.getItem("kg-toc-open") !== "false";
+  });
   const articleRef = useRef<HTMLElement>(null);
+
+  const toggleToc = () => {
+    setTocOpen((prev) => {
+      const next = !prev;
+      localStorage.setItem("kg-toc-open", String(next));
+      return next;
+    });
+  };
 
   useEffect(() => {
     if (headings.length > 0) setActiveId(headings[0].id);
@@ -182,7 +193,7 @@ const BlogView = () => {
 
       <BlogNavbar breadcrumb={article.breadcrumb} />
 
-      <div className="blog-layout">
+      <div className="blog-layout" data-toc={tocOpen ? "open" : "closed"}>
         {/* Left / main column */}
         <article className="blog-article" ref={articleRef}>
           <header className="blog-article__header">
@@ -222,13 +233,37 @@ const BlogView = () => {
           </div>
         </article>
 
-        {/* Right column: desktop sticky TOC only */}
+        {/* Right column: desktop sticky TOC + toggle button */}
         <div className="blog-toc-desktop">
-          <Outline
-            headings={headings}
-            activeId={activeId}
-            onHeadingClick={handleHeadingClick}
-          />
+          <button
+            type="button"
+            className="blog-toc-toggle"
+            onClick={toggleToc}
+            aria-label={tocOpen ? "Collapse outline" : "Expand outline"}
+            title={tocOpen ? "Collapse outline" : "Expand outline"}
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              className={tocOpen ? "blog-toc-toggle__icon" : "blog-toc-toggle__icon blog-toc-toggle__icon--flipped"}
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+          <div className="blog-toc-desktop__panel">
+            <Outline
+              headings={headings}
+              activeId={activeId}
+              onHeadingClick={handleHeadingClick}
+            />
+          </div>
         </div>
       </div>
     </div>

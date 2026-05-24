@@ -1,10 +1,7 @@
 /* ── DESKTOP: sticky right column ───────────────────────────── */
 .outline {
-  position: sticky;
-  top: calc(var(--nav-height) + 24px);
   width: 220px;
   flex-shrink: 0;
-  align-self: start;
   padding: 16px;
 }
 

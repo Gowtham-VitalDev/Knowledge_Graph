@@ -35,6 +35,11 @@
   width: 100%;
   box-sizing: border-box;
   align-items: start;
+  transition: grid-template-columns 0.25s ease;
+}
+
+.blog-layout[data-toc="closed"] {
+  grid-template-columns: minmax(0, 1fr) 32px;
 }
 
 /* ── ARTICLE COLUMN ─────────────────────────────────────────── */
@@ -50,6 +55,60 @@
 /* Desktop TOC column */
 .blog-toc-desktop {
   display: block;
+  position: sticky;
+  top: calc(var(--nav-height) + 24px);
+  align-self: start;
+  height: fit-content;
+  overflow: hidden;
+}
+
+.blog-toc-desktop__panel {
+  transition: opacity 0.2s ease, transform 0.25s ease;
+  transform-origin: top right;
+}
+
+.blog-layout[data-toc="closed"] .blog-toc-desktop__panel {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(12px);
+}
+
+/* TOC toggle button */
+.blog-toc-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-muted);
+  cursor: pointer;
+  margin-left: auto;
+  margin-bottom: var(--space-2);
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.blog-toc-toggle:hover {
+  background: rgba(255, 45, 149, 0.08);
+  color: var(--color-accent);
+  border-color: rgba(255, 45, 149, 0.2);
+}
+
+html[data-theme="light"] .blog-toc-toggle:hover {
+  background: rgba(37, 99, 235, 0.06);
+  color: var(--color-accent);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+.blog-toc-toggle__icon {
+  transition: transform 0.25s ease;
+}
+
+.blog-toc-toggle__icon--flipped {
+  transform: rotate(180deg);
 }
 
 /* On the desktop TOC column we only want the sticky aside, not the accordion */
