@@ -29,6 +29,7 @@ router.get("/", async (req: Request, res: Response) => {
       meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
     });
   } catch (err) {
+    console.error("[articles] GET /:", err);
     res.status(500).json({ error: "Failed to fetch articles" });
   }
 });

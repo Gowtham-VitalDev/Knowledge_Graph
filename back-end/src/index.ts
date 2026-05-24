@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { connectDB } from "./db";
+import "./models"; // register all Mongoose models before routes use them
 import categoriesRouter from "./routes/categories";
 import articlesRouter from "./routes/articles";
 import trendingRouter from "./routes/trending";
