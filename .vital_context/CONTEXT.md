@@ -8,15 +8,15 @@
 
 - **Name:** KnowledgeGraph
 - **Description:** Tech news + articles platform delivering structured Markdown content with an interactive outline panel, optimized for both human readability and AI-friendly consumption.
-- **Stack:** React 19 + TypeScript + Vite + Tailwind CSS v4 (frontend) · Node.js + Express 5 + TypeScript (backend) · static/hardcoded data for MVP
+- **Stack:** React 19 + TypeScript + Vite + Tailwind CSS v4 (frontend) · Node.js + Express 5 + TypeScript + MongoDB + Mongoose (backend)
 
 ## Current Stage
 
-- **Stage:** Stage 2 — NeonScroll V2 UX (Dark Futuristic Theme)
-- **Branch:** `V2-DarkUX`
-- **Objective:** Complete UI overhaul to NeonScroll dark futuristic design system. Light/dark theme toggle. Article page rebuilt to spec. Mobile responsive layouts. Vercel deployment config.
-- **Status:** Done — All V2 UX work complete. Feed + Blog pages rebuilt. Theme toggle working. Mobile TOC accordion sticky. Vercel SPA config deployed.
-- **Exit Criteria:** NeonScroll dark theme renders correctly, light theme preserved as toggle option, article page has sticky right-column TOC on desktop and sticky accordion TOC on mobile, Vercel deployment works with SPA rewrites.
+- **Stage:** Stage 3 — V2-MongoDB (Live Backend Integration)
+- **Branch:** `V2-MongoDB`
+- **Objective:** Replace hardcoded frontend data with a real MongoDB backend. Express 5 REST API with Mongoose models, seed data, and axios-powered frontend data fetching. Rich article renderer: images, Mermaid diagrams, YouTube embeds. Collapsible sticky TOC on desktop.
+- **Status:** Done — All Phase A–E complete. API live. Frontend wired. Seed data loaded. Rich renderer working. TOC toggle with localStorage persistence.
+- **Exit Criteria:** Frontend fetches articles/trending/tags from Express+MongoDB API; BlogView renders markdown with images, Mermaid, and YouTube; desktop TOC is sticky and collapsible; all API routes return correct data.
 
 ## Phases
 
@@ -25,8 +25,8 @@
 | 0 | Foundations | Repo, tooling, Vite/React/TS scaffold, Tailwind, Express skeleton | done |
 | 1 | Core Experience (MVP) | Page 1 Feed + Page 2 Blog View with outline panel and scroll spy | done |
 | 2 | NeonScroll V2 UX | Dark futuristic design system, light/dark toggle, article page rebuild, mobile responsive, Vercel deploy | done |
-| 3 | Expansion | Markdown content from backend, search, category filters with live data, auth/sign-in flow | pending |
-| 4 | Polish & Hardening | Performance, accessibility audit, SEO | pending |
+| 3 | V2-MongoDB | MongoDB + Mongoose models, Express API routes, frontend axios wiring, rich article renderer, TOC toggle | done |
+| 4 | Polish & Hardening | Performance, accessibility audit, SEO, search, auth/sign-in | pending |
 | 5 | Launch | Backend deploy, telemetry, post-launch iteration | pending |
 
 ## Active Tasks
@@ -42,6 +42,14 @@
 | task-20260519-003 | Vercel SPA deployment config (vercel.json with catch-all rewrite) | V2-REQ-003 | done | Gowtham |
 | task-20260519-004 | Article page rebuild — sticky right-column TOC, reading progress bar | V2-REQ-004 | done | Gowtham |
 | task-20260519-005 | Mobile TOC — collapsible accordion above article body, sticky below navbar | V2-REQ-005 | done | Gowtham |
+| task-20260520-001 | Phase A — MongoDB + Express bootstrap, connectDB() with retry, CORS, dotenv | V3-REQ-001 | done | Gowtham |
+| task-20260520-002 | Phase B — Mongoose models: Category, Tag, User, Article, TrendingRanking, NewsletterSubscriber, SiteSettings | V3-REQ-002 | done | Gowtham |
+| task-20260520-003 | Phase C — Express API routes: /api/articles, /api/articles/:slug, /api/trending, /api/tags, /api/newsletter, /api/categories | V3-REQ-003 | done | Gowtham |
+| task-20260520-004 | Phase D — Seed script: 8 categories, 8 tags, 5 users, 5 articles, 4 trending rankings, site settings | V3-REQ-004 | done | Gowtham |
+| task-20260521-001 | Frontend API wiring — axios client, adaptArticle() adapter, FeedView + BlogView fetch from API | V3-REQ-005 | done | Gowtham |
+| task-20260522-001 | Rich article renderer — images, Mermaid diagrams (MermaidBlock component), YouTube embeds via react-markdown custom components | V3-REQ-006 | done | Gowtham |
+| task-20260523-001 | Desktop TOC sticky fix — move position:sticky to grid wrapper (.blog-toc-desktop), fix CSS grid child constraint | V3-REQ-007 | done | Gowtham |
+| task-20260523-002 | TOC collapsible toggle — chevron button, data-toc CSS grid transition, localStorage persistence (kg-toc-open) | V3-REQ-008 | done | Gowtham |
 
 ## Key Decisions
 
@@ -51,8 +59,8 @@
 | 2 | Styling | Tailwind CSS v4 + scoped CSS files per view | Utility-first speed; per-view CSS for complex layouts |
 | 3 | Markdown rendering | react-markdown + remark-gfm | Mature, plugin ecosystem, handles GFM tables/strikethrough |
 | 4 | Routing | react-router-dom v7 | Already installed; standard React routing |
-| 5 | Backend | Node.js + Express 5 + TypeScript | Lightweight API skeleton, easy to expand post-MVP |
-| 6 | HTTP client | axios | Installed but unused in MVP — reserved for Stage 3 |
+| 5 | Backend | Node.js + Express 5 + TypeScript | Lightweight API skeleton, easy to expand |
+| 6 | HTTP client | axios | Used for all frontend API calls; baseURL from VITE_API_URL env var |
 | 7 | Data source (MVP) | Hardcoded in frontend | No backend dependency for MVP per design brief |
 | 8 | Outline panel scroll spy | IntersectionObserver (`rootMargin: "-80px 0px -70% 0px"`) | Replaced fragile setTimeout+querySelector; stable heading IDs via slugify() |
 | 9 | Theme system | `data-theme` attribute on `<html>` + CSS custom properties | Zero-flicker with inline IIFE in `<head>`; React ThemeContext syncs with DOM |
@@ -60,6 +68,13 @@
 | 11 | Light theme | Warm cream editorial — `#F7F6F3` bg, `#2563EB` accent | Preserved from Stage 1, toggled via `html[data-theme="light"]` CSS overrides |
 | 12 | Mobile TOC | Two Outline instances in BlogView; CSS controls visibility per breakpoint | Desktop gets sticky aside in right grid column; mobile gets sticky accordion above body |
 | 13 | Deployment | Vercel with `vercel.json` catch-all SPA rewrite | `rootDirectory` set in Vercel dashboard UI (not in vercel.json — schema rejects it) |
+| 14 | Database | MongoDB + Mongoose | Document model fits article/tag/category shape; Mongoose gives typed schemas + populate() |
+| 15 | DB connection | 127.0.0.1 not localhost in MONGO_URI | Windows Node resolves localhost → IPv6 ::1 but MongoDB binds IPv4; always use 127.0.0.1 |
+| 16 | Model registry | Central models/index.ts re-exported at startup | Prevents MissingSchemaError when populate() references a model not yet imported |
+| 17 | API adapter pattern | adaptArticle() in front-end/src/api/adapters.ts | Maps API shape → existing Article type without rewriting all card components |
+| 18 | Mermaid rendering | MermaidBlock component; mermaid.render() in useEffect with useId() | Stable SVG IDs; dark theme initialized once; error fallback to pre block |
+| 19 | YouTube embeds | Bare URL detection regex in react-markdown `a` component | Only embed when link text === href (autolinked URL); avoids embedding named links |
+| 20 | TOC collapse | CSS `data-toc` attribute on grid container drives column width + panel opacity | Single source of truth; CSS grid transitions between `minmax(0,1fr) 220px` and `minmax(0,1fr) 32px` |
 
 Full decision log with alternatives in [architecture.md](architecture.md).
 

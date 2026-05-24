@@ -44,19 +44,53 @@ Knowledge_Graph/
 │       ├── App.css
 │       ├── index.css           # Tailwind directives
 │       ├── assets/             # Images (hero.png, react.svg, vite.svg)
+│       ├── api/
+│       │   ├── client.ts       # axios instance (baseURL from VITE_API_URL)
+│       │   ├── articles.ts     # fetchArticles(), fetchArticleBySlug()
+│       │   └── adapters.ts     # adaptArticle() — API shape → Article type
+│       ├── types/
+│       │   └── article.ts      # Article, Category types
+│       ├── components/
+│       │   ├── AuthorAvatar/
+│       │   ├── BlogNavbar/
+│       │   ├── CategoryBadge/
+│       │   ├── MermaidBlock/   # Mermaid diagram renderer (useId, mermaid.render)
+│       │   ├── Outline/        # TOC panel (desktop sticky + mobile accordion)
+│       │   ├── TopicCloud/
+│       │   └── TrendingList/
 │       └── views/
+│           ├── Feed/
+│           │   ├── FeedView.tsx
+│           │   └── FeedView.css
 │           └── Blog/
 │               ├── BlogView.tsx
 │               └── BlogView.css
 │
-└── back-end/                   # Express 5 + TS skeleton
+└── back-end/                   # Express 5 + TS + MongoDB
     ├── package.json
-    ├── tsconfig.json
+    ├── tsconfig.json           # includes "types": ["node"]
+    ├── .env                    # MONGO_URI, PORT
     └── src/
-        └── index.ts            # Currently a stub (empty/single line)
+        ├── index.ts            # Express bootstrap; imports models/ before routes
+        ├── db.ts               # connectDB() with 5-retry, 3s delay
+        ├── models/
+        │   ├── index.ts        # re-exports all models (prevents MissingSchemaError)
+        │   ├── Article.ts
+        │   ├── Category.ts
+        │   ├── Tag.ts
+        │   ├── User.ts
+        │   ├── TrendingRanking.ts
+        │   ├── NewsletterSubscriber.ts
+        │   └── SiteSettings.ts
+        ├── routes/
+        │   ├── articles.ts
+        │   ├── trending.ts
+        │   ├── tags.ts
+        │   ├── categories.ts
+        │   └── newsletter.ts
+        └── scripts/
+            └── seed.ts         # clears + inserts all collections
 ```
-
-> **Planned additions for Stage 1** (not yet present): `front-end/src/views/Feed/`, `front-end/src/components/`, `front-end/src/data/articles.ts`, `front-end/src/types/`, `front-end/src/router.tsx`.
 
 ---
 
@@ -72,15 +106,23 @@ npm run lint                 # eslint .
 
 # === Backend (run from /back-end) ===
 npm install                  # install deps
-npm run dev                  # nodemon + ts-node, watches src/index.ts
+npm run dev                  # nodemon + ts-node-dev, watches src/index.ts
 npm run build                # tsc → /dist
 npm start                    # node dist/index.js (after build)
+npx ts-node src/scripts/seed.ts   # seed MongoDB (clears + inserts all collections)
+
+# === MongoDB ===
+# Start: ensure mongod is running locally on 127.0.0.1:27017
+# GUI: MongoDB Compass → connect to mongodb://127.0.0.1:27017
+# DB name: knowledgegraph
+# IMPORTANT: use 127.0.0.1 not localhost (Windows IPv6 issue)
 
 # === Tests ===
-# No test runner configured yet. Add Vitest (frontend) / Jest (backend) in Stage 3.
+# No test runner configured yet. Add Vitest (frontend) / Jest (backend) in Stage 4.
 
 # === Deploy ===
-# No deployment configured yet. Hosting decision pending Stage 4.
+# Frontend: Vercel (vercel.json with SPA catch-all). Root Directory set in Vercel dashboard.
+# Backend: not deployed yet — pending Stage 5.
 ```
 
 ---
@@ -89,26 +131,25 @@ npm start                    # node dist/index.js (after build)
 
 | Variable | Where | Purpose | Example | Required? |
 |----------|-------|---------|---------|-----------|
-| `PORT` | `back-end/.env` | Express listen port | `3000` | No (default TBD) |
-| _(none required for MVP)_ | | The frontend has no env vars in MVP. | | |
+| `MONGO_URI` | `back-end/.env` | MongoDB connection string | `mongodb://127.0.0.1:27017/knowledgegraph` | Yes |
+| `PORT` | `back-end/.env` | Express listen port | `5000` | No (defaults to 5000) |
+| `VITE_API_URL` | `front-end/.env` | Backend base URL for axios | `http://127.0.0.1:5000` | No (defaults to http://localhost:5000) |
 
-> Stage 2+ will add: `DATABASE_URL`, `JWT_SECRET`, `VITE_API_BASE_URL`, etc. Keep `.env` out of git; create `.env.example` files when env vars are introduced.
+> Keep `.env` files out of git. IMPORTANT: use `127.0.0.1` not `localhost` in MONGO_URI on Windows.
 
 ---
 
 ## Key API Endpoints (Quick Lookup)
 
-### MVP
-_None — backend not consumed in MVP._
-
-### Planned (Stage 2)
+### Implemented (Stage 3)
 | Endpoint | What it does |
 |----------|-------------|
-| `GET /api/articles` | List articles (filters: category, tag) |
+| `GET /api/articles` | List articles (query: category, tag, limit, page) |
 | `GET /api/articles/:slug` | Get one article with full Markdown body |
-| `GET /api/trending` | Sidebar trending list |
-| `GET /api/topics` | Topic cloud entries |
-| `POST /api/newsletter` | Subscribe email |
+| `GET /api/trending` | Sidebar trending list (latest week, nested populate) |
+| `GET /api/tags` | All tags sorted by usageCount |
+| `GET /api/categories` | All categories sorted by articleCount |
+| `POST /api/newsletter` | Subscribe email (validates, handles re-subscribe) |
 
 Full details + schemas in [architecture.md](architecture.md).
 
@@ -116,17 +157,16 @@ Full details + schemas in [architecture.md](architecture.md).
 
 ## Key Collections / Tables
 
-### MVP
-_None — no database._ All data lives in static frontend modules (planned: `front-end/src/data/articles.ts`).
-
-### Planned (Stage 2)
-| Name | Purpose | Primary Key |
-|------|---------|-------------|
-| `articles` | Article content + metadata | `slug` |
-| `topics` | Tag cloud taxonomy | `slug` |
-| `users` | Account info (when auth lands) | `userId` |
-| `bookmarks` | User-saved articles | `(userId, articleSlug)` |
-| `newsletter_subscribers` | Email capture | `email` |
+### Implemented (Stage 3)
+| Collection | Purpose | Key Field |
+|------------|---------|-----------|
+| `articles` | Article content + metadata | `slug` (unique) |
+| `categories` | Category taxonomy | `slug` (unique) |
+| `tags` | Tag taxonomy | `slug` (unique) |
+| `users` | Author profiles | `username`, `email` (unique) |
+| `trendingrankings` | Weekly trending rankings | `(articleId, weekStartDate)` unique |
+| `newslettersubscribers` | Email capture | `email` (unique) |
+| `sitesettings` | Global site config | singleton document |
 
 Full schemas in [architecture.md](architecture.md).
 
@@ -136,19 +176,21 @@ Full schemas in [architecture.md](architecture.md).
 
 | What | Where |
 |------|-------|
-| Router root | [front-end/src/App.tsx](../front-end/src/App.tsx) (TBD: route table here) |
+| Router root | [front-end/src/App.tsx](../front-end/src/App.tsx) |
 | Entry point | [front-end/src/main.tsx](../front-end/src/main.tsx) |
-| Tailwind directives | [front-end/src/index.css](../front-end/src/index.css) |
-| Tailwind config | [front-end/tailwind.config.js](../front-end/tailwind.config.js) |
-| Vite config | [front-end/vite.config.ts](../front-end/vite.config.ts) |
-| ESLint config | [front-end/eslint.config.js](../front-end/eslint.config.js) |
+| Article type | [front-end/src/types/article.ts](../front-end/src/types/article.ts) |
+| API client (axios) | [front-end/src/api/client.ts](../front-end/src/api/client.ts) |
+| API adapter | [front-end/src/api/adapters.ts](../front-end/src/api/adapters.ts) |
+| Feed view | [front-end/src/views/Feed/FeedView.tsx](../front-end/src/views/Feed/FeedView.tsx) |
 | Blog view | [front-end/src/views/Blog/BlogView.tsx](../front-end/src/views/Blog/BlogView.tsx) |
-| Blog view styles | [front-end/src/views/Blog/BlogView.css](../front-end/src/views/Blog/BlogView.css) |
-| Static images | [front-end/src/assets/](../front-end/src/assets/) |
-| Public assets | [front-end/public/](../front-end/public/) |
+| Mermaid renderer | [front-end/src/components/MermaidBlock/MermaidBlock.tsx](../front-end/src/components/MermaidBlock/MermaidBlock.tsx) |
+| TOC outline | [front-end/src/components/Outline/Outline.tsx](../front-end/src/components/Outline/Outline.tsx) |
 | Backend entry | [back-end/src/index.ts](../back-end/src/index.ts) |
-| Backend tsconfig | [back-end/tsconfig.json](../back-end/tsconfig.json) |
-| Project design brief | [claude.md](../claude.md) |
+| DB connect | [back-end/src/db.ts](../back-end/src/db.ts) |
+| Model registry | [back-end/src/models/index.ts](../back-end/src/models/index.ts) |
+| Seed script | [back-end/src/scripts/seed.ts](../back-end/src/scripts/seed.ts) |
+| Backend env | [back-end/.env](../back-end/.env) (not in git) |
+| Project design brief | [CLAUDE.md](../CLAUDE.md) |
 
 ---
 

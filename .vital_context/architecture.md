@@ -25,7 +25,8 @@
 | Backend dev runner | nodemon + ts-node-dev | ^3.1.14 / ^2.0.0 | Hot reload during dev |
 | Backend env loading | dotenv | ^17.4.2 | Standard .env loader |
 | Backend CORS | cors | ^2.8.6 | Permit frontend origin in dev |
-| Database | TBD | — | Not chosen for MVP (no backend data yet); decide before Stage 2 |
+| Database | MongoDB | ^7.x (local) | Document model fits article/tag/category shape; Atlas-ready for production |
+| ODM | Mongoose | ^8.x | Typed schemas, populate(), compound indexes, easy migration path |
 | Auth | TBD | — | Not in MVP scope |
 | Hosting | TBD | — | Decide before Stage 4 |
 
@@ -38,9 +39,7 @@
 │         Browser (modern)            │
 │  React 19 SPA served by Vite        │
 └────────────────┬────────────────────┘
-                 │
-                 │  (MVP: no network calls — all data hardcoded)
-                 │  (Stage 2+: HTTPS / axios)
+                 │  axios (VITE_API_URL → http://127.0.0.1:5000)
                  ▼
 ┌─────────────────────────────────────┐
 │      Frontend (Vite dev / build)    │
@@ -50,22 +49,25 @@
 │  │  └─ /article/:slug BlogView  │   │
 │  └──────────────────────────────┘   │
 │  ┌──────────────────────────────┐   │
-│  │  data/articles.ts (static)   │   │
+│  │  api/client.ts (axios)       │   │
+│  │  api/articles.ts             │   │
+│  │  api/adapters.ts             │   │
 │  │  components/ (shared UI)     │   │
 │  └──────────────────────────────┘   │
 └────────────────┬────────────────────┘
-                 │ (Stage 2+ only)
+                 │  HTTP REST
                  ▼
 ┌─────────────────────────────────────┐
 │   Backend — Express 5 + TS          │
-│   src/index.ts (currently a stub)   │
-│   Future routes: /api/articles      │
+│   src/index.ts → imports models/    │
+│   routes: articles, trending, tags  │
+│           newsletter, categories    │
 └────────────────┬────────────────────┘
-                 │ (Stage 2+)
+                 │  Mongoose
                  ▼
             ┌──────────┐
-            │ Database │  ← TBD
-            │ (TBD)    │
+            │ MongoDB  │  localhost:27017/knowledgegraph
+            │ (local)  │  → Atlas for production
             └──────────┘
 ```
 
@@ -73,72 +75,90 @@
 
 ## Data Models
 
-### `Article` — single tech article (frontend type, MVP-static)
+### Frontend `Article` type — `front-end/src/types/article.ts`
 ```ts
 {
-  id: string,                  // unique stable id (e.g., uuid or slug)
-  slug: string,                // URL-safe identifier used in /article/:slug
-  title: string,               // article display title
-  excerpt: string,             // 2–3 line preview shown on feed cards
-  category: Category,          // see Category enum below
-  breadcrumb: string[],        // e.g., ["Engineering", "System Architecture"]
-  tags: string[],              // freeform topic tags (Algorithms, Architecture, etc.)
-  author: {
-    name: string,
-    avatarUrl: string
-  },
-  coverImageUrl: string,       // hero/thumbnail image
-  readTimeMinutes: number,     // computed or hand-authored
-  publishedAt: string,         // ISO 8601 timestamp
-  isHero: boolean,             // true for the lead card on the feed (one per category context)
-  isTrending: boolean,         // surfaces in "Trending This Week"
-  body: string                 // raw Markdown content (rendered by react-markdown)
-}
-```
-
-### `Category` — feed/filter taxonomy
-```ts
-type Category =
-  | "ai-ml"            // "AI & ML"
-  | "machine-learning"
-  | "systems"
-  | "web"              // "Web Development"
-  | "data-science"
-  | "design"
-  | "engineering"
-  | "research";        // article-page only (e.g., "RESEARCH" pill)
-```
-
-### `Heading` — outline panel entry (already in BlogView.tsx)
-```ts
-{
-  id: string,        // heading-N anchor
-  level: number,     // 1 | 2 | 3
-  text: string,      // raw heading text
-  icon?: string      // optional emoji/icon prefix
-}
-```
-
-### `Topic` — Browse Topics tag cloud entry
-```ts
-{
-  label: string,     // "Algorithms", "Architecture", ...
-  slug: string       // url-safe
-}
-```
-
-### `TrendingItem` — sidebar "Trending This Week"
-```ts
-{
-  rank: number,            // 1..4
+  slug: string,
   title: string,
-  authorName: string,
+  excerpt: string,
+  body: string,                // raw Markdown (mapped from API content field)
+  category: Category,
+  breadcrumb: string[],
+  tags: string[],
+  author: { name: string, avatarUrl?: string },
+  coverImageUrl: string,
+  thumbnailUrl: string,
   readTimeMinutes: number,
-  articleSlug: string
+  publishedAt: string,
+  isHero: boolean,
 }
 ```
 
-> All models above live on the frontend for MVP. When Stage 2 introduces the backend API, mirror these in `back-end/src/types/` and validate at the boundary.
+### MongoDB: `articles` collection — `back-end/src/models/Article.ts`
+```
+slug, title, excerpt, content (Markdown), coverImage
+categoryId → ref Category
+tagIds[] → ref Tag
+authorId → ref User
+status: draft|published|archived
+featured: boolean
+trendingScore, readTime, views, likes, shares, bookmarks
+seoTitle, seoDescription, publishedAt
+Indexes: (status,publishedAt), (categoryId,status), (slug unique)
+```
+
+### MongoDB: `categories` collection — `back-end/src/models/Category.ts`
+```
+name, slug (unique), description, icon, colorCode, articleCount
+```
+
+### MongoDB: `tags` collection — `back-end/src/models/Tag.ts`
+```
+name, slug (unique), usageCount
+```
+
+### MongoDB: `users` collection — `back-end/src/models/User.ts`
+```
+fullName, username (unique), email (unique), passwordHash
+role: reader|author|editor|admin
+bio, avatarUrl, socialLinks{}, expertise[], isVerified, status
+```
+
+### MongoDB: `trendingrankings` collection — `back-end/src/models/TrendingRanking.ts`
+```
+articleId → ref Article, weekStartDate, rank, score
+Unique index: (articleId, weekStartDate)
+```
+
+### MongoDB: `newslettersubscribers` collection — `back-end/src/models/NewsletterSubscriber.ts`
+```
+email (unique), status: active|unsubscribed, subscribedAt, unsubscribedAt
+```
+
+### MongoDB: `sitesettings` collection — `back-end/src/models/SiteSettings.ts`
+```
+homepageHeroTitle, homepageHeroSubtitle, featuredArticleId → ref Article
+newsletterEnabled, maintenanceMode, seoDefaults{}
+```
+
+### Frontend `Category` type enum
+```ts
+type Category = "ai-ml" | "quantum" | "crypto" | "synth-bio" | "vr-ar" | "cybersec" | "neural" | "robotics"
+```
+
+### `OutlineHeading` — TOC panel entry (`front-end/src/components/Outline/Outline.tsx`)
+```ts
+{ id: string, level: 2 | 3, text: string }
+```
+
+### API Adapter — `front-end/src/api/adapters.ts`
+`adaptArticle(apiArticle) → Article` maps:
+- `content` → `body`
+- `categoryId.slug` → `category`
+- `categoryId.name` → `breadcrumb[0]`
+- `tagIds[].name` → `tags[]`
+- `authorId.fullName` → `author.name`
+- `featured` → `isHero`
 
 ---
 
@@ -205,25 +225,25 @@ User navigates to "/"
 
 ## API Endpoints
 
-### Current (MVP) — none
+### Implemented (Stage 3 — V2-MongoDB)
 
-The Express backend at [back-end/src/index.ts](../back-end/src/index.ts) is currently a stub (empty/single line). No endpoints are wired. The frontend does not call the backend in MVP.
+| Method | Route | Purpose | Notes |
+|--------|-------|---------|-------|
+| GET | `/api/articles` | List articles | query: `category`, `tag`, `limit`, `page`; populates author+category+tags |
+| GET | `/api/articles/:slug` | Get one article | populates author+category+tags; increments views (fire-and-forget) |
+| GET | `/api/trending` | Trending sidebar | finds latest weekStartDate; nested populate article→author+category |
+| GET | `/api/tags` | All tags | sorted by usageCount desc |
+| GET | `/api/categories` | All categories | sorted by articleCount desc |
+| POST | `/api/newsletter` | Subscribe email | email regex validation, re-subscribe logic, 400 on invalid |
 
-### Planned (Stage 2)
+### Planned (Stage 4+)
 
-| Method | Route | Purpose | Auth |
-|--------|-------|---------|------|
-| GET | `/api/articles` | List articles (query: `category`, `tag`, `limit`, `cursor`) | No (public) |
-| GET | `/api/articles/:slug` | Get one article (full body Markdown) | No (public) |
-| GET | `/api/trending` | Trending articles for sidebar | No (public) |
-| GET | `/api/topics` | Topic cloud entries | No (public) |
-| POST | `/api/newsletter` | Subscribe email | No (rate-limited) |
-| POST | `/api/auth/sign-in` | Sign in | No |
-| POST | `/api/auth/sign-up` | Sign up | No |
-| POST | `/api/bookmarks` | Bookmark an article | Yes |
-| GET | `/api/bookmarks` | List user bookmarks | Yes |
-
-Schemas, query params, and request/response shapes to be specified when Stage 2 activates.
+| Method | Route | Purpose |
+|--------|-------|---------|
+| POST | `/api/auth/sign-in` | Sign in |
+| POST | `/api/auth/sign-up` | Sign up |
+| POST | `/api/bookmarks` | Bookmark an article (auth required) |
+| GET | `/api/bookmarks` | List user bookmarks (auth required) |
 
 ---
 
@@ -237,10 +257,16 @@ Schemas, query params, and request/response shapes to be specified when Stage 2 
 | 4 | Routing library | react-router-dom v7 | TanStack Router, framework router | Already installed; widely understood; v7 leaves door open for framework mode |
 | 5 | MVP data source | Hardcoded TS modules | Mock API, JSON file, real backend | Per design brief — eliminates backend coupling for MVP velocity |
 | 6 | Backend skeleton choice | Express 5 + TS | Fastify, Hono, NestJS | Universally familiar; minimal surface area for an empty MVP backend; easy to swap later if needed |
-| 7 | Database | _Deferred_ | Postgres, SQLite, Firestore | Not needed for MVP; revisit at Stage 2 with concrete read/write patterns |
-| 8 | Scroll spy mechanism (current) | Manual `querySelector` + click-driven highlight | IntersectionObserver | Sufficient for current click-driven behavior; upgrade to IO for V1-REQ-013 (scroll-driven spy) |
-| 9 | Code block syntax highlighting (MVP) | Stylistic monospace + language label badge | Shiki, Prism, highlight.js | Defers payload weight; visual differentiation via label is "good enough" for MVP. Full highlighting tracked as V2-REQ-010 |
-| 10 | Image strategy (MVP) | Static assets in `front-end/src/assets/` and `front-end/public/` | CDN, dynamic optimization | Simplest path; revisit at Stage 3 with responsive sizes |
+| 7 | Database | MongoDB + Mongoose | Postgres, SQLite, Firestore | Document model fits article/tag/category shape; Mongoose gives typed schemas + populate() |
+| 8 | Scroll spy mechanism | IntersectionObserver (`rootMargin: "-80px 0px -70% 0px"`) | manual querySelector | Stable heading IDs via slugify(); handles dynamic content correctly |
+| 9 | Code block syntax highlighting | Stylistic monospace | Shiki, Prism, highlight.js | Defers payload weight; Mermaid diagrams handled via MermaidBlock component |
+| 10 | Image strategy | picsum.photos URLs in seed data | CDN, dynamic optimization | Simplest path for dev; swap to real CDN in production |
+| 11 | DB localhost issue | 127.0.0.1 in MONGO_URI | localhost | Windows Node resolves localhost → IPv6 ::1 but MongoDB binds IPv4 |
+| 12 | Model registry | models/index.ts re-exported at startup in index.ts | lazy imports per route | Prevents MissingSchemaError when populate() references a model not yet imported |
+| 13 | API adapter | adaptArticle() in front-end/src/api/adapters.ts | rewrite Article type | Maps API shape → existing frontend type; no card components needed to change |
+| 14 | Mermaid rendering | MermaidBlock with useId() for stable SVG IDs | remark-mermaid plugin | Client-side only; dark theme; error fallback; no SSR issues |
+| 15 | YouTube embeds | Bare URL detection in react-markdown `a` component | remark plugin | Only embeds autolinked URLs, not named links — matches Obsidian behavior |
+| 16 | TOC collapse | data-toc CSS attribute + grid column transition | JS-driven width change | Single source of truth; CSS handles both width and panel opacity |
 
 ---
 
