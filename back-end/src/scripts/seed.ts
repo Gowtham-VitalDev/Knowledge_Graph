@@ -103,29 +103,82 @@ async function seed() {
       excerpt: "As LLMs scale to unprecedented parameter counts and are integrated directly into dark pool trading algorithms, market analysts are observing emergent, highly coordinated behaviors that defy current theoretical economic models. Are we witnessing the dawn of machine consensus?",
       content: `## Introduction
 
-As organizations migrate workloads to cloud-native infrastructure, the seams between services become the dominant source of risk.
+As LLMs scale to unprecedented parameter counts, they are being integrated directly into dark pool trading algorithms. Market analysts are observing emergent, highly coordinated behaviors that defy current theoretical economic models.
 
-## The Trade-Off Triangle
+![Neural network architecture visualised as a glowing circuit board](https://picsum.photos/seed/neon-circuit-wide/900/400)
 
-Every distributed system designer is navigating a triangle of consistency, availability, and operational simplicity.
+## How It Works — The Signal Flow
+
+The diagram below shows how a sentient algorithm processes market signals in real time:
+
+\`\`\`mermaid
+flowchart TD
+    A[Market Data Feed] --> B[LLM Signal Parser]
+    B --> C{Consensus Check}
+    C -->|Aligned| D[Execute Trade]
+    C -->|Divergent| E[Hold Position]
+    D --> F[Dark Pool Router]
+    E --> B
+    F --> G[Settlement Layer]
+    G -->|Feedback| B
+\`\`\`
+
+## The Emergence Problem
+
+When multiple LLM-based trading agents share the same base model weights, they tend to converge on identical strategies — a phenomenon researchers call **model consensus collapse**.
 
 ### Consistency vs. Availability
 
-Strong consistency models like linearizability simplify reasoning at the cost of availability during partitions.
+Strong consistency models like linearizability simplify reasoning at the cost of availability during partitions. In HFT, a 40ms delay can mean millions in missed opportunity.
 
-### Operational Surface Area
+### Risk Propagation
 
-Every additional moving part is a new on-call burden. A system that is technically correct but operationally fragile is not worth running.
+\`\`\`mermaid
+sequenceDiagram
+    participant A as Agent Alpha
+    participant B as Agent Beta
+    participant M as Market
+    A->>M: Buy signal (confidence 94%)
+    B->>M: Buy signal (confidence 96%)
+    M-->>A: Liquidity thinning
+    M-->>B: Liquidity thinning
+    A->>B: Consensus lock detected
+    B->>M: Emergency unwind
+\`\`\`
+
+## A Deep Dive — Watch This Explanation
+
+https://www.youtube.com/watch?v=aircAruvnKk
 
 ## Patterns Worth Adopting
 
 - **Idempotent producers** — every message handler should tolerate replays.
 - **Backpressure as a first-class concern** — never let unbounded queues form.
 - **Service-level objectives** — internal targets sharpen prioritization.
+- **Model divergence enforcement** — intentionally introduce weight perturbations across agents to prevent consensus collapse.
+
+## Infrastructure Architecture
+
+\`\`\`mermaid
+graph LR
+    subgraph Ingestion
+        A[Bloomberg Feed] --> C[Normalizer]
+        B[Reuters Feed] --> C
+    end
+    subgraph Processing
+        C --> D[LLM Cluster]
+        D --> E[Risk Engine]
+    end
+    subgraph Execution
+        E --> F[Order Router]
+        F --> G[Dark Pool A]
+        F --> H[Dark Pool B]
+    end
+\`\`\`
 
 ## Conclusion
 
-Distributed systems do not get simpler. The job is to keep the *kinds* of complexity you accept aligned with the problems you are actually solving.`,
+Distributed systems do not get simpler. The job is to keep the *kinds* of complexity you accept aligned with the problems you are actually solving. As sentient algorithms proliferate, the next frontier is **intentional divergence** — building systems that resist the gravitational pull of consensus.`,
       coverImage: "https://picsum.photos/seed/neon-circuit/1200/675",
       categoryId: catMap["ai-ml"],
       tagIds: [tagMap["ai-models"], tagMap["crypto"]],

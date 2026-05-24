@@ -2,10 +2,12 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import type { Components } from "react-markdown";
 import BlogNavbar from "../../components/BlogNavbar/BlogNavbar";
 import CategoryBadge from "../../components/CategoryBadge/CategoryBadge";
 import AuthorAvatar from "../../components/AuthorAvatar/AuthorAvatar";
 import Outline from "../../components/Outline/Outline";
+import MermaidBlock from "../../components/MermaidBlock/MermaidBlock";
 import type { OutlineHeading } from "../../components/Outline/Outline";
 import type { Article } from "../../types/article";
 import { fetchArticleBySlug } from "../../api/articles";
@@ -37,6 +39,60 @@ const extractHeadings = (markdown: string): OutlineHeading[] => {
     headings.push({ id: slugify(text), level, text });
   }
   return headings;
+};
+
+const YT_RE = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/;
+
+function getYouTubeId(href: string): string | null {
+  const m = YT_RE.exec(href);
+  return m ? m[1] : null;
+}
+
+const mdComponents: Components = {
+  h2: ({ children }) => <h2 id={slugify(String(children))}>{children}</h2>,
+  h3: ({ children }) => <h3 id={slugify(String(children))}>{children}</h3>,
+
+  // Images — lazy, rounded, captioned if alt text present
+  img: ({ src, alt }) => (
+    <figure className="blog-article__figure">
+      <img
+        src={src}
+        alt={alt ?? ""}
+        loading="lazy"
+        className="blog-article__img"
+      />
+      {alt && <figcaption className="blog-article__figcaption">{alt}</figcaption>}
+    </figure>
+  ),
+
+  // Code blocks — mermaid diagrams or syntax-highlighted pre
+  code: ({ className, children, ...props }) => {
+    const isBlock = !props.node?.position || String(children).includes("\n");
+    if (isBlock && className === "language-mermaid") {
+      return <MermaidBlock code={String(children).trim()} />;
+    }
+    return <code className={className} {...props}>{children}</code>;
+  },
+
+  // Links — YouTube bare URLs become embedded iframes
+  a: ({ href, children }) => {
+    const ytId = href ? getYouTubeId(href) : null;
+    // Only embed when the link text equals the href (bare autolinked URL)
+    if (ytId && String(children) === href) {
+      return (
+        <figure className="blog-article__video">
+          <iframe
+            src={`https://www.youtube.com/embed/${ytId}`}
+            title="YouTube video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            loading="lazy"
+          />
+        </figure>
+      );
+    }
+    return <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>;
+  },
 };
 
 const BlogView = () => {
@@ -160,17 +216,7 @@ const BlogView = () => {
           </div>
 
           <div className="blog-article__body">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              components={{
-                h2: ({ children }) => (
-                  <h2 id={slugify(String(children))}>{children}</h2>
-                ),
-                h3: ({ children }) => (
-                  <h3 id={slugify(String(children))}>{children}</h3>
-                ),
-              }}
-            >
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
               {article.body}
             </ReactMarkdown>
           </div>
