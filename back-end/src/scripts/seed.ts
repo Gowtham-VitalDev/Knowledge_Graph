@@ -1,5 +1,6 @@
 import "dotenv/config";
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 import { Category } from "../models/Category";
 import { Tag } from "../models/Tag";
 import { User } from "../models/User";
@@ -55,7 +56,17 @@ async function seed() {
   console.log(`[seed] Inserted ${tags.length} tags`);
 
   // ── USERS (authors) ───────────────────────────────────────────
+  const adminPassword = process.env.ADMIN_PASSWORD ?? "Admin@1234";
+  const adminHash = await bcrypt.hash(adminPassword, 10);
+
   const users = await User.insertMany([
+    {
+      fullName: "Admin", username: "admin", email: process.env.ADMIN_EMAIL ?? "admin@knowledgegraph.io",
+      passwordHash: adminHash, role: "admin",
+      bio: "Platform administrator.",
+      avatarUrl: "https://i.pravatar.cc/64?u=admin",
+      isVerified: true, status: "active",
+    },
     {
       fullName: "Dr. Aris Thorne", username: "aris-thorne", email: "aris@knowledgegraph.io",
       passwordHash: "$2b$10$placeholder", role: "author",
