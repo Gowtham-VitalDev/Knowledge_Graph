@@ -15,7 +15,7 @@
 - **Stage:** Stage 4 — V3-Backend-Python (FastAPI backend + Admin Panel)
 - **Branch:** `V3-Backend-Python`
 - **Objective:** Replace Node/Express backend with Python + FastAPI. Build admin panel (login, article dashboard, article editor) using NeonScroll dark theme. Wire frontend to new Python API.
-- **Status:** In Progress — Phases 1–4 complete (FastAPI foundation, public routes, auth, admin CRUD). Phase 5 (admin frontend) starting next.
+- **Status:** In Progress — All 5 phases complete. Post-launch bugs fixed (ObjectId serialization, stale Express process, admin API shape mismatches). End-to-end admin flow working.
 - **Exit Criteria:** FastAPI serves all API routes; admin can log in, create/edit/publish/delete articles via the /admin UI; frontend feed + blog wired to Python API.
 
 ## Phases
@@ -85,6 +85,7 @@
 | 23 | FastAPI auth pattern | Depends() dependency injection | Cleaner than Express middleware; chainable; return value injected into handler |
 | 24 | bcrypt compatibility | bcrypt==4.0.1 pinned | Newer bcrypt strict mode breaks verification of hashes created by Node's bcryptjs |
 | 25 | Admin UI theme | NeonScroll dark (same as public site) | Consistent design system; admin is a section of the same React app at /admin |
+| 26 | ObjectId serialization | Python `sanitize()` recursive converter | MongoDB-side `$toString` in `$addFields` dot-notation doesn't update nested fields; Python-side recursive walk is simpler and bulletproof |
 
 Full decision log with alternatives in [architecture.md](architecture.md).
 

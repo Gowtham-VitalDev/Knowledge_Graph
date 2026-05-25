@@ -6,6 +6,16 @@ from datetime import datetime, timezone
 from database import get_collection
 from middleware.auth import require_admin
 
+
+def sanitize(obj):
+    if isinstance(obj, dict):
+        return {k: sanitize(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [sanitize(i) for i in obj]
+    if isinstance(obj, ObjectId):
+        return str(obj)
+    return obj
+
 # ── ROUTER ────────────────────────────────────────────────────────────────────
 # dependencies=[Depends(require_admin)] protects every route in this router.
 # No need to add Depends() to each individual route handler.
@@ -23,12 +33,22 @@ LOOKUP_STAGES = [
     {"$unwind": {"path": "$authorId",   "preserveNullAndEmptyArrays": True}},
     {"$lookup": {"from": "tags",        "localField": "tagIds",     "foreignField": "_id", "as": "tagIds"}},
     {"$addFields": {
-        "_id":            {"$toString": "$_id"},
-        "categoryId._id": {"$toString": "$categoryId._id"},
-        "authorId._id":   {"$toString": "$authorId._id"},
+        "_id": {"$toString": "$_id"},
+        "categoryId": {
+            "$mergeObjects": [
+                "$categoryId",
+                {"_id": {"$cond": [{"$ifNull": ["$categoryId._id", False]}, {"$toString": "$categoryId._id"}, None]}}
+            ]
+        },
+        "authorId": {
+            "$mergeObjects": [
+                "$authorId",
+                {"_id": {"$cond": [{"$ifNull": ["$authorId._id", False]}, {"$toString": "$authorId._id"}, None]}}
+            ]
+        },
         "tagIds": {
             "$map": {
-                "input": "$tagIds",
+                "input": {"$ifNull": ["$tagIds", []]},
                 "as":    "t",
                 "in":    {"$mergeObjects": ["$$t", {"_id": {"$toString": "$$t._id"}}]}
             }
@@ -45,7 +65,7 @@ class CreateArticleBody(BaseModel):
     excerpt:        str            = ""
     content:        str            = ""
     coverImage:     str            = ""
-    categoryId:     str            # ObjectId as string
+    categoryId:     Optional[str]  = None
     tagIds:         list[str]      = []
     status:         str            = "draft"
     featured:       bool           = False
@@ -83,7 +103,6 @@ def to_object_ids(ids: list[str]) -> list[ObjectId]:
 
 
 async def fetch_article_by_id(article_id: str) -> dict:
-    """Fetch a single article with populated fields. Raises 404 if not found."""
     col = get_collection("articles")
     pipeline = [
         {"$match": {"_id": ObjectId(article_id)}},
@@ -93,7 +112,7 @@ async def fetch_article_by_id(article_id: str) -> dict:
     results = await col.aggregate(pipeline).to_list(length=1)
     if not results:
         raise HTTPException(status_code=404, detail="Article not found")
-    return results[0]
+    return sanitize(results[0])
 
 
 # ── GET /api/admin/articles ───────────────────────────────────────────────────
@@ -130,7 +149,7 @@ async def list_articles(
     articles = await col.aggregate(pipeline).to_list(length=limit)
     total    = await col.count_documents(match)
 
-    return {"articles": articles, "total": total, "page": page, "limit": limit}
+    return {"articles": sanitize(articles), "total": total, "page": page, "limit": limit}
 
 
 # ── GET /api/admin/articles/{id} ──────────────────────────────────────────────
@@ -161,7 +180,7 @@ async def create_article(body: CreateArticleBody, user: dict = Depends(require_a
         "excerpt":        body.excerpt,
         "content":        body.content,
         "coverImage":     body.coverImage,
-        "categoryId":     ObjectId(body.categoryId),
+        "categoryId":     ObjectId(body.categoryId) if body.categoryId else None,
         "tagIds":         to_object_ids(body.tagIds),
         "authorId":       ObjectId(user["userId"]),
         "status":         body.status,
@@ -182,7 +201,7 @@ async def create_article(body: CreateArticleBody, user: dict = Depends(require_a
     result  = await col.insert_one(doc)
 
     # Bump category article count if published
-    if body.status == "published":
+    if body.status == "published" and body.categoryId:
         await get_collection("categories").update_one(
             {"_id": ObjectId(body.categoryId)},
             {"$inc": {"articleCount": 1}}

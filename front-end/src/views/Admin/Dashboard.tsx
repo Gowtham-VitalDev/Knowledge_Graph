@@ -28,7 +28,7 @@ export default function Dashboard() {
     try {
       const updated = await togglePublish(id);
       setArticles((prev) =>
-        prev.map((a) => (a._id === id ? { ...a, status: updated.status } : a))
+        prev.map((a) => (a._id === id ? { ...a, status: (updated as any).status } : a))
       );
     } catch {
       alert("Failed to toggle status.");

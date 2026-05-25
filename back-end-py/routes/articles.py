@@ -4,74 +4,43 @@ from bson import ObjectId
 
 router = APIRouter()
 
-# ── PIPELINE HELPERS ──────────────────────────────────────────────────────────
-# Reusable aggregation stages that "populate" related documents.
-# $lookup = MongoDB's JOIN. $unwind = flatten a 1-item array into an object.
-# $addFields + $convert = turn ObjectId into a string for JSON serialisation.
+
+def sanitize(obj):
+    """Recursively convert ObjectId and other non-serialisable types to strings."""
+    if isinstance(obj, dict):
+        return {k: sanitize(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [sanitize(i) for i in obj]
+    if isinstance(obj, ObjectId):
+        return str(obj)
+    return obj
+
 
 LOOKUP_CATEGORY = [
-    {"$lookup": {
-        "from": "categories",
-        "localField": "categoryId",
-        "foreignField": "_id",
-        "as": "categoryId"
-    }},
+    {"$lookup": {"from": "categories", "localField": "categoryId", "foreignField": "_id", "as": "categoryId"}},
     {"$unwind": {"path": "$categoryId", "preserveNullAndEmptyArrays": True}},
 ]
 
 LOOKUP_AUTHOR = [
-    {"$lookup": {
-        "from": "users",
-        "localField": "authorId",
-        "foreignField": "_id",
-        "as": "authorId"
-    }},
+    {"$lookup": {"from": "users", "localField": "authorId", "foreignField": "_id", "as": "authorId"}},
     {"$unwind": {"path": "$authorId", "preserveNullAndEmptyArrays": True}},
 ]
 
 LOOKUP_TAGS = [
-    {"$lookup": {
-        "from": "tags",
-        "localField": "tagIds",
-        "foreignField": "_id",
-        "as": "tagIds"
-    }},
+    {"$lookup": {"from": "tags", "localField": "tagIds", "foreignField": "_id", "as": "tagIds"}},
 ]
 
-# Convert ObjectId fields to strings so they serialise to JSON cleanly
-STRINGIFY_IDS = [
-    {"$addFields": {
-        "_id":               {"$toString": "$_id"},
-        "categoryId._id":    {"$toString": "$categoryId._id"},
-        "authorId._id":      {"$toString": "$authorId._id"},
-        "tagIds": {
-            "$map": {
-                "input": "$tagIds",
-                "as": "t",
-                "in": {"$mergeObjects": ["$$t", {"_id": {"$toString": "$$t._id"}}]}
-            }
-        }
-    }},
-]
-
-
-# ── GET /api/articles ─────────────────────────────────────────────────────────
-# Query params: category (slug), page, limit
-# Returns: { data: [...], meta: { total, page, limit, totalPages } }
 
 @router.get("/articles")
 async def list_articles(
-    category: str = Query(None),   # optional filter by category slug
+    category: str = Query(None),
     page:     int = Query(1, ge=1),
     limit:    int = Query(10, ge=1, le=50),
 ):
     col = get_collection("articles")
     skip = (page - 1) * limit
-
-    # Build match stage — always filter published only for public route
     match: dict = {"status": "published"}
 
-    # If category slug provided, resolve it to an ObjectId first
     if category:
         cat = await get_collection("categories").find_one({"slug": category})
         if cat:
@@ -83,7 +52,6 @@ async def list_articles(
         *LOOKUP_CATEGORY,
         *LOOKUP_AUTHOR,
         *LOOKUP_TAGS,
-        *STRINGIFY_IDS,
         {"$skip": skip},
         {"$limit": limit},
     ]
@@ -92,18 +60,15 @@ async def list_articles(
     total    = await col.count_documents(match)
 
     return {
-        "data": articles,
+        "data": sanitize(articles),
         "meta": {
             "total":      total,
             "page":       page,
             "limit":      limit,
-            "totalPages": -(-total // limit),  # ceiling division
+            "totalPages": -(-total // limit),
         },
     }
 
-
-# ── GET /api/articles/{slug} ──────────────────────────────────────────────────
-# Returns: { data: article }
 
 @router.get("/articles/{slug}")
 async def get_article(slug: str):
@@ -114,7 +79,6 @@ async def get_article(slug: str):
         *LOOKUP_CATEGORY,
         *LOOKUP_AUTHOR,
         *LOOKUP_TAGS,
-        *STRINGIFY_IDS,
         {"$limit": 1},
     ]
 
@@ -123,9 +87,6 @@ async def get_article(slug: str):
     if not results:
         raise HTTPException(status_code=404, detail="Article not found")
 
-    article = results[0]
-
-    # Increment view count — fire and forget (don't await the result)
     col.update_one({"slug": slug}, {"$inc": {"views": 1}})
 
-    return {"data": article}
+    return {"data": sanitize(results[0])}

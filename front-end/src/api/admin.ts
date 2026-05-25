@@ -28,19 +28,22 @@ export interface ArticleBody {
 const cfg = { withCredentials: true };
 
 export const listAdminArticles = () =>
-  client.get<AdminArticle[]>("/api/admin/articles", cfg).then((r) => r.data);
+  client.get<{ articles: AdminArticle[] }>("/api/admin/articles", cfg).then((r) => r.data.articles);
 
 export const getAdminArticle = (id: string) =>
-  client.get<AdminArticle & { content: string }>(`/api/admin/articles/${id}`, cfg).then((r) => r.data);
+  client.get<{ article: AdminArticle & { content: string } }>(`/api/admin/articles/${id}`, cfg).then((r) => r.data.article);
+
+export const listCategories = () =>
+  client.get<{ data: { name: string; _id: string }[] }>("/api/categories", cfg).then((r) => r.data.data);
 
 export const createArticle = (body: ArticleBody) =>
-  client.post("/api/admin/articles", body, cfg).then((r) => r.data);
+  client.post<{ article: AdminArticle }>("/api/admin/articles", body, cfg).then((r) => r.data.article);
 
 export const updateArticle = (id: string, body: Partial<ArticleBody>) =>
-  client.put(`/api/admin/articles/${id}`, body, cfg).then((r) => r.data);
+  client.put<{ article: AdminArticle }>(`/api/admin/articles/${id}`, body, cfg).then((r) => r.data.article);
 
 export const togglePublish = (id: string) =>
-  client.patch(`/api/admin/articles/${id}/publish`, {}, cfg).then((r) => r.data);
+  client.patch<{ article: AdminArticle }>(`/api/admin/articles/${id}/publish`, {}, cfg).then((r) => r.data.article);
 
 export const deleteArticle = (id: string) =>
   client.delete(`/api/admin/articles/${id}`, cfg).then((r) => r.data);

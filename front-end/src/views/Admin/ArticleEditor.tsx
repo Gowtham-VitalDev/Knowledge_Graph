@@ -7,6 +7,7 @@ import {
   getAdminArticle,
   createArticle,
   updateArticle,
+  listCategories,
   type ArticleBody,
 } from "../../api/admin";
 import "./Admin.css";
@@ -17,6 +18,7 @@ const EMPTY: ArticleBody = {
   content: "",
   excerpt: "",
   status: "draft",
+  categoryId: "",
   coverImage: "",
   readTime: 5,
 };
@@ -36,22 +38,28 @@ export default function ArticleEditor() {
   const navigate    = useNavigate();
 
   const [form, setForm]       = useState<ArticleBody>(EMPTY);
+  const [categories, setCategories] = useState<{ name: string; _id: string }[]>([]);
   const [loading, setLoading] = useState(isEdit);
   const [saving, setSaving]   = useState(false);
   const [error, setError]     = useState("");
+
+  useEffect(() => {
+    listCategories().then(setCategories).catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (!isEdit || !id) return;
     getAdminArticle(id)
       .then((a) => {
         setForm({
-          title:     a.title ?? "",
-          slug:      a.slug  ?? "",
-          content:   (a as any).content ?? "",
-          excerpt:   (a as any).excerpt ?? "",
-          status:    a.status ?? "draft",
-          coverImage:(a as any).coverImage ?? "",
-          readTime:  a.readTime ?? 5,
+          title:      a.title ?? "",
+          slug:       a.slug  ?? "",
+          content:    (a as any).content ?? "",
+          excerpt:    (a as any).excerpt ?? "",
+          status:     a.status ?? "draft",
+          categoryId: (a as any).categoryId?._id ?? "",
+          coverImage: (a as any).coverImage ?? "",
+          readTime:   a.readTime ?? 5,
         });
       })
       .catch(() => setError("Failed to load article."))
@@ -160,6 +168,20 @@ export default function ArticleEditor() {
                 placeholder="article-slug"
                 required
               />
+            </div>
+
+            <div className="admin-field">
+              <label className="admin-field__label">Category</label>
+              <select
+                className="admin-select"
+                value={form.categoryId ?? ""}
+                onChange={(e) => set("categoryId", e.target.value)}
+              >
+                <option value="">— No category —</option>
+                {categories.map((c) => (
+                  <option key={c._id} value={c._id}>{c.name}</option>
+                ))}
+              </select>
             </div>
 
             <div className="admin-field">
