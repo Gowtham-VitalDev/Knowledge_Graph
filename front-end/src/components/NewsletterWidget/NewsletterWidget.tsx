@@ -1,9 +1,26 @@
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
+import client from "../../api/client";
 import "./NewsletterWidget.css";
 
 const NewsletterWidget = () => {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [email, setEmail]     = useState("");
+  const [status, setStatus]   = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!email.trim()) return;
+    setStatus("loading");
+    try {
+      const res = await client.post("/api/newsletter", { email });
+      setStatus("success");
+      setMessage(res.data.message ?? "You're subscribed.");
+      setEmail("");
+    } catch (err: any) {
+      const detail = err?.response?.data?.detail;
+      setStatus("error");
+      setMessage(detail ?? "Something went wrong. Try again.");
+    }
   };
 
   return (
@@ -18,17 +35,29 @@ const NewsletterWidget = () => {
       <p className="newsletter__desc">
         Get the most critical synthesis of the week's tech news injected directly into your inbox. No spam, pure signal.
       </p>
-      <form className="newsletter__form" onSubmit={handleSubmit}>
-        <input
-          type="email"
-          className="newsletter__input"
-          placeholder="Enter your comm-link (email)"
-          aria-label="Email address"
-        />
-        <button type="submit" className="newsletter__submit">
-          Initialize Link
-        </button>
-      </form>
+
+      {status === "success" ? (
+        <p className="newsletter__feedback newsletter__feedback--success">{message}</p>
+      ) : (
+        <form className="newsletter__form" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            className="newsletter__input"
+            placeholder="Enter your comm-link (email)"
+            aria-label="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            disabled={status === "loading"}
+          />
+          <button type="submit" className="newsletter__submit" disabled={status === "loading"}>
+            {status === "loading" ? "Linking..." : "Initialize Link"}
+          </button>
+          {status === "error" && (
+            <p className="newsletter__feedback newsletter__feedback--error">{message}</p>
+          )}
+        </form>
+      )}
     </section>
   );
 };

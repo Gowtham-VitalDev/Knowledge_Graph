@@ -31,6 +31,7 @@
   text-decoration: none;
   transition: color 0.15s ease, background 0.15s ease;
   line-height: 1;
+  cursor: pointer;
 }
 
 .topics__tag:hover {

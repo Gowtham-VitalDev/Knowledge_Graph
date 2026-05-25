@@ -50,6 +50,7 @@ from routes.categories       import router as categories_router
 from routes.tags             import router as tags_router
 from routes.trending         import router as trending_router
 from routes.auth             import router as auth_router
+from routes.newsletter       import router as newsletter_router
 from routes.admin.articles   import router as admin_articles_router
 
 app.include_router(articles_router,       prefix="/api")
@@ -57,4 +58,5 @@ app.include_router(categories_router,     prefix="/api")
 app.include_router(tags_router,           prefix="/api")
 app.include_router(trending_router,       prefix="/api")
 app.include_router(auth_router,           prefix="/api")
+app.include_router(newsletter_router,     prefix="/api")
 app.include_router(admin_articles_router, prefix="/api")

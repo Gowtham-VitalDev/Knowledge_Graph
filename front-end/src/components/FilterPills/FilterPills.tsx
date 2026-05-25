@@ -1,10 +1,12 @@
-import { useState } from "react";
 import { FILTER_PILLS } from "../../data/categories";
 import "./FilterPills.css";
 
-const FilterPills = () => {
-  const [active, setActive] = useState<string>("all");
+interface FilterPillsProps {
+  active: string;
+  onChange: (category: string) => void;
+}
 
+const FilterPills = ({ active, onChange }: FilterPillsProps) => {
   return (
     <div className="filter-pills-wrapper">
       <span className="filter-pills-label">
@@ -21,7 +23,7 @@ const FilterPills = () => {
             role="tab"
             aria-selected={active === pill.id}
             className={`filter-pill${active === pill.id ? " filter-pill--active" : ""}`}
-            onClick={() => setActive(pill.id)}
+            onClick={() => onChange(pill.id)}
           >
             {pill.label}
           </button>
