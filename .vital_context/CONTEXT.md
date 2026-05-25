@@ -54,7 +54,7 @@
 | task-20260525-002 | FastAPI public routes — articles, categories, tags, trending with MongoDB aggregation pipeline | V4-REQ-002 | done | Gowtham |
 | task-20260525-003 | FastAPI auth — JWT login/logout/me, passlib bcrypt, httpOnly cookie, Depends() middleware | V4-REQ-003 | done | Gowtham |
 | task-20260525-004 | FastAPI admin CRUD routes — router-level Depends(require_admin), create/update/delete/publish articles | V4-REQ-004 | done | Gowtham |
-| task-20260525-005 | Admin frontend — /admin/login, /admin dashboard, /admin/articles/new + edit (NeonScroll theme) | V4-REQ-005 | active | Gowtham |
+| task-20260525-005 | Admin frontend — /admin/login, /admin dashboard, /admin/articles/new + edit (NeonScroll theme) | V4-REQ-005 | done | Gowtham |
 
 ## Key Decisions
 

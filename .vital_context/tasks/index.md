@@ -4,7 +4,7 @@ All completed and active task logs, newest first.
 
 | ID | Title | Status | Date |
 |----|-------|--------|------|
-| task-20260525-005 | Admin frontend — /admin login, dashboard, article editor (NeonScroll theme) | active | 2026-05-25 |
+| task-20260525-005 | Admin frontend — /admin login, dashboard, article editor (NeonScroll theme) | done | 2026-05-25 |
 | task-20260525-004 | FastAPI admin CRUD routes — router-level protection, create/update/delete/publish | done | 2026-05-25 |
 | task-20260525-003 | FastAPI auth — JWT login/logout/me, passlib bcrypt, httpOnly cookie, Depends() | done | 2026-05-25 |
 | task-20260525-002 | FastAPI public routes — articles, categories, tags, trending (aggregation pipeline) | done | 2026-05-25 |
