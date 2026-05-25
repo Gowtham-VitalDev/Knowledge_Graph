@@ -15,7 +15,7 @@
 - **Stage:** Stage 4 — V3-Backend-Python (FastAPI backend + Admin Panel)
 - **Branch:** `V3-Backend-Python`
 - **Objective:** Replace Node/Express backend with Python + FastAPI. Build admin panel (login, article dashboard, article editor) using NeonScroll dark theme. Wire frontend to new Python API.
-- **Status:** In Progress — All 5 phases complete. Post-launch bugs fixed (ObjectId serialization, stale Express process, admin API shape mismatches). End-to-end admin flow working.
+- **Status:** Complete — All phases done. Python seed script written and tested. Stage 4 exit criteria met.
 - **Exit Criteria:** FastAPI serves all API routes; admin can log in, create/edit/publish/delete articles via the /admin UI; frontend feed + blog wired to Python API.
 
 ## Phases
@@ -26,7 +26,7 @@
 | 1 | Core Experience (MVP) | Page 1 Feed + Page 2 Blog View with outline panel and scroll spy | done |
 | 2 | NeonScroll V2 UX | Dark futuristic design system, light/dark toggle, article page rebuild, mobile responsive, Vercel deploy | done |
 | 3 | V2-MongoDB | MongoDB + Mongoose models, Express API routes, frontend axios wiring, rich article renderer, TOC toggle | done |
-| 4 | V3-Backend-Python | FastAPI backend, JWT auth, admin CRUD API, admin frontend (NeonScroll), frontend wired to Python API | in-progress |
+| 4 | V3-Backend-Python | FastAPI backend, JWT auth, admin CRUD API, admin frontend (NeonScroll), frontend wired to Python API | done |
 | 5 | Polish & Launch | Performance, SEO, search, backend deploy, telemetry | pending |
 
 ## Active Tasks

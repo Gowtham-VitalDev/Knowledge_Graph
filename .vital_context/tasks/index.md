@@ -4,6 +4,7 @@ All completed and active task logs, newest first.
 
 | ID | Title | Status | Date |
 |----|-------|--------|------|
+| task-20260525-007 | Python seed script — async Motor, passlib hashing, full dataset, idempotent | done | 2026-05-25 |
 | task-20260525-006 | Bugfix — ObjectId serialization crash + stale Express backend + admin API shape mismatches | done | 2026-05-25 |
 | task-20260525-005 | Admin frontend — /admin login, dashboard, article editor (NeonScroll theme) | done | 2026-05-25 |
 | task-20260525-004 | FastAPI admin CRUD routes — router-level protection, create/update/delete/publish | done | 2026-05-25 |
