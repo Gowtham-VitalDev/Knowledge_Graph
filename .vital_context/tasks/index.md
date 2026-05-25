@@ -4,6 +4,11 @@ All completed and active task logs, newest first.
 
 | ID | Title | Status | Date |
 |----|-------|--------|------|
+| task-20260525-005 | Admin frontend — /admin login, dashboard, article editor (NeonScroll theme) | active | 2026-05-25 |
+| task-20260525-004 | FastAPI admin CRUD routes — router-level protection, create/update/delete/publish | done | 2026-05-25 |
+| task-20260525-003 | FastAPI auth — JWT login/logout/me, passlib bcrypt, httpOnly cookie, Depends() | done | 2026-05-25 |
+| task-20260525-002 | FastAPI public routes — articles, categories, tags, trending (aggregation pipeline) | done | 2026-05-25 |
+| task-20260525-001 | Python FastAPI foundation — project structure, Motor DB, lifespan, CORS, health | done | 2026-05-25 |
 | task-20260523-002 | TOC collapsible toggle — chevron button, data-toc CSS grid transition, localStorage | done | 2026-05-23 |
 | task-20260523-001 | Desktop TOC sticky fix — move position:sticky to .blog-toc-desktop grid child | done | 2026-05-23 |
 | task-20260522-001 | Rich article renderer — images, MermaidBlock, YouTube embeds in react-markdown | done | 2026-05-22 |

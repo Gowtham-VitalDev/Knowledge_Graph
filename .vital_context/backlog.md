@@ -33,6 +33,7 @@
 | PB-023 | Define category accent colors | High | groomed | R-02 / `rules/design.md` §2.1. Blocker for Feed implementation polish. |
 | PB-024 | Source/license real article images | Med | idea | R-01. Placeholders OK for MVP development; replace before launch. |
 | PB-025 | CI pipeline (lint + build on PR) | Med | idea | Tee up before Stage 3 to catch regressions. |
+| PB-026 | Google Sign-In (OAuth) | Med | idea | Replace JWT email/password login with Google OAuth. Confirmed decision: JWT first, Google later. Drop-in — same JWT issued after OAuth callback. |
 
 ---
 

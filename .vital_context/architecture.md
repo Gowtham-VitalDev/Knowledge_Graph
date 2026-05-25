@@ -19,15 +19,16 @@
 | HTTP client | axios | ^1.15.2 | Installed; reserved for Stage 2 backend integration (unused in MVP) |
 | CSS post-processor | PostCSS + Autoprefixer | ^8.5.10 / ^10.5.0 | Tailwind dependency |
 | Linting | ESLint + typescript-eslint + eslint-plugin-react-hooks | ^9.39.4 / ^8.58.2 / ^7.1.1 | Standard TS+React lint stack |
-| Backend runtime | Node.js | n/a (latest LTS recommended) | Standard JS server runtime |
-| Backend framework | Express | ^5.2.1 | Lightweight, ubiquitous |
-| Backend language | TypeScript | ^6.0.3 | Match frontend |
-| Backend dev runner | nodemon + ts-node-dev | ^3.1.14 / ^2.0.0 | Hot reload during dev |
-| Backend env loading | dotenv | ^17.4.2 | Standard .env loader |
-| Backend CORS | cors | ^2.8.6 | Permit frontend origin in dev |
+| Backend language | Python | 3.11 | AI/ML ecosystem; async-native; replaces Node/Express |
+| Backend framework | FastAPI | latest | Async, Pydantic validation, auto Swagger docs, Depends() injection |
+| Backend server | Uvicorn | latest | ASGI server for FastAPI (equivalent to nodemon in dev with --reload) |
+| Backend DB driver | Motor | latest | Async MongoDB driver for Python; no ORM — raw aggregation pipeline |
+| Backend validation | Pydantic v2 | latest | Request/response models; auto-validates before handler runs |
+| Backend auth | python-jose + passlib | latest | JWT tokens + bcrypt; bcrypt==4.0.1 pinned for Node hash compatibility |
+| Backend env loading | python-dotenv | latest | Equivalent to dotenv in Node |
 | Database | MongoDB | ^7.x (local) | Document model fits article/tag/category shape; Atlas-ready for production |
-| ODM | Mongoose | ^8.x | Typed schemas, populate(), compound indexes, easy migration path |
-| Auth | TBD | — | Not in MVP scope |
+| Auth | JWT httpOnly cookie | — | 7-day expiry; same pattern as Node backend |
+| Node/Express backend | **Deprecated** | — | Replaced by Python/FastAPI in Stage 4 (back-end/ folder kept for reference) |
 | Hosting | TBD | — | Decide before Stage 4 |
 
 ---
@@ -225,25 +226,35 @@ User navigates to "/"
 
 ## API Endpoints
 
-### Implemented (Stage 3 — V2-MongoDB)
+### Implemented (Stage 4 — V3-Backend-Python, FastAPI)
 
-| Method | Route | Purpose | Notes |
-|--------|-------|---------|-------|
-| GET | `/api/articles` | List articles | query: `category`, `tag`, `limit`, `page`; populates author+category+tags |
-| GET | `/api/articles/:slug` | Get one article | populates author+category+tags; increments views (fire-and-forget) |
-| GET | `/api/trending` | Trending sidebar | finds latest weekStartDate; nested populate article→author+category |
-| GET | `/api/tags` | All tags | sorted by usageCount desc |
-| GET | `/api/categories` | All categories | sorted by articleCount desc |
-| POST | `/api/newsletter` | Subscribe email | email regex validation, re-subscribe logic, 400 on invalid |
+All routes served by `back-end-py/` running on port 5000.
 
-### Planned (Stage 4+)
+| Method | Route | Purpose | Auth |
+|--------|-------|---------|------|
+| GET | `/health` | Health check | No |
+| GET | `/api/articles` | List published articles | No |
+| GET | `/api/articles/{slug}` | Get one article + increment views | No |
+| GET | `/api/trending` | Trending sidebar (latest week) | No |
+| GET | `/api/tags` | All tags sorted by usageCount | No |
+| GET | `/api/categories` | All categories sorted by articleCount | No |
+| POST | `/api/auth/login` | Login — issues JWT httpOnly cookie | No |
+| POST | `/api/auth/logout` | Clear cookie | No |
+| GET | `/api/auth/me` | Current user from JWT | Yes |
+| GET | `/api/admin/articles` | List all articles (all statuses) | Admin |
+| GET | `/api/admin/articles/{id}` | Get one article by _id for editor | Admin |
+| POST | `/api/admin/articles` | Create article | Admin |
+| PUT | `/api/admin/articles/{id}` | Update article | Admin |
+| PATCH | `/api/admin/articles/{id}/publish` | Toggle draft ↔ published | Admin |
+| DELETE | `/api/admin/articles/{id}` | Delete article | Admin |
 
-| Method | Route | Purpose |
-|--------|-------|---------|
-| POST | `/api/auth/sign-in` | Sign in |
-| POST | `/api/auth/sign-up` | Sign up |
-| POST | `/api/bookmarks` | Bookmark an article (auth required) |
-| GET | `/api/bookmarks` | List user bookmarks (auth required) |
+### Key FastAPI patterns used
+
+- `Depends()` — dependency injection for auth (replaces Express middleware)
+- `APIRouter(dependencies=[Depends(require_admin)])` — router-level protection
+- `Cookie(None)` — reads httpOnly cookie as a typed parameter
+- MongoDB aggregation pipeline (`$lookup`, `$unwind`, `$addFields`) — replaces Mongoose populate()
+- `$toString` in `$addFields` — converts ObjectId to string for JSON serialisation
 
 ---
 

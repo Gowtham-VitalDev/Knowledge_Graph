@@ -66,35 +66,50 @@ Knowledge_Graph/
 │               ├── BlogView.tsx
 │               └── BlogView.css
 │
-└── back-end/                   # Express 5 + TS + MongoDB
-    ├── package.json
-    ├── tsconfig.json           # includes "types": ["node"]
-    ├── .env                    # MONGO_URI, PORT
-    └── src/
-        ├── index.ts            # Express bootstrap; imports models/ before routes
-        ├── db.ts               # connectDB() with 5-retry, 3s delay
-        ├── models/
-        │   ├── index.ts        # re-exports all models (prevents MissingSchemaError)
-        │   ├── Article.ts
-        │   ├── Category.ts
-        │   ├── Tag.ts
-        │   ├── User.ts
-        │   ├── TrendingRanking.ts
-        │   ├── NewsletterSubscriber.ts
-        │   └── SiteSettings.ts
-        ├── routes/
-        │   ├── articles.ts
-        │   ├── trending.ts
-        │   ├── tags.ts
-        │   ├── categories.ts
-        │   └── newsletter.ts
-        └── scripts/
-            └── seed.ts         # clears + inserts all collections
+├── back-end/                   # DEPRECATED — Node/Express (kept for reference)
+│
+└── back-end-py/                # ACTIVE — Python 3.11 + FastAPI + Motor
+    ├── venv/                   # virtual environment (never commit)
+    ├── .env                    # MONGO_URI, JWT_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD
+    ├── .gitignore
+    ├── requirements.txt        # pip dependencies
+    ├── main.py                 # FastAPI app — lifespan, CORS, router mounts
+    ├── database.py             # Motor client, connect_db(), get_collection()
+    ├── middleware/
+    │   └── auth.py             # get_current_user(), require_admin() as Depends()
+    ├── models/
+    │   └── article.py          # Pydantic response models
+    ├── routes/
+    │   ├── articles.py         # GET /api/articles, GET /api/articles/{slug}
+    │   ├── categories.py       # GET /api/categories
+    │   ├── tags.py             # GET /api/tags
+    │   ├── trending.py         # GET /api/trending
+    │   ├── auth.py             # POST /api/auth/login, logout, GET /api/auth/me
+    │   └── admin/
+    │       └── articles.py     # All /api/admin/articles routes (protected)
+    └── scripts/
+        └── seed.py             # Python seed script (Phase 6)
 ```
 
 ---
 
 ## Common Commands
+
+```bash
+# === Frontend (run from /front-end) ===
+npm install                  # install deps (first time)
+npm run dev                  # Vite dev server (default http://localhost:5173)
+```
+
+```powershell
+# === Python Backend (run from /back-end-py) ===
+python -m venv venv                        # create virtual environment (first time)
+venv\Scripts\Activate.ps1                  # activate venv (Windows PowerShell)
+pip install -r requirements.txt            # install deps (first time or after changes)
+uvicorn main:app --reload --port 5000      # dev server with hot reload
+# API docs auto-generated at: http://127.0.0.1:5000/docs
+# Admin credentials: ADMIN_EMAIL / ADMIN_PASSWORD from .env
+```
 
 ```bash
 # === Frontend (run from /front-end) ===
@@ -131,8 +146,13 @@ npx ts-node src/scripts/seed.ts   # seed MongoDB (clears + inserts all collectio
 
 | Variable | Where | Purpose | Example | Required? |
 |----------|-------|---------|---------|-----------|
-| `MONGO_URI` | `back-end/.env` | MongoDB connection string | `mongodb://127.0.0.1:27017/knowledgegraph` | Yes |
-| `PORT` | `back-end/.env` | Express listen port | `5000` | No (defaults to 5000) |
+| `MONGO_URI` | `back-end-py/.env` | MongoDB connection string | `mongodb://127.0.0.1:27017/knowledgegraph` | Yes |
+| `DB_NAME` | `back-end-py/.env` | MongoDB database name | `knowledgegraph` | Yes |
+| `JWT_SECRET` | `back-end-py/.env` | JWT signing secret | `change_me_before_use` | Yes |
+| `JWT_EXPIRES_DAYS` | `back-end-py/.env` | JWT cookie expiry in days | `7` | No (default 7) |
+| `CLIENT_ORIGIN` | `back-end-py/.env` | CORS allowed origin | `http://localhost:5173` | No |
+| `ADMIN_EMAIL` | `back-end-py/.env` | Admin login email | `admin@knowledgegraph.io` | Yes |
+| `ADMIN_PASSWORD` | `back-end-py/.env` | Admin login password | `Admin@1234` | Yes |
 | `VITE_API_URL` | `front-end/.env` | Backend base URL for axios | `http://127.0.0.1:5000` | No (defaults to http://localhost:5000) |
 
 > Keep `.env` files out of git. IMPORTANT: use `127.0.0.1` not `localhost` in MONGO_URI on Windows.

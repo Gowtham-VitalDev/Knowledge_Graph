@@ -8,15 +8,15 @@
 
 - **Name:** KnowledgeGraph
 - **Description:** Tech news + articles platform delivering structured Markdown content with an interactive outline panel, optimized for both human readability and AI-friendly consumption.
-- **Stack:** React 19 + TypeScript + Vite + Tailwind CSS v4 (frontend) · Node.js + Express 5 + TypeScript + MongoDB + Mongoose (backend)
+- **Stack:** React 19 + TypeScript + Vite + Tailwind CSS v4 (frontend) · Python 3.11 + FastAPI + Motor + MongoDB (backend — active) · Node.js + Express 5 backend deprecated in favour of Python
 
 ## Current Stage
 
-- **Stage:** Stage 3 — V2-MongoDB (Live Backend Integration)
-- **Branch:** `V2-MongoDB`
-- **Objective:** Replace hardcoded frontend data with a real MongoDB backend. Express 5 REST API with Mongoose models, seed data, and axios-powered frontend data fetching. Rich article renderer: images, Mermaid diagrams, YouTube embeds. Collapsible sticky TOC on desktop.
-- **Status:** Done — All Phase A–E complete. API live. Frontend wired. Seed data loaded. Rich renderer working. TOC toggle with localStorage persistence.
-- **Exit Criteria:** Frontend fetches articles/trending/tags from Express+MongoDB API; BlogView renders markdown with images, Mermaid, and YouTube; desktop TOC is sticky and collapsible; all API routes return correct data.
+- **Stage:** Stage 4 — V3-Backend-Python (FastAPI backend + Admin Panel)
+- **Branch:** `V3-Backend-Python`
+- **Objective:** Replace Node/Express backend with Python + FastAPI. Build admin panel (login, article dashboard, article editor) using NeonScroll dark theme. Wire frontend to new Python API.
+- **Status:** In Progress — Phases 1–4 complete (FastAPI foundation, public routes, auth, admin CRUD). Phase 5 (admin frontend) starting next.
+- **Exit Criteria:** FastAPI serves all API routes; admin can log in, create/edit/publish/delete articles via the /admin UI; frontend feed + blog wired to Python API.
 
 ## Phases
 
@@ -26,8 +26,8 @@
 | 1 | Core Experience (MVP) | Page 1 Feed + Page 2 Blog View with outline panel and scroll spy | done |
 | 2 | NeonScroll V2 UX | Dark futuristic design system, light/dark toggle, article page rebuild, mobile responsive, Vercel deploy | done |
 | 3 | V2-MongoDB | MongoDB + Mongoose models, Express API routes, frontend axios wiring, rich article renderer, TOC toggle | done |
-| 4 | Polish & Hardening | Performance, accessibility audit, SEO, search, auth/sign-in | pending |
-| 5 | Launch | Backend deploy, telemetry, post-launch iteration | pending |
+| 4 | V3-Backend-Python | FastAPI backend, JWT auth, admin CRUD API, admin frontend (NeonScroll), frontend wired to Python API | in-progress |
+| 5 | Polish & Launch | Performance, SEO, search, backend deploy, telemetry | pending |
 
 ## Active Tasks
 
@@ -50,6 +50,11 @@
 | task-20260522-001 | Rich article renderer — images, Mermaid diagrams (MermaidBlock component), YouTube embeds via react-markdown custom components | V3-REQ-006 | done | Gowtham |
 | task-20260523-001 | Desktop TOC sticky fix — move position:sticky to grid wrapper (.blog-toc-desktop), fix CSS grid child constraint | V3-REQ-007 | done | Gowtham |
 | task-20260523-002 | TOC collapsible toggle — chevron button, data-toc CSS grid transition, localStorage persistence (kg-toc-open) | V3-REQ-008 | done | Gowtham |
+| task-20260525-001 | Python FastAPI foundation — project structure, Motor DB connection, lifespan, CORS, health check | V4-REQ-001 | done | Gowtham |
+| task-20260525-002 | FastAPI public routes — articles, categories, tags, trending with MongoDB aggregation pipeline | V4-REQ-002 | done | Gowtham |
+| task-20260525-003 | FastAPI auth — JWT login/logout/me, passlib bcrypt, httpOnly cookie, Depends() middleware | V4-REQ-003 | done | Gowtham |
+| task-20260525-004 | FastAPI admin CRUD routes — router-level Depends(require_admin), create/update/delete/publish articles | V4-REQ-004 | done | Gowtham |
+| task-20260525-005 | Admin frontend — /admin/login, /admin dashboard, /admin/articles/new + edit (NeonScroll theme) | V4-REQ-005 | active | Gowtham |
 
 ## Key Decisions
 
@@ -75,6 +80,11 @@
 | 18 | Mermaid rendering | MermaidBlock component; mermaid.render() in useEffect with useId() | Stable SVG IDs; dark theme initialized once; error fallback to pre block |
 | 19 | YouTube embeds | Bare URL detection regex in react-markdown `a` component | Only embed when link text === href (autolinked URL); avoids embedding named links |
 | 20 | TOC collapse | CSS `data-toc` attribute on grid container drives column width + panel opacity | Single source of truth; CSS grid transitions between `minmax(0,1fr) 220px` and `minmax(0,1fr) 32px` |
+| 21 | Backend language switch | Python 3.11 + FastAPI replacing Node/Express | AI/ML library ecosystem; async-native; FastAPI auto-docs; Pydantic validation |
+| 22 | Async MongoDB driver | Motor (not Mongoose) | Motor is async-native for Python; aggregation pipeline replaces Mongoose populate() |
+| 23 | FastAPI auth pattern | Depends() dependency injection | Cleaner than Express middleware; chainable; return value injected into handler |
+| 24 | bcrypt compatibility | bcrypt==4.0.1 pinned | Newer bcrypt strict mode breaks verification of hashes created by Node's bcryptjs |
+| 25 | Admin UI theme | NeonScroll dark (same as public site) | Consistent design system; admin is a section of the same React app at /admin |
 
 Full decision log with alternatives in [architecture.md](architecture.md).
 
