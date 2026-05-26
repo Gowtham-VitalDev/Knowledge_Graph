@@ -191,7 +191,7 @@ const BlogView = () => {
         <div className="blog-progress__fill" style={{ width: `${progress}%` }} />
       </div>
 
-      <BlogNavbar breadcrumb={article.breadcrumb} />
+      <BlogNavbar breadcrumb={article.breadcrumb} articleId={article.id} />
 
       <div className="blog-layout" data-toc={tocOpen ? "open" : "closed"}>
         {/* Left / main column */}

@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
+import { useUserAuth } from "../../contexts/UserAuthContext";
+import { GoogleLogin } from "@react-oauth/google";
 import "./Navbar.css";
 
 const SunIcon = () => (
@@ -17,6 +19,7 @@ const MoonIcon = () => (
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
+  const { user, loading, loginWithGoogle, logout } = useUserAuth();
 
   return (
     <nav className="navbar">
@@ -31,7 +34,7 @@ const Navbar = () => {
         <ul className="navbar__links">
           <li><Link to="/">Feed</Link></li>
           <li><a href="#">Topics</a></li>
-          <li><a href="#">Bookmarks</a></li>
+          <li><Link to="/bookmarks">Bookmarks</Link></li>
         </ul>
 
         <div className="navbar__actions">
@@ -48,10 +51,39 @@ const Navbar = () => {
           >
             {theme === "dark" ? <SunIcon /> : <MoonIcon />}
           </button>
-          <div className="navbar__avatar" aria-hidden="true">
-            <img src="https://i.pravatar.cc/64?u=neonscroll-user" alt="" />
-          </div>
-          <button type="button" className="navbar__cta">Subscribe</button>
+
+          {!loading && (
+            user ? (
+              <>
+                <button
+                  type="button"
+                  className="navbar__avatar navbar__avatar--btn"
+                  title={user.fullName}
+                  onClick={logout}
+                >
+                  {user.avatarUrl ? (
+                    <img src={user.avatarUrl} alt={user.fullName} referrerPolicy="no-referrer" />
+                  ) : (
+                    <span className="navbar__avatar-initials">
+                      {user.fullName.charAt(0).toUpperCase()}
+                    </span>
+                  )}
+                </button>
+              </>
+            ) : (
+              <div className="navbar__google-btn">
+                <GoogleLogin
+                  onSuccess={(cred) => {
+                    if (cred.credential) loginWithGoogle(cred.credential);
+                  }}
+                  onError={() => console.error("Google Sign-In failed")}
+                  size="medium"
+                  shape="pill"
+                  text="signin"
+                />
+              </div>
+            )
+          )}
         </div>
       </div>
     </nav>

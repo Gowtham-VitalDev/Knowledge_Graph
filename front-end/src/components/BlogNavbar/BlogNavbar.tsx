@@ -1,13 +1,27 @@
 import { Link } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
+import { useUserAuth } from "../../contexts/UserAuthContext";
 import "./BlogNavbar.css";
 
 interface BlogNavbarProps {
   breadcrumb: string[];
+  articleId?: string;
 }
 
-const BlogNavbar = ({ breadcrumb }: BlogNavbarProps) => {
+const BlogNavbar = ({ breadcrumb, articleId }: BlogNavbarProps) => {
   const { theme, toggleTheme } = useTheme();
+  const { user, isBookmarked, addBookmark, removeBookmark } = useUserAuth();
+
+  const bookmarked = articleId ? isBookmarked(articleId) : false;
+
+  const handleBookmark = async () => {
+    if (!user || !articleId) return;
+    if (bookmarked) {
+      await removeBookmark(articleId);
+    } else {
+      await addBookmark(articleId);
+    }
+  };
 
   return (
     <header className="blog-navbar">
@@ -57,11 +71,26 @@ const BlogNavbar = ({ breadcrumb }: BlogNavbarProps) => {
             </svg>
             Share
           </button>
-          <button type="button" className="blog-navbar__action" aria-label="Bookmark">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round">
+          <button
+            type="button"
+            className={`blog-navbar__action${bookmarked ? " blog-navbar__action--active" : ""}`}
+            aria-label={bookmarked ? "Remove bookmark" : "Bookmark"}
+            onClick={handleBookmark}
+            disabled={!user}
+            title={!user ? "Sign in to bookmark" : undefined}
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill={bookmarked ? "currentColor" : "none"}
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinejoin="round"
+            >
               <path d="M6 4h12v17l-6-4-6 4V4Z"/>
             </svg>
-            Bookmark
+            {bookmarked ? "Saved" : "Bookmark"}
           </button>
         </div>
       </div>

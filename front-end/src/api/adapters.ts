@@ -5,6 +5,7 @@ import type { TrendingItem } from "../types/article";
 
 export function adaptArticle(a: ApiArticle): Article {
   return {
+    id:              a._id,
     slug:            a.slug,
     title:           a.title,
     excerpt:         a.excerpt,
