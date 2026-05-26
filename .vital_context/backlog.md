@@ -8,10 +8,10 @@
 
 | ID | Title | Priority | Status | Notes |
 |----|-------|----------|--------|-------|
-| PB-001 | Live search wired to backend | High | groomed | Maps to V2-REQ-005. Search icon is UI-only in MVP. |
-| PB-002 | Auth / sign-in flow | High | groomed | V2-REQ-006. Sign in + Get started CTAs are UI-only in MVP. |
-| PB-003 | Newsletter backend integration | Med | groomed | V2-REQ-007. Form is no-op in MVP. |
-| PB-004 | Persistent bookmarks | Med | idea | V2-REQ-008. Bookmark icon is UI-only in MVP. Needs auth (PB-002). |
+| PB-001 | Live search wired to backend | High | **done** | Implemented 2026-05-26. ?q= regex on title+excerpt. SearchModal with debounce. |
+| PB-002 | Auth / sign-in flow | High | **done** | Implemented 2026-05-26. Google OAuth, /login page, RequireAuth guard, /profile page. |
+| PB-003 | Newsletter backend integration | Med | **done** | Implemented 2026-05-26. POST /api/newsletter, EmailStr validation, duplicate handling. |
+| PB-004 | Persistent bookmarks | Med | **done** | Implemented 2026-05-26. GET/POST/DELETE /api/user/bookmarks, stored in MongoDB. |
 | PB-005 | Article authoring / Markdown ingest pipeline | Med | idea | V2-REQ-009. How do articles enter the system? Likely an admin tool or git-based content pipeline. |
 | PB-006 | Full code-block syntax highlighting (Shiki / Prism) | Med | groomed | V2-REQ-010 / LIM-004. Decide between server-rendered (Shiki) and client (Prism). Shiki is heavier but better tokens. |
 | PB-007 | Mobile / responsive layout pass | High | idea | V3-REQ-001. BlogView already has some breakpoints; Feed will need full responsive design. |
@@ -33,7 +33,7 @@
 | PB-023 | Define category accent colors | High | groomed | R-02 / `rules/design.md` §2.1. Blocker for Feed implementation polish. |
 | PB-024 | Source/license real article images | Med | idea | R-01. Placeholders OK for MVP development; replace before launch. |
 | PB-025 | CI pipeline (lint + build on PR) | Med | idea | Tee up before Stage 3 to catch regressions. |
-| PB-026 | Google Sign-In (OAuth) | Med | idea | Replace JWT email/password login with Google OAuth. Confirmed decision: JWT first, Google later. Drop-in — same JWT issued after OAuth callback. |
+| PB-026 | Google Sign-In (OAuth) | Med | **done** | Implemented 2026-05-26. google-auth backend verification, UserAuthContext, @react-oauth/google. |
 
 ---
 

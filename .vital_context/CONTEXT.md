@@ -12,11 +12,11 @@
 
 ## Current Stage
 
-- **Stage:** Stage 4 — V3-Backend-Python (FastAPI backend + Admin Panel)
-- **Branch:** `V3-Backend-Python`
-- **Objective:** Replace Node/Express backend with Python + FastAPI. Build admin panel (login, article dashboard, article editor) using NeonScroll dark theme. Wire frontend to new Python API.
-- **Status:** Complete — All phases done. Python seed script written and tested. Stage 4 exit criteria met.
-- **Exit Criteria:** FastAPI serves all API routes; admin can log in, create/edit/publish/delete articles via the /admin UI; frontend feed + blog wired to Python API.
+- **Stage:** Stage 5 — Polish & Launch
+- **Branch:** `frontend-backend-fastapi-sync`
+- **Objective:** Harden and complete the user-facing application — search, auth flow, user profiles, topics, SEO, then backend deployment.
+- **Status:** Active — core polish features done. Backend deployment pending.
+- **Exit Criteria:** All dummy/non-functional elements removed; search live; auth flow clean; backend deployed publicly.
 
 ## Phases
 
@@ -27,7 +27,7 @@
 | 2 | NeonScroll V2 UX | Dark futuristic design system, light/dark toggle, article page rebuild, mobile responsive, Vercel deploy | done |
 | 3 | V2-MongoDB | MongoDB + Mongoose models, Express API routes, frontend axios wiring, rich article renderer, TOC toggle | done |
 | 4 | V3-Backend-Python | FastAPI backend, JWT auth, admin CRUD API, admin frontend (NeonScroll), frontend wired to Python API | done |
-| 5 | Polish & Launch | Performance, SEO, search, backend deploy, telemetry | pending |
+| 5 | Polish & Launch | Search, auth flow, user profile, topics page, SEO, backend deploy | active |
 
 ## Active Tasks
 
@@ -55,6 +55,11 @@
 | task-20260525-003 | FastAPI auth — JWT login/logout/me, passlib bcrypt, httpOnly cookie, Depends() middleware | V4-REQ-003 | done | Gowtham |
 | task-20260525-004 | FastAPI admin CRUD routes — router-level Depends(require_admin), create/update/delete/publish articles | V4-REQ-004 | done | Gowtham |
 | task-20260525-005 | Admin frontend — /admin/login, /admin dashboard, /admin/articles/new + edit (NeonScroll theme) | V4-REQ-005 | done | Gowtham |
+| task-20260526-001 | Tier 1 — category filter (URL-based), load more, topic cloud nav, newsletter form wired | PB-001, PB-003 | done | Gowtham |
+| task-20260526-002 | Google Sign-In (OAuth) + persistent user bookmarks (GET/POST/DELETE /api/user/bookmarks) | PB-002, PB-004, PB-026 | done | Gowtham |
+| task-20260526-003 | User profile page (/profile) — avatar, bookmark count, sign-out | PB-002 | done | Gowtham |
+| task-20260526-004 | Search (?q= on articles API), Topics page (/topics), SEO usePageMeta hook | PB-001, PB-009 | done | Gowtham |
+| task-20260526-005 | Dedicated /login page + RequireAuth guard — clean auth flow, navbar Sign in CTA | PB-002 | done | Gowtham |
 
 ## Key Decisions
 
@@ -86,6 +91,10 @@
 | 24 | bcrypt compatibility | bcrypt==4.0.1 pinned | Newer bcrypt strict mode breaks verification of hashes created by Node's bcryptjs |
 | 25 | Admin UI theme | NeonScroll dark (same as public site) | Consistent design system; admin is a section of the same React app at /admin |
 | 26 | ObjectId serialization | Python `sanitize()` recursive converter | MongoDB-side `$toString` in `$addFields` dot-notation doesn't update nested fields; Python-side recursive walk is simpler and bulletproof |
+| 27 | Google OAuth pattern | ID token flow — frontend gets credential, backend verifies with google-auth | No redirect OAuth dance; @react-oauth/google returns a signed JWT credential directly; backend calls id_token.verify_oauth2_token() |
+| 28 | Auth flow UX | Dedicated /login page + RequireAuth guard | Embedded Google button in navbar was visually noisy and non-standard; /login page with return-path state matches Medium/Substack pattern |
+| 29 | Search implementation | Backend regex ?q= on title+excerpt; frontend SearchModal with 300ms debounce | Simple regex sufficient for current article volume; replace with MongoDB Atlas Search or full-text index at scale |
+| 30 | usePageMeta hook | Vanilla document.title + meta tag manipulation; no library | react-helmet adds ~7kb for trivial benefit at current scale; hook is 20 lines and covers title, description, og:title, og:description |
 
 Full decision log with alternatives in [architecture.md](architecture.md).
 

@@ -4,6 +4,11 @@ All completed and active task logs, newest first.
 
 | ID | Title | Status | Date |
 |----|-------|--------|------|
+| task-20260526-005 | Dedicated /login page + RequireAuth guard — clean auth flow | done | 2026-05-26 |
+| task-20260526-004 | Search (live ?q=), Topics page (/topics), SEO usePageMeta hook | done | 2026-05-26 |
+| task-20260526-003 | User profile page (/profile) — avatar, bookmark count, sign-out | done | 2026-05-26 |
+| task-20260526-002 | Google Sign-In (OAuth) + persistent user bookmarks | done | 2026-05-26 |
+| task-20260526-001 | Tier 1 frontend quick wins — category filter, load more, topic cloud, newsletter | done | 2026-05-26 |
 | task-20260525-007 | Python seed script — async Motor, passlib hashing, full dataset, idempotent | done | 2026-05-25 |
 | task-20260525-006 | Bugfix — ObjectId serialization crash + stale Express backend + admin API shape mismatches | done | 2026-05-25 |
 | task-20260525-005 | Admin frontend — /admin login, dashboard, article editor (NeonScroll theme) | done | 2026-05-25 |
