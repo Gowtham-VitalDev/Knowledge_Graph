@@ -34,6 +34,7 @@ LOOKUP_TAGS = [
 @router.get("/articles")
 async def list_articles(
     category: str = Query(None),
+    q:        str = Query(None),
     page:     int = Query(1, ge=1),
     limit:    int = Query(10, ge=1, le=50),
 ):
@@ -45,6 +46,12 @@ async def list_articles(
         cat = await get_collection("categories").find_one({"slug": category})
         if cat:
             match["categoryId"] = cat["_id"]
+
+    if q and q.strip():
+        match["$or"] = [
+            {"title":   {"$regex": q.strip(), "$options": "i"}},
+            {"excerpt": {"$regex": q.strip(), "$options": "i"}},
+        ]
 
     pipeline = [
         {"$match": match},

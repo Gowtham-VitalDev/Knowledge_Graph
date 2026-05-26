@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
+import { usePageMeta } from "../../hooks/usePageMeta";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import { useUserAuth } from "../../contexts/UserAuthContext";
 import "./ProfileView.css";
 
 const ProfileView = () => {
+  usePageMeta("Profile");
   const { user, loading, bookmarks, logout } = useUserAuth();
   const navigate = useNavigate();
 

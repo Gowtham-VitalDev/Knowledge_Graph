@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { usePageMeta } from "../../hooks/usePageMeta";
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -100,6 +101,7 @@ const BlogView = () => {
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  usePageMeta(article?.title ?? "Article", article?.excerpt);
 
   useEffect(() => {
     if (!slug) return;

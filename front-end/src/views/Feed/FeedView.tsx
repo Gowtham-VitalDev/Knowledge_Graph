@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
+import { usePageMeta } from "../../hooks/usePageMeta";
 import Navbar from "../../components/Navbar/Navbar";
 import FilterPills from "../../components/FilterPills/FilterPills";
 import FeaturedArticleCard from "../../components/FeaturedArticleCard/FeaturedArticleCard";
@@ -20,6 +21,7 @@ const PAGE_SIZE = 10;
 const FeedView = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCategory = searchParams.get("category") ?? "all";
+  usePageMeta("Feed", "The latest tech news, research and engineering articles — curated for builders.");
 
   const [hero, setHero]       = useState<Article | null>(null);
   const [list, setList]       = useState<Article[]>([]);

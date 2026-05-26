@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { useUserAuth } from "../../contexts/UserAuthContext";
 import { GoogleLogin } from "@react-oauth/google";
+import SearchModal from "../SearchModal/SearchModal";
 import "./Navbar.css";
 
 const SunIcon = () => (
@@ -21,41 +23,47 @@ const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const { user, loading, loginWithGoogle } = useUserAuth();
   const navigate = useNavigate();
+  const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <nav className="navbar">
-      <div className="navbar__inner">
-        <Link to="/" className="navbar__logo">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-          </svg>
-          NeonScroll
-        </Link>
-
-        <ul className="navbar__links">
-          <li><Link to="/">Feed</Link></li>
-          <li><a href="#">Topics</a></li>
-          <li><Link to="/bookmarks">Bookmarks</Link></li>
-        </ul>
-
-        <div className="navbar__actions">
-          <button type="button" className="navbar__icon-btn" aria-label="Search">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    <>
+      <nav className="navbar">
+        <div className="navbar__inner">
+          <Link to="/" className="navbar__logo">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
             </svg>
-          </button>
-          <button
-            type="button"
-            className="navbar__icon-btn"
-            onClick={toggleTheme}
-            aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
-          >
-            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-          </button>
+            NeonScroll
+          </Link>
 
-          {!loading && (
-            user ? (
-              <>
+          <ul className="navbar__links">
+            <li><Link to="/">Feed</Link></li>
+            <li><Link to="/topics">Topics</Link></li>
+            <li><Link to="/bookmarks">Bookmarks</Link></li>
+          </ul>
+
+          <div className="navbar__actions">
+            <button
+              type="button"
+              className="navbar__icon-btn"
+              aria-label="Search"
+              onClick={() => setSearchOpen(true)}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+              </svg>
+            </button>
+            <button
+              type="button"
+              className="navbar__icon-btn"
+              onClick={toggleTheme}
+              aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+            >
+              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+            </button>
+
+            {!loading && (
+              user ? (
                 <button
                   type="button"
                   className="navbar__avatar navbar__avatar--btn"
@@ -70,24 +78,26 @@ const Navbar = () => {
                     </span>
                   )}
                 </button>
-              </>
-            ) : (
-              <div className="navbar__google-btn">
-                <GoogleLogin
-                  onSuccess={(cred) => {
-                    if (cred.credential) loginWithGoogle(cred.credential);
-                  }}
-                  onError={() => console.error("Google Sign-In failed")}
-                  size="medium"
-                  shape="pill"
-                  text="signin"
-                />
-              </div>
-            )
-          )}
+              ) : (
+                <div className="navbar__google-btn">
+                  <GoogleLogin
+                    onSuccess={(cred) => {
+                      if (cred.credential) loginWithGoogle(cred.credential);
+                    }}
+                    onError={() => console.error("Google Sign-In failed")}
+                    size="medium"
+                    shape="pill"
+                    text="signin"
+                  />
+                </div>
+              )
+            )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
+    </>
   );
 };
 

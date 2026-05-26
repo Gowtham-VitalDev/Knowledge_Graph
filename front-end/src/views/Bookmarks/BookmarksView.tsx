@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { usePageMeta } from "../../hooks/usePageMeta";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
@@ -9,6 +10,7 @@ import type { Article } from "../../types/article";
 import "./BookmarksView.css";
 
 const BookmarksView = () => {
+  usePageMeta("Bookmarks", "Your saved articles on NeonScroll.");
   const { user, loading: authLoading } = useUserAuth();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading]   = useState(true);

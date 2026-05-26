@@ -52,6 +52,7 @@ export interface ArticlesMeta {
 
 export async function fetchArticles(params?: {
   category?: string;
+  q?: string;
   page?: number;
   limit?: number;
 }): Promise<{ data: ApiArticle[]; meta: ArticlesMeta }> {
