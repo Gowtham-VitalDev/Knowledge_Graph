@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { useUserAuth } from "../../contexts/UserAuthContext";
-import { GoogleLogin } from "@react-oauth/google";
 import SearchModal from "../SearchModal/SearchModal";
 import "./Navbar.css";
 
@@ -21,7 +20,7 @@ const MoonIcon = () => (
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
-  const { user, loading, loginWithGoogle } = useUserAuth();
+  const { user, loading } = useUserAuth();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -79,17 +78,7 @@ const Navbar = () => {
                   )}
                 </button>
               ) : (
-                <div className="navbar__google-btn">
-                  <GoogleLogin
-                    onSuccess={(cred) => {
-                      if (cred.credential) loginWithGoogle(cred.credential);
-                    }}
-                    onError={() => console.error("Google Sign-In failed")}
-                    size="medium"
-                    shape="pill"
-                    text="signin"
-                  />
-                </div>
+                <Link to="/login" className="navbar__cta">Sign in</Link>
               )
             )}
           </div>
