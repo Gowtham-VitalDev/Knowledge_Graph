@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import FeedView from "./views/Feed/FeedView";
 import BlogView from "./views/Blog/BlogView";
 import BookmarksView from "./views/Bookmarks/BookmarksView";
+import ProfileView from "./views/Profile/ProfileView";
 import LoginPage from "./views/Admin/LoginPage";
 import Dashboard from "./views/Admin/Dashboard";
 import ArticleEditor from "./views/Admin/ArticleEditor";
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/" element={<FeedView />} />
           <Route path="/article/:slug" element={<BlogView />} />
           <Route path="/bookmarks" element={<BookmarksView />} />
+          <Route path="/profile" element={<ProfileView />} />
 
           {/* Admin auth */}
           <Route path="/admin/login" element={<LoginPage />} />

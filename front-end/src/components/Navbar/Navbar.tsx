@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { useUserAuth } from "../../contexts/UserAuthContext";
 import { GoogleLogin } from "@react-oauth/google";
@@ -19,7 +19,8 @@ const MoonIcon = () => (
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
-  const { user, loading, loginWithGoogle, logout } = useUserAuth();
+  const { user, loading, loginWithGoogle } = useUserAuth();
+  const navigate = useNavigate();
 
   return (
     <nav className="navbar">
@@ -58,8 +59,8 @@ const Navbar = () => {
                 <button
                   type="button"
                   className="navbar__avatar navbar__avatar--btn"
-                  title={user.fullName}
-                  onClick={logout}
+                  title={`${user.fullName} — view profile`}
+                  onClick={() => navigate("/profile")}
                 >
                   {user.avatarUrl ? (
                     <img src={user.avatarUrl} alt={user.fullName} referrerPolicy="no-referrer" />
