@@ -8,14 +8,15 @@
 
 - **Name:** KnowledgeGraph
 - **Description:** Tech news + articles platform delivering structured Markdown content with an interactive outline panel, optimized for both human readability and AI-friendly consumption.
-- **Stack:** React 19 + TypeScript + Vite + Tailwind CSS v4 (frontend) · Node.js + Express 5 + TypeScript (backend) · static/hardcoded data for MVP
+- **Stack:** React 19 + TypeScript + Vite + Tailwind CSS v4 (frontend) · Python 3.11 + FastAPI + Motor + MongoDB (backend — active) · Node.js + Express 5 backend deprecated in favour of Python
 
 ## Current Stage
 
-- **Stage:** Stage 1 — Core Experience (Frontend MVP)
-- **Objective:** Deliver Page 1 (Feed/List view) and finalize Page 2 (Blog/Article view) with outline panel, click-to-scroll, and scroll spy. All data hardcoded.
-- **Status:** Done — Both pages fully implemented with seed data, React Router wired, design tokens applied, build/lint/dev all green.
-- **Exit Criteria:** Both pages render the approved designs, outline panel works (click + scroll spy), category filter pills toggle active state, all UI-only widgets (search, sign in, newsletter, share/bookmark, load more) are present and styled.
+- **Stage:** Stage 5 — Polish & Launch
+- **Branch:** `frontend-backend-fastapi-sync`
+- **Objective:** Harden and complete the user-facing application — search, auth flow, user profiles, topics, SEO, then backend deployment.
+- **Status:** Active — core polish features done. Backend deployment pending.
+- **Exit Criteria:** All dummy/non-functional elements removed; search live; auth flow clean; backend deployed publicly.
 
 ## Phases
 
@@ -23,31 +24,77 @@
 |---|-------|------|--------|
 | 0 | Foundations | Repo, tooling, Vite/React/TS scaffold, Tailwind, Express skeleton | done |
 | 1 | Core Experience (MVP) | Page 1 Feed + Page 2 Blog View with outline panel and scroll spy | done |
-| 2 | Expansion | Markdown content from backend, search, category filters with live data, auth/sign-in flow | pending |
-| 3 | Polish & Hardening | Responsive/mobile layout, dark mode, performance, accessibility audit | pending |
-| 4 | Launch | Deploy frontend + backend, telemetry, post-launch iteration | pending |
+| 2 | NeonScroll V2 UX | Dark futuristic design system, light/dark toggle, article page rebuild, mobile responsive, Vercel deploy | done |
+| 3 | V2-MongoDB | MongoDB + Mongoose models, Express API routes, frontend axios wiring, rich article renderer, TOC toggle | done |
+| 4 | V3-Backend-Python | FastAPI backend, JWT auth, admin CRUD API, admin frontend (NeonScroll), frontend wired to Python API | done |
+| 5 | Polish & Launch | Search, auth flow, user profile, topics page, SEO, backend deploy | active |
 
 ## Active Tasks
 
 | ID | Task | Requirements | Status | Owner |
 |----|------|--------------|--------|-------|
-| task-20260506-001 | Build Page 1 — Feed view (navbar, hero, filters, article cards, sidebar, footer) | V1-REQ-001, V1-REQ-002, V1-REQ-003, V1-REQ-004, V1-REQ-005 | done | Gowtham |
+| task-20260506-001 | Build Page 1 — Feed view (navbar, hero, filters, article cards, sidebar, footer) | V1-REQ-001–005 | done | Gowtham |
 | task-20260506-002 | Wire React Router routes (/ → Feed, /article/:slug → Blog) | V1-REQ-006 | done | Gowtham |
 | task-20260506-003 | Polish BlogView — extract markdown, add navbar + breadcrumb + share/bookmark UI | V1-REQ-007, V1-REQ-008 | done | Gowtham |
 | task-20260506-004 | Define Article TypeScript interface + static seed data | V1-REQ-009 | done | Gowtham |
+| task-20260519-001 | NeonScroll V2 UX overhaul — Feed page redesign with dark futuristic tokens | V2-REQ-001 | done | Gowtham |
+| task-20260519-002 | Light/dark theme toggle — zero-flicker, localStorage persistence, ThemeContext | V2-REQ-002 | done | Gowtham |
+| task-20260519-003 | Vercel SPA deployment config (vercel.json with catch-all rewrite) | V2-REQ-003 | done | Gowtham |
+| task-20260519-004 | Article page rebuild — sticky right-column TOC, reading progress bar | V2-REQ-004 | done | Gowtham |
+| task-20260519-005 | Mobile TOC — collapsible accordion above article body, sticky below navbar | V2-REQ-005 | done | Gowtham |
+| task-20260520-001 | Phase A — MongoDB + Express bootstrap, connectDB() with retry, CORS, dotenv | V3-REQ-001 | done | Gowtham |
+| task-20260520-002 | Phase B — Mongoose models: Category, Tag, User, Article, TrendingRanking, NewsletterSubscriber, SiteSettings | V3-REQ-002 | done | Gowtham |
+| task-20260520-003 | Phase C — Express API routes: /api/articles, /api/articles/:slug, /api/trending, /api/tags, /api/newsletter, /api/categories | V3-REQ-003 | done | Gowtham |
+| task-20260520-004 | Phase D — Seed script: 8 categories, 8 tags, 5 users, 5 articles, 4 trending rankings, site settings | V3-REQ-004 | done | Gowtham |
+| task-20260521-001 | Frontend API wiring — axios client, adaptArticle() adapter, FeedView + BlogView fetch from API | V3-REQ-005 | done | Gowtham |
+| task-20260522-001 | Rich article renderer — images, Mermaid diagrams (MermaidBlock component), YouTube embeds via react-markdown custom components | V3-REQ-006 | done | Gowtham |
+| task-20260523-001 | Desktop TOC sticky fix — move position:sticky to grid wrapper (.blog-toc-desktop), fix CSS grid child constraint | V3-REQ-007 | done | Gowtham |
+| task-20260523-002 | TOC collapsible toggle — chevron button, data-toc CSS grid transition, localStorage persistence (kg-toc-open) | V3-REQ-008 | done | Gowtham |
+| task-20260525-001 | Python FastAPI foundation — project structure, Motor DB connection, lifespan, CORS, health check | V4-REQ-001 | done | Gowtham |
+| task-20260525-002 | FastAPI public routes — articles, categories, tags, trending with MongoDB aggregation pipeline | V4-REQ-002 | done | Gowtham |
+| task-20260525-003 | FastAPI auth — JWT login/logout/me, passlib bcrypt, httpOnly cookie, Depends() middleware | V4-REQ-003 | done | Gowtham |
+| task-20260525-004 | FastAPI admin CRUD routes — router-level Depends(require_admin), create/update/delete/publish articles | V4-REQ-004 | done | Gowtham |
+| task-20260525-005 | Admin frontend — /admin/login, /admin dashboard, /admin/articles/new + edit (NeonScroll theme) | V4-REQ-005 | done | Gowtham |
+| task-20260526-001 | Tier 1 — category filter (URL-based), load more, topic cloud nav, newsletter form wired | PB-001, PB-003 | done | Gowtham |
+| task-20260526-002 | Google Sign-In (OAuth) + persistent user bookmarks (GET/POST/DELETE /api/user/bookmarks) | PB-002, PB-004, PB-026 | done | Gowtham |
+| task-20260526-003 | User profile page (/profile) — avatar, bookmark count, sign-out | PB-002 | done | Gowtham |
+| task-20260526-004 | Search (?q= on articles API), Topics page (/topics), SEO usePageMeta hook | PB-001, PB-009 | done | Gowtham |
+| task-20260526-005 | Dedicated /login page + RequireAuth guard — clean auth flow, navbar Sign in CTA | PB-002 | done | Gowtham |
 
 ## Key Decisions
 
 | # | Decision | Choice | Why |
 |---|----------|--------|-----|
 | 1 | Frontend framework | React 19 + Vite | Modern DX, fast HMR, TS-first |
-| 2 | Styling | Tailwind CSS v4 + scoped CSS files per view | Utility-first speed; per-view CSS for complex layouts (BlogView already uses this) |
+| 2 | Styling | Tailwind CSS v4 + scoped CSS files per view | Utility-first speed; per-view CSS for complex layouts |
 | 3 | Markdown rendering | react-markdown + remark-gfm | Mature, plugin ecosystem, handles GFM tables/strikethrough |
 | 4 | Routing | react-router-dom v7 | Already installed; standard React routing |
-| 5 | Backend | Node.js + Express 5 + TypeScript | Lightweight API skeleton, easy to expand post-MVP |
-| 6 | HTTP client | axios | Installed but unused in MVP — reserved for Stage 2 |
+| 5 | Backend | Node.js + Express 5 + TypeScript | Lightweight API skeleton, easy to expand |
+| 6 | HTTP client | axios | Used for all frontend API calls; baseURL from VITE_API_URL env var |
 | 7 | Data source (MVP) | Hardcoded in frontend | No backend dependency for MVP per design brief |
 | 8 | Outline panel scroll spy | IntersectionObserver (`rootMargin: "-80px 0px -70% 0px"`) | Replaced fragile setTimeout+querySelector; stable heading IDs via slugify() |
+| 9 | Theme system | `data-theme` attribute on `<html>` + CSS custom properties | Zero-flicker with inline IIFE in `<head>`; React ThemeContext syncs with DOM |
+| 10 | Dark theme | NeonScroll — `#0c0c10` bg, `#FF2D95` accent | Approved futuristic design direction from V2 UX schema |
+| 11 | Light theme | Warm cream editorial — `#F7F6F3` bg, `#2563EB` accent | Preserved from Stage 1, toggled via `html[data-theme="light"]` CSS overrides |
+| 12 | Mobile TOC | Two Outline instances in BlogView; CSS controls visibility per breakpoint | Desktop gets sticky aside in right grid column; mobile gets sticky accordion above body |
+| 13 | Deployment | Vercel with `vercel.json` catch-all SPA rewrite | `rootDirectory` set in Vercel dashboard UI (not in vercel.json — schema rejects it) |
+| 14 | Database | MongoDB + Mongoose | Document model fits article/tag/category shape; Mongoose gives typed schemas + populate() |
+| 15 | DB connection | 127.0.0.1 not localhost in MONGO_URI | Windows Node resolves localhost → IPv6 ::1 but MongoDB binds IPv4; always use 127.0.0.1 |
+| 16 | Model registry | Central models/index.ts re-exported at startup | Prevents MissingSchemaError when populate() references a model not yet imported |
+| 17 | API adapter pattern | adaptArticle() in front-end/src/api/adapters.ts | Maps API shape → existing Article type without rewriting all card components |
+| 18 | Mermaid rendering | MermaidBlock component; mermaid.render() in useEffect with useId() | Stable SVG IDs; dark theme initialized once; error fallback to pre block |
+| 19 | YouTube embeds | Bare URL detection regex in react-markdown `a` component | Only embed when link text === href (autolinked URL); avoids embedding named links |
+| 20 | TOC collapse | CSS `data-toc` attribute on grid container drives column width + panel opacity | Single source of truth; CSS grid transitions between `minmax(0,1fr) 220px` and `minmax(0,1fr) 32px` |
+| 21 | Backend language switch | Python 3.11 + FastAPI replacing Node/Express | AI/ML library ecosystem; async-native; FastAPI auto-docs; Pydantic validation |
+| 22 | Async MongoDB driver | Motor (not Mongoose) | Motor is async-native for Python; aggregation pipeline replaces Mongoose populate() |
+| 23 | FastAPI auth pattern | Depends() dependency injection | Cleaner than Express middleware; chainable; return value injected into handler |
+| 24 | bcrypt compatibility | bcrypt==4.0.1 pinned | Newer bcrypt strict mode breaks verification of hashes created by Node's bcryptjs |
+| 25 | Admin UI theme | NeonScroll dark (same as public site) | Consistent design system; admin is a section of the same React app at /admin |
+| 26 | ObjectId serialization | Python `sanitize()` recursive converter | MongoDB-side `$toString` in `$addFields` dot-notation doesn't update nested fields; Python-side recursive walk is simpler and bulletproof |
+| 27 | Google OAuth pattern | ID token flow — frontend gets credential, backend verifies with google-auth | No redirect OAuth dance; @react-oauth/google returns a signed JWT credential directly; backend calls id_token.verify_oauth2_token() |
+| 28 | Auth flow UX | Dedicated /login page + RequireAuth guard | Embedded Google button in navbar was visually noisy and non-standard; /login page with return-path state matches Medium/Substack pattern |
+| 29 | Search implementation | Backend regex ?q= on title+excerpt; frontend SearchModal with 300ms debounce | Simple regex sufficient for current article volume; replace with MongoDB Atlas Search or full-text index at scale |
+| 30 | usePageMeta hook | Vanilla document.title + meta tag manipulation; no library | react-helmet adds ~7kb for trivial benefit at current scale; hook is 20 lines and covers title, description, og:title, og:description |
 
 Full decision log with alternatives in [architecture.md](architecture.md).
 

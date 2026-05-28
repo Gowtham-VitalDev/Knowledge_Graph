@@ -1,27 +1,36 @@
-/* Global resets and base typography for KnowledgeGraph */
+/* ============================================================
+   NeonScroll — Global Styles
+   ============================================================ */
 
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
-}
-
-html,
-body,
-#root {
   margin: 0;
   padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+html, body, #root {
   height: 100%;
 }
 
 body {
-  background: var(--color-bg-page);
-  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: var(--lh-body);
+  font-weight: var(--weight-regular);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+  max-width: 100%;
 }
 
 a {
@@ -30,27 +39,59 @@ a {
 }
 
 button {
-  font-family: inherit;
   cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
 }
 
-img {
-  max-width: 100%;
-  display: block;
+input {
+  font-family: inherit;
+  outline: none;
+  border: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   font-weight: var(--weight-bold);
-  line-height: var(--lh-heading);
 }
 
-p {
-  margin: 0;
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+/* ── LINE CLAMP UTILITIES ──────────────────────────────────── */
+
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
+
+/* ── PAGE CONTAINER ──────────────────────────────────────── */
+
+.page-container {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 0 var(--space-4);
+  }
+}
+
+/* ── SCROLLBAR ───────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: var(--radius-pill); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-muted); }

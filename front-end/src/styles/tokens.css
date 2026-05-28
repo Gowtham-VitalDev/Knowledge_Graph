@@ -1,111 +1,86 @@
 /* ============================================================
-   KnowledgeGraph — Design Tokens
-   SOURCE OF TRUTH: extracted from Visily designs
-   AI agents must import this file and use ONLY these values
+   NeonScroll — Design Tokens
+   Dark futuristic editorial palette
+   SOURCE OF TRUTH: Do not hardcode hex values in components.
    ============================================================ */
 
 :root {
 
   /* ── COLORS ─────────────────────────────────────────────── */
 
-  /* Backgrounds */
-  --color-bg-page:        #F5F4EF;   /* Homepage warm off-white */
-  --color-bg-article:     #FFFFFF;   /* Article/reading page */
-  --color-bg-surface:     #FFFFFF;   /* Cards, modals */
-  --color-bg-nav:         #1A1A1A;   /* Navbar */
-  --color-bg-muted:       #F9FAFB;   /* Sidebar widgets, newsletter */
-  --color-bg-code:        #F8F8F8;   /* Code blocks */
-  --color-bg-hover:       #F3F4F6;   /* Hover state bg */
-  --color-bg-toc-active:  #EBF3FF;   /* TOC active item bg */
+  --color-bg:            #0c0c10;
+  --color-surface:       #0f1014;
+  --color-nav:           rgba(15,15,18,0.56);
+  --color-accent:        #FF2D95;
+  --color-text:          #E6E7EA;
+  --color-muted:         #9A9CA2;
+  --color-border:        #1f2026;
+  --color-code-bg:       #0b0b0d;
 
-  /* Text */
-  --color-text-primary:   #111827;   /* Headings, body */
-  --color-text-secondary: #374151;   /* Article body copy */
-  --color-text-muted:     #6B7280;   /* Meta, subtitles, sidebar */
-  --color-text-light:     #9CA3AF;   /* Placeholders, timestamps */
-  --color-text-toc:       #1A56A0;   /* TOC active item */
+  /* ── CATEGORY COLORS ─────────────────────────────────────── */
 
-  /* Borders */
-  --color-border:         #E5E7EB;   /* All dividers and card borders */
-  --color-border-light:   #F3F4F6;   /* Very subtle separators */
-  --color-border-toc:     #4F8EF7;   /* TOC active left border */
+  --cat-ai-models-bg:      #0e1220;
+  --cat-ai-models-text:    #5ee3ff;
+  --cat-ai-models-border:  #06202a;
 
-  /* Accent */
-  --color-accent:         #4F8EF7;   /* CTA button, links, active states */
-  --color-accent-hover:   #3B7EE8;   /* Accent hover */
+  --cat-quantum-bg:        #100e18;
+  --cat-quantum-text:      #8ec5ff;
+  --cat-quantum-border:    #14121a;
 
-  /* Trending numbers */
-  --color-num-muted:      #D1D5DB;   /* Large muted numbers (01, 02, 03) */
+  --cat-crypto-bg:         #0f1016;
+  --cat-crypto-text:       #8affc1;
+  --cat-crypto-border:     #0b1410;
 
-  /* ── CATEGORY BADGE COLORS ───────────────────────────────── */
-  /* Pattern: --badge-[category]-[bg|text|border] */
+  --cat-synth-bio-bg:      #111018;
+  --cat-synth-bio-text:    #ff9ae6;
+  --cat-synth-bio-border:  #2a1624;
 
-  --badge-research-bg:    #EBF3FF;
-  --badge-research-text:  #1A56A0;
-  --badge-research-border:#BFDBFE;
+  --cat-vr-ar-bg:          #0e1116;
+  --cat-vr-ar-text:        #8aa1ff;
+  --cat-vr-ar-border:      #11131a;
 
-  --badge-ai-bg:          #EDE9FE;
-  --badge-ai-text:        #5B21B6;
-  --badge-ai-border:      #C4B5FD;
+  --cat-cybersec-bg:       #0e1120;
+  --cat-cybersec-text:     #FF7BBF;
+  --cat-cybersec-border:   #141221;
 
-  --badge-web-bg:         #ECFDF5;
-  --badge-web-text:       #065F46;
-  --badge-web-border:     #A7F3D0;
+  --cat-neural-bg:         #0e1116;
+  --cat-neural-text:       #C7A3FF;
+  --cat-neural-border:     #1a1320;
 
-  --badge-systems-bg:     #FEF3C7;
-  --badge-systems-text:   #92400E;
-  --badge-systems-border: #FCD34D;
-
-  --badge-data-bg:        #FEE2E2;
-  --badge-data-text:      #991B1B;
-  --badge-data-border:    #FCA5A5;
-
-  --badge-design-bg:      #FDF2F8;
-  --badge-design-text:    #9D174D;
-  --badge-design-border:  #F9A8D4;
-
-  --badge-engineering-bg:   #F0FDF4;
-  --badge-engineering-text: #166534;
-  --badge-engineering-border:#86EFAC;
-
+  --cat-default-bg:        #111217;
+  --cat-default-text:      #9A9CA2;
+  --cat-default-border:    #1f2026;
 
   /* ── TYPOGRAPHY ─────────────────────────────────────────── */
 
-  --font-body:            'Inter', -apple-system, sans-serif;
-  --font-mono:            'JetBrains Mono', 'Fira Code', monospace;
-  --font-display:         'Lora', Georgia, serif;
+  --font-body:   'Merriweather', Georgia, 'Spectral', serif;
+  --font-mono:   'Menlo', 'Monaco', 'Courier New', monospace;
+  --font-ui:     -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  /* Font sizes */
-  --text-hero:            48px;  /* Homepage hero headline */
-  --text-h1:              32px;  /* Article title */
-  --text-h2:              22px;  /* Section heading */
-  --text-h3:              18px;  /* Sub-section heading */
-  --text-body:            16px;  /* Body copy */
-  --text-sm:              14px;  /* Sidebar titles, card titles */
-  --text-xs:              13px;  /* Meta, nav links, excerpts */
-  --text-xxs:             12px;  /* Author, timestamps, tags */
-  --text-badge:           10px;  /* Category badges, section labels */
+  --text-hero:   56px;
+  --lh-hero:     72px;
+  --text-h1:     28px;
+  --lh-h1:       36px;
+  --text-h2:     20px;
+  --lh-h2:       28px;
+  --text-body:   16px;
+  --lh-body:     26px;
+  --text-sm:     14px;
+  --lh-sm:       20px;
+  --text-xs:     12px;
+  --lh-xs:       16px;
+  --text-badge:  11px;
+  --lh-badge:    14px;
 
-  /* Font weights */
-  --weight-regular:       400;
-  --weight-medium:        500;
-  --weight-semibold:      600;
-  --weight-bold:          700;
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-extrabold:800;
 
-  /* Line heights */
-  --lh-hero:              1.1;
-  --lh-heading:           1.2;
-  --lh-body:              1.75;
-  --lh-tight:             1.35;
-  --lh-snug:              1.5;
-
-  /* Letter spacing */
-  --ls-badge:             0.10em;  /* Category badges */
-  --ls-section:           0.12em; /* Section labels (ON THIS PAGE, etc.) */
-
+  --ls-badge: 0.08em;
 
   /* ── SPACING ─────────────────────────────────────────────── */
-  /* All spacing is multiples of 4px. Never use arbitrary values. */
 
   --space-1:   4px;
   --space-2:   8px;
@@ -117,39 +92,115 @@
   --space-10:  40px;
   --space-12:  48px;
   --space-16:  64px;
-  --space-20:  80px;
-
 
   /* ── BORDER RADIUS ───────────────────────────────────────── */
 
-  --radius-sm:    4px;    /* Badges, small chips */
-  --radius-md:    8px;    /* Inputs, code blocks, small cards */
-  --radius-lg:    12px;   /* Standard cards, sidebar widgets */
-  --radius-xl:    16px;   /* Featured article card, large containers */
-  --radius-pill:  999px;  /* Filter pills */
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   20px;
+  --radius-pill: 999px;
 
+  /* ── LAYOUT ──────────────────────────────────────────────── */
 
-  /* ── COMPONENT-SPECIFIC SIZES ────────────────────────────── */
+  --nav-height:        72px;
+  --sidebar-width:     320px;
+  --page-max-width:    1180px;
 
-  --nav-height:           56px;
-  --sidebar-width:        260px;  /* Right sidebar (homepage) */
-  --toc-width:            220px;  /* TOC sidebar (article page) */
-  --content-max-width:    640px;  /* Article body content */
-  --page-max-width:       1200px; /* Overall page container */
-  --article-max-width:    780px;  /* Article page container */
+  /* ── SHADOWS / GLOWS ─────────────────────────────────────── */
 
-  /* Avatar sizes */
-  --avatar-sm:            20px;   /* List card author */
-  --avatar-md:            24px;   /* Article byline */
-  --avatar-lg:            44px;   /* Contact / profile card */
+  --glow-accent-sm:  0 8px 28px rgba(255,45,149,0.12);
+  --glow-accent-md:  0 12px 36px rgba(255,45,149,0.14);
+  --glow-accent-lg:  0 18px 48px rgba(255,45,149,0.12);
+  --glow-card-hover: 0 12px 36px rgba(255,45,149,0.10);
+  --glow-card-list:  0 10px 30px rgba(255,45,149,0.08);
 
-  /* Thumbnail */
-  --thumb-w:              72px;
-  --thumb-h:              56px;
+}
 
-  /* Nav CTA button */
-  --nav-cta-bg:           #4F8EF7;
-  --nav-logo-icon-size:   22px;
-  --nav-logo-icon-radius: 6px;
+/* ============================================================
+   LIGHT THEME OVERRIDES — html[data-theme="light"]
+   Only color + glow tokens change. Typography/spacing/radius
+   are theme-neutral and stay from :root above.
+   ============================================================ */
 
+html[data-theme="light"] {
+
+  /* ── CORE PALETTE ────────────────────────────────────────── */
+  --color-bg:      #F7F6F3;
+  --color-surface: #FFFFFF;
+  --color-nav:     rgba(247,246,243,0.85);
+  --color-accent:  #2563EB;
+  --color-text:    #1A1A1A;
+  --color-muted:   #6B7280;
+  --color-border:  #E5E7EB;
+  --color-code-bg: #F3F4F6;
+
+  /* ── GLOWS (blue instead of pink) ───────────────────────── */
+  --glow-accent-sm:  0 8px 28px rgba(37,99,235,0.10);
+  --glow-accent-md:  0 12px 36px rgba(37,99,235,0.14);
+  --glow-accent-lg:  0 18px 48px rgba(37,99,235,0.12);
+  --glow-card-hover: 0 12px 36px rgba(37,99,235,0.10);
+  --glow-card-list:  0 10px 30px rgba(37,99,235,0.08);
+
+  /* ── CATEGORY BADGES — light-safe accessible palette ─────── */
+  --cat-ai-models-bg:      #E8F6FF;
+  --cat-ai-models-text:    #0369A1;
+  --cat-ai-models-border:  #BAE0F5;
+
+  --cat-quantum-bg:        #EEF0FF;
+  --cat-quantum-text:      #3730A3;
+  --cat-quantum-border:    #C7CBF7;
+
+  --cat-crypto-bg:         #E6FFF4;
+  --cat-crypto-text:       #065F46;
+  --cat-crypto-border:     #A7F3D0;
+
+  --cat-synth-bio-bg:      #FDF2FF;
+  --cat-synth-bio-text:    #7E22CE;
+  --cat-synth-bio-border:  #E9D5FF;
+
+  --cat-vr-ar-bg:          #EEF2FF;
+  --cat-vr-ar-text:        #1D4ED8;
+  --cat-vr-ar-border:      #C7D2FE;
+
+  --cat-cybersec-bg:       #FFF0F7;
+  --cat-cybersec-text:     #9D174D;
+  --cat-cybersec-border:   #FBCFE8;
+
+  --cat-neural-bg:         #F5F0FF;
+  --cat-neural-text:       #6D28D9;
+  --cat-neural-border:     #DDD6FE;
+
+  --cat-default-bg:        #F3F4F6;
+  --cat-default-text:      #374151;
+  --cat-default-border:    #D1D5DB;
+}
+
+/* Pure CSS fallback — only active when JS is disabled */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --color-bg:      #F7F6F3;
+    --color-surface: #FFFFFF;
+    --color-nav:     rgba(247,246,243,0.85);
+    --color-accent:  #2563EB;
+    --color-text:    #1A1A1A;
+    --color-muted:   #6B7280;
+    --color-border:  #E5E7EB;
+    --color-code-bg: #F3F4F6;
+
+    --glow-accent-sm:  0 8px 28px rgba(37,99,235,0.10);
+    --glow-accent-md:  0 12px 36px rgba(37,99,235,0.14);
+    --glow-accent-lg:  0 18px 48px rgba(37,99,235,0.12);
+    --glow-card-hover: 0 12px 36px rgba(37,99,235,0.10);
+    --glow-card-list:  0 10px 30px rgba(37,99,235,0.08);
+
+    --cat-ai-models-bg:     #E8F6FF; --cat-ai-models-text:   #0369A1; --cat-ai-models-border:  #BAE0F5;
+    --cat-quantum-bg:       #EEF0FF; --cat-quantum-text:     #3730A3; --cat-quantum-border:    #C7CBF7;
+    --cat-crypto-bg:        #E6FFF4; --cat-crypto-text:      #065F46; --cat-crypto-border:     #A7F3D0;
+    --cat-synth-bio-bg:     #FDF2FF; --cat-synth-bio-text:   #7E22CE; --cat-synth-bio-border:  #E9D5FF;
+    --cat-vr-ar-bg:         #EEF2FF; --cat-vr-ar-text:       #1D4ED8; --cat-vr-ar-border:      #C7D2FE;
+    --cat-cybersec-bg:      #FFF0F7; --cat-cybersec-text:    #9D174D; --cat-cybersec-border:   #FBCFE8;
+    --cat-neural-bg:        #F5F0FF; --cat-neural-text:      #6D28D9; --cat-neural-border:     #DDD6FE;
+    --cat-default-bg:       #F3F4F6; --cat-default-text:     #374151; --cat-default-border:    #D1D5DB;
+  }
 }

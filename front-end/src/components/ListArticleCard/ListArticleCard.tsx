@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import type { Article } from "../../types/article";
 import CategoryBadge from "../CategoryBadge/CategoryBadge";
-import { formatShortDate } from "../../utils/formatDate";
+import AuthorAvatar from "../AuthorAvatar/AuthorAvatar";
 import "./ListArticleCard.css";
 
 interface ListArticleCardProps {
@@ -12,27 +12,18 @@ const ListArticleCard = ({ article }: ListArticleCardProps) => {
   return (
     <Link to={`/article/${article.slug}`} className="list-card">
       <div className="list-card__text">
-        <CategoryBadge category={article.category} />
+        <div className="list-card__header">
+          <CategoryBadge category={article.category} />
+          <span className="list-card__date">· {article.publishedAt}</span>
+        </div>
         <h3 className="list-card__title">{article.title}</h3>
         <p className="list-card__excerpt">{article.excerpt}</p>
         <div className="list-card__byline">
-          <img
-            src={article.author.avatarUrl}
-            alt=""
-            className="list-card__avatar"
-          />
-          <span className="list-card__author">{article.author.name}</span>
-          <span>·</span>
-          <span>{formatShortDate(article.publishedAt)}</span>
-          <span>·</span>
-          <span>{article.readTimeMinutes} min read</span>
+          <AuthorAvatar name={article.author.name} size="sm" />
+          <span>{article.author.name}</span>
         </div>
       </div>
-      <img
-        src={article.thumbnailUrl}
-        alt=""
-        className="list-card__thumb"
-      />
+      <img src={article.thumbnailUrl} alt="" className="list-card__thumb" />
     </Link>
   );
 };
