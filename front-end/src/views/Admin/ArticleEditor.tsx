@@ -56,7 +56,7 @@ export default function ArticleEditor() {
           slug:       a.slug  ?? "",
           content:    (a as any).content ?? "",
           excerpt:    (a as any).excerpt ?? "",
-          status:     a.status ?? "draft",
+          status:     (a.status === "published" ? "published" : "draft"),
           categoryId: (a as any).categoryId?._id ?? "",
           coverImage: (a as any).coverImage ?? "",
           readTime:   a.readTime ?? 5,
