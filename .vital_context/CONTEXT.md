@@ -15,8 +15,8 @@
 - **Stage:** Stage 5 — Polish & Launch
 - **Branch:** `frontend-backend-fastapi-sync`
 - **Objective:** Harden and complete the user-facing application — search, auth flow, user profiles, topics, SEO, then backend deployment.
-- **Status:** Active — core polish features done. Backend deployment pending.
-- **Exit Criteria:** All dummy/non-functional elements removed; search live; auth flow clean; backend deployed publicly.
+- **Status:** Active — core polish features done. Backend deployed on GCP Cloud Run.
+- **Exit Criteria:** All dummy/non-functional elements removed; search live; auth flow clean; backend deployed publicly; GCS image storage wired to admin.
 
 ## Phases
 
@@ -59,6 +59,7 @@
 | task-20260526-002 | Google Sign-In (OAuth) + persistent user bookmarks (GET/POST/DELETE /api/user/bookmarks) | PB-002, PB-004, PB-026 | done | Gowtham |
 | task-20260526-003 | User profile page (/profile) — avatar, bookmark count, sign-out | PB-002 | done | Gowtham |
 | task-20260526-004 | Search (?q= on articles API), Topics page (/topics), SEO usePageMeta hook | PB-001, PB-009 | done | Gowtham |
+| task-20260529-001 | GCP Cloud Run deployment — Dockerfile, GCS image storage, MongoDB Atlas, Cloud Run deploy | PB-DEPLOY | done | Gowtham |
 | task-20260526-005 | Dedicated /login page + RequireAuth guard — clean auth flow, navbar Sign in CTA | PB-002 | done | Gowtham |
 
 ## Key Decisions
@@ -95,6 +96,12 @@
 | 28 | Auth flow UX | Dedicated /login page + RequireAuth guard | Embedded Google button in navbar was visually noisy and non-standard; /login page with return-path state matches Medium/Substack pattern |
 | 29 | Search implementation | Backend regex ?q= on title+excerpt; frontend SearchModal with 300ms debounce | Simple regex sufficient for current article volume; replace with MongoDB Atlas Search or full-text index at scale |
 | 30 | usePageMeta hook | Vanilla document.title + meta tag manipulation; no library | react-helmet adds ~7kb for trivial benefit at current scale; hook is 20 lines and covers title, description, og:title, og:description |
+| 31 | Backend deployment | GCP Cloud Run (serverless containers) | Railway, Render, VM | Scales to zero (free at low traffic), HTTPS built-in, same GCP project as GCS and Artifact Registry |
+| 32 | Container registry | GCP Artifact Registry (`us-central1`) | Docker Hub | Private, same GCP project, Cloud Run pulls natively without extra auth |
+| 33 | Database hosting | MongoDB Atlas M0 free tier | Self-hosted on GCP VM | Zero maintenance, free forever, connects from Cloud Run via `mongodb+srv://` |
+| 34 | Image storage | GCS public bucket `kg-article-images-gg` | Firebase Storage, Cloudinary | Simple, cheap, permanent URLs that drop directly into Markdown; admin uploads via FastAPI, users via Firebase Storage later |
+| 35 | Docker build | Two-stage build (builder + python:3.11-slim runtime) | Single stage | Keeps final image small — build tools excluded from runtime image |
+| 36 | Cloud Run auth for GCS | Workload Identity (no key file in production) | Service account JSON key | Key files in images are a security risk; Workload Identity is the GCP-native zero-credential pattern |
 
 Full decision log with alternatives in [architecture.md](architecture.md).
 

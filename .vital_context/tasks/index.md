@@ -4,6 +4,8 @@ All completed and active task logs, newest first.
 
 | ID | Title | Status | Date |
 |----|-------|--------|------|
+| task-20260529-002 | Vercel frontend env update — VITE_API_URL pointed to Cloud Run | done | 2026-05-29 |
+| task-20260529-001 | GCP Cloud Run deployment — Dockerfile, GCS image storage, MongoDB Atlas, Cloud Run deploy | done | 2026-05-29 |
 | task-20260526-005 | Dedicated /login page + RequireAuth guard — clean auth flow | done | 2026-05-26 |
 | task-20260526-004 | Search (live ?q=), Topics page (/topics), SEO usePageMeta hook | done | 2026-05-26 |
 | task-20260526-003 | User profile page (/profile) — avatar, bookmark count, sign-out | done | 2026-05-26 |

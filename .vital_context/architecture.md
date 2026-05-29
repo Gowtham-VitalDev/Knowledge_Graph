@@ -29,7 +29,11 @@
 | Database | MongoDB | ^7.x (local) | Document model fits article/tag/category shape; Atlas-ready for production |
 | Auth | JWT httpOnly cookie | — | 7-day expiry; same pattern as Node backend |
 | Node/Express backend | **Deprecated** | — | Replaced by Python/FastAPI in Stage 4 (back-end/ folder kept for reference) |
-| Hosting | TBD | — | Decide before Stage 4 |
+| Container registry | GCP Artifact Registry | us-central1 | Private Docker registry inside GCP project; Cloud Run pulls natively without extra auth |
+| Backend hosting | GCP Cloud Run | managed | Serverless containers; scales to zero; HTTPS built-in; auto-provisioned HTTPS URL |
+| Database hosting | MongoDB Atlas | M0 free | Cloud MongoDB; connects via `mongodb+srv://`; zero maintenance; free forever |
+| Image storage | GCP Cloud Storage | Standard | Public bucket `kg-article-images-gg`; permanent URLs used directly in article Markdown |
+| GCS SDK | google-cloud-storage | latest | Python SDK for admin uploads; blocking calls wrapped in `asyncio.to_thread` |
 
 ---
 
@@ -247,6 +251,10 @@ All routes served by `back-end-py/` running on port 5000.
 | PUT | `/api/admin/articles/{id}` | Update article | Admin |
 | PATCH | `/api/admin/articles/{id}/publish` | Toggle draft ↔ published | Admin |
 | DELETE | `/api/admin/articles/{id}` | Delete article | Admin |
+| POST | `/api/admin/upload` | Upload single image to GCS (`?folder=`) | Admin |
+| POST | `/api/admin/upload/bulk` | Upload up to 20 images in parallel to GCS | Admin |
+| DELETE | `/api/admin/upload` | Delete image from GCS (`?destination=`) | Admin |
+| GET | `/api/admin/images` | List images in GCS bucket (`?prefix=`) | Admin |
 
 ### Key FastAPI patterns used
 

@@ -86,9 +86,13 @@ Knowledge_Graph/
     │   ├── trending.py         # GET /api/trending
     │   ├── auth.py             # POST /api/auth/login, logout, GET /api/auth/me
     │   └── admin/
-    │       └── articles.py     # All /api/admin/articles routes (protected)
+    │       ├── articles.py     # All /api/admin/articles routes (protected)
+    │       └── upload.py       # Image upload routes — single, bulk, delete, list
+    ├── gcs.py                  # GCS helper — upload_file, upload_files, delete_file, list_files
+    ├── Dockerfile              # Two-stage build for Cloud Run
+    ├── .dockerignore           # Excludes venv/, __pycache__/, .env from image
     └── scripts/
-        └── seed.py             # Python seed script (Phase 6)
+        └── seed.py             # Python seed script
 ```
 
 ---
@@ -137,7 +141,16 @@ npx ts-node src/scripts/seed.ts   # seed MongoDB (clears + inserts all collectio
 
 # === Deploy ===
 # Frontend: Vercel (vercel.json with SPA catch-all). Root Directory set in Vercel dashboard.
-# Backend: not deployed yet — pending Stage 5.
+# Backend: GCP Cloud Run — https://kg-backend-107068948109.us-central1.run.app
+# GCP Project: bright-aileron-497503-d7
+# Artifact Registry: us-central1-docker.pkg.dev/bright-aileron-497503-d7/kg-backend/api:v1
+# GCS Bucket: gs://kg-article-images-gg (us-central1, public read)
+# MongoDB: Atlas M0 free cluster (knowledgegraph DB)
+
+# Redeploy backend after changes:
+# 1. docker build -t us-central1-docker.pkg.dev/bright-aileron-497503-d7/kg-backend/api:v2 .
+# 2. docker push us-central1-docker.pkg.dev/bright-aileron-497503-d7/kg-backend/api:v2
+# 3. gcloud run deploy kg-backend --image us-central1-docker.pkg.dev/bright-aileron-497503-d7/kg-backend/api:v2 --region us-central1
 ```
 
 ---
@@ -154,6 +167,9 @@ npx ts-node src/scripts/seed.ts   # seed MongoDB (clears + inserts all collectio
 | `ADMIN_EMAIL` | `back-end-py/.env` | Admin login email | `admin@knowledgegraph.io` | Yes |
 | `ADMIN_PASSWORD` | `back-end-py/.env` | Admin login password | `Admin@1234` | Yes |
 | `VITE_API_URL` | `front-end/.env` | Backend base URL for axios | `http://127.0.0.1:5000` | No (defaults to http://localhost:5000) |
+| `GOOGLE_CLIENT_ID` | `back-end-py/.env` + `front-end/.env` | Google OAuth client ID | `your-google-client-id.apps.googleusercontent.com` | Yes (for Google login) |
+| `GCS_BUCKET_NAME` | `back-end-py/.env` | GCS bucket for image uploads | `kg-article-images-gg` | Yes (for image upload) |
+| `GCS_KEY_PATH` | `back-end-py/.env` | Path to GCS service account JSON (local dev only) | `/path/to/key.json` | No (empty on Cloud Run — uses Workload Identity) |
 
 > Keep `.env` files out of git. IMPORTANT: use `127.0.0.1` not `localhost` in MONGO_URI on Windows.
 
@@ -161,15 +177,31 @@ npx ts-node src/scripts/seed.ts   # seed MongoDB (clears + inserts all collectio
 
 ## Key API Endpoints (Quick Lookup)
 
-### Implemented (Stage 3)
+### Implemented (Stage 4 + 5)
 | Endpoint | What it does |
 |----------|-------------|
-| `GET /api/articles` | List articles (query: category, tag, limit, page) |
-| `GET /api/articles/:slug` | Get one article with full Markdown body |
-| `GET /api/trending` | Sidebar trending list (latest week, nested populate) |
+| `GET /health` | Health check — returns `{"status":"ok"}` |
+| `GET /api/articles` | List articles (query: category, tag, q, limit, page) |
+| `GET /api/articles/{slug}` | Get one article with full Markdown body |
+| `GET /api/trending` | Sidebar trending list (latest week) |
 | `GET /api/tags` | All tags sorted by usageCount |
 | `GET /api/categories` | All categories sorted by articleCount |
-| `POST /api/newsletter` | Subscribe email (validates, handles re-subscribe) |
+| `POST /api/auth/login` | Login — issues JWT httpOnly cookie |
+| `POST /api/auth/logout` | Clear JWT cookie |
+| `GET /api/auth/me` | Current user from JWT |
+| `POST /api/google-auth/login` | Google OAuth ID token verification |
+| `GET /api/user/bookmarks` | Get user's bookmarked article IDs |
+| `POST /api/user/bookmarks` | Add bookmark |
+| `DELETE /api/user/bookmarks/{id}` | Remove bookmark |
+| `POST /api/admin/upload` | Upload single image to GCS |
+| `POST /api/admin/upload/bulk` | Upload up to 20 images to GCS in parallel |
+| `DELETE /api/admin/upload` | Delete image from GCS |
+| `GET /api/admin/images` | List images in GCS bucket |
+| `GET /api/admin/articles` | List all articles (admin, all statuses) |
+| `POST /api/admin/articles` | Create article |
+| `PUT /api/admin/articles/{id}` | Update article |
+| `PATCH /api/admin/articles/{id}/publish` | Toggle draft ↔ published |
+| `DELETE /api/admin/articles/{id}` | Delete article |
 
 Full details + schemas in [architecture.md](architecture.md).
 
