@@ -54,6 +54,7 @@ from routes.google_auth      import router as google_auth_router
 from routes.newsletter       import router as newsletter_router
 from routes.bookmarks        import router as bookmarks_router
 from routes.admin.articles   import router as admin_articles_router
+from routes.admin.upload     import router as admin_upload_router
 
 app.include_router(articles_router,       prefix="/api")
 app.include_router(categories_router,     prefix="/api")
@@ -64,3 +65,4 @@ app.include_router(google_auth_router,    prefix="/api")
 app.include_router(newsletter_router,     prefix="/api")
 app.include_router(bookmarks_router,      prefix="/api")
 app.include_router(admin_articles_router, prefix="/api")
+app.include_router(admin_upload_router,   prefix="/api")

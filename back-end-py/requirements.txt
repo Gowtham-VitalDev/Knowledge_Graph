@@ -8,3 +8,5 @@ python-jose[cryptography]
 pydantic[email]
 google-auth
 requests
+google-cloud-storage
+python-multipart

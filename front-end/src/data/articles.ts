@@ -7,6 +7,7 @@ const AVATAR = (seed: string) => `https://i.pravatar.cc/64?u=${seed}`;
 
 export const ARTICLES: Article[] = [
   {
+    id: "ghost-in-the-machine-sentient-algorithms",
     slug: "ghost-in-the-machine-sentient-algorithms",
     title: "Ghost in the Machine: The Rise of Sentient Algorithms in High-Frequency Trading",
     excerpt:
@@ -47,6 +48,7 @@ Every additional moving part is a new on-call burden. A system that is technical
 Distributed systems do not get simpler. The job is to keep the *kinds* of complexity you accept aligned with the problems you are actually solving.`,
   },
   {
+    id: "quantum-cryptography-q256-broken",
     slug: "quantum-cryptography-q256-broken",
     title: "Quantum Cryptography Protocol Q-256 Broken by Novel Temporal Attack Vector",
     excerpt:
@@ -68,6 +70,7 @@ The Q-256 protocol has long been considered unbreakable under classical assumpti
 Global financial infrastructure relying on Q-256 must begin migration immediately. The Neo-Geneva team estimates a 14-month window before weaponized tooling emerges in the wild.`,
   },
   {
+    id: "neuralink-v3-cortical-streaming",
     slug: "neuralink-v3-cortical-streaming",
     title: "Neuralink's V3 Interface: Hands-On with Direct Cortical Streaming",
     excerpt:
@@ -89,6 +92,7 @@ The installation took 40 minutes under local anaesthetic. By day two, the latenc
 Background OS processes manifest as phantom sensory input: a faint hum during heavy I/O, a pressure sensation during garbage collection cycles. Neuralink calls this "ambient telemetry." Critics call it involuntary advertising.`,
   },
   {
+    id: "lab-grown-protein-neo-tokyo",
     slug: "lab-grown-protein-neo-tokyo",
     title: "Synthesizing Meat: The Lab-Grown Protein Taking Over Neo-Tokyo",
     excerpt:
@@ -110,6 +114,7 @@ OmniCorp's third district facility now produces 40 tonnes of cultured protein da
 Traditionalists remain vocal. The Authentic Meat Collective has filed seventeen legal challenges this quarter alone. But among the under-30 demographic, the shift is irreversible.`,
   },
   {
+    id: "vr-ar-haptic-feedback-2042",
     slug: "vr-ar-haptic-feedback-2042",
     title: "Beyond Pixels: Full-Body Haptic Rigs Are Redefining VR Presence",
     excerpt:

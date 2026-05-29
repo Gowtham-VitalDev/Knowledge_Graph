@@ -172,3 +172,42 @@
 - Hosting choice not yet made
 
 **Hand-off:** _pending._
+
+---
+
+## Stage 5: Polish & Launch — active
+
+**Window:** 2026-05-26 → ongoing
+
+**Goals:**
+- Harden and complete user-facing features (search, auth flow, user profile, topics, SEO)
+- Deploy FastAPI backend publicly on GCP Cloud Run
+- Wire GCS image storage for admin article images
+- Update frontend to point at production backend
+
+**Requirements:** PB-001, PB-002, PB-003, PB-004, PB-009, PB-026, PB-DEPLOY
+
+**Key Tasks:** task-20260526-001 through task-20260526-005, task-20260529-001, task-20260529-002
+
+**Acceptance Criteria:**
+- ✅ Backend deployed on GCP Cloud Run — `https://kg-backend-107068948109.us-central1.run.app`
+- ✅ `/health` returns `{"status":"ok"}` on the live URL
+- ✅ MongoDB Atlas M0 cluster connected and healthy
+- ✅ GCS bucket `kg-article-images-gg` created, public read enabled
+- ✅ Admin upload endpoints live (`/api/admin/upload`, `/api/admin/upload/bulk`)
+- ✅ Vercel frontend `VITE_API_URL` updated to Cloud Run URL
+- ⬜ GCS Workload Identity configured for Cloud Run (no key file in production)
+- ⬜ Seed production Atlas data (articles, categories, tags)
+- ⬜ End-to-end smoke test: feed loads, article opens, login works, search works
+
+**Definition of Done:**
+- ✅ Backend is publicly reachable at the Cloud Run URL
+- ✅ Frontend on Vercel talks to the live backend (not localhost)
+- ⬜ Admin can upload images to GCS and use the URL in article Markdown
+- ⬜ All Stage 5 exit criteria met — no dummy data, search live, auth clean
+
+**Risks:**
+- GCS Workload Identity not yet configured — local dev requires service account key file
+- Production Atlas seed data not yet run — site may show empty feed
+
+**Hand-off:** _pending — complete when exit criteria all checked._
