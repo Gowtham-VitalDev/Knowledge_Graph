@@ -69,12 +69,13 @@ async def google_login(body: GoogleAuthBody, response: Response):
 
     token = _make_token(user_id, role)
 
+    is_production = os.getenv("ENVIRONMENT", "production") != "development"
     response.set_cookie(
         key="token",
         value=token,
         httponly=True,
-        samesite="lax",
-        secure=os.getenv("NODE_ENV") == "production",
+        samesite="none" if is_production else "lax",
+        secure=is_production,
         max_age=JWT_EXPIRES_DAYS * 24 * 60 * 60,
     )
 
