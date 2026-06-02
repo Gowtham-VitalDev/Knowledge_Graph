@@ -54,13 +54,15 @@ async def login(body: LoginRequest, response: Response):
 
     token = create_token(str(user["_id"]), user["role"])
 
-    # Set httpOnly cookie — expires in 7 days
+    # SameSite=none + Secure=True required for cross-domain cookies (Vercel → Cloud Run).
+    # In local dev set ENVIRONMENT=development in .env to allow SameSite=lax without HTTPS.
+    is_production = os.getenv("ENVIRONMENT", "production") != "development"
     response.set_cookie(
         key="token",
         value=token,
         httponly=True,
-        samesite="lax",
-        secure=os.getenv("NODE_ENV") == "production",
+        samesite="none" if is_production else "lax",
+        secure=is_production,
         max_age=JWT_EXPIRES_DAYS * 24 * 60 * 60,
     )
 
