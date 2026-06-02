@@ -21,7 +21,8 @@ from passlib.context import CryptContext
 # Load .env from back-end-py/
 load_dotenv(Path(__file__).parent.parent / ".env")
 
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://127.0.0.1:27017/knowledgegraph")
+# MONGO_URI = os.getenv("MONGO_URI", "mongodb://127.0.0.1:27017/knowledgegraph")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://vdevgowtham_db_user:7dsHDDeF1la8Sifa@knowledgegraphcluster.nyna4dm.mongodb.net/?appName=KnowledgeGraphCluster")
 DB_NAME   = os.getenv("DB_NAME",   "knowledgegraph")
 ADMIN_EMAIL    = os.getenv("ADMIN_EMAIL",    "admin@knowledgegraph.io")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "Admin@1234")
@@ -86,41 +87,41 @@ async def seed():
             "avatarUrl": "https://i.pravatar.cc/64?u=admin",
             "isVerified": True, "status": "active",
         },
-        {
-            "fullName": "Dr. Aris Thorne", "username": "aris-thorne", "email": "aris@knowledgegraph.io",
-            "passwordHash": placeholder, "role": "author",
-            "bio": "AI researcher and algorithmic trading analyst.",
-            "avatarUrl": "https://i.pravatar.cc/64?u=aris-thorne",
-            "isVerified": True, "status": "active",
-        },
-        {
-            "fullName": "Elena Rostova", "username": "elena-rostova", "email": "elena@knowledgegraph.io",
-            "passwordHash": placeholder, "role": "author",
-            "bio": "Quantum cryptography researcher at Neo-Geneva institute.",
-            "avatarUrl": "https://i.pravatar.cc/64?u=elena-rostova",
-            "isVerified": True, "status": "active",
-        },
-        {
-            "fullName": "Jax Zero Vance", "username": "jax-vance", "email": "jax@knowledgegraph.io",
-            "passwordHash": placeholder, "role": "author",
-            "bio": "Hardware journalist covering neural interfaces.",
-            "avatarUrl": "https://i.pravatar.cc/64?u=jax-vance",
-            "isVerified": True, "status": "active",
-        },
-        {
-            "fullName": "Kenji Sato", "username": "kenji-sato", "email": "kenji@knowledgegraph.io",
-            "passwordHash": placeholder, "role": "author",
-            "bio": "Synthetic biology and food technology writer.",
-            "avatarUrl": "https://i.pravatar.cc/64?u=kenji-sato",
-            "isVerified": True, "status": "active",
-        },
-        {
-            "fullName": "Mira Okafor", "username": "mira-okafor", "email": "mira@knowledgegraph.io",
-            "passwordHash": placeholder, "role": "author",
-            "bio": "VR/AR technology reviewer and immersive media critic.",
-            "avatarUrl": "https://i.pravatar.cc/64?u=mira-okafor",
-            "isVerified": True, "status": "active",
-        },
+        # {
+        #     "fullName": "Dr. Aris Thorne", "username": "aris-thorne", "email": "aris@knowledgegraph.io",
+        #     "passwordHash": placeholder, "role": "author",
+        #     "bio": "AI researcher and algorithmic trading analyst.",
+        #     "avatarUrl": "https://i.pravatar.cc/64?u=aris-thorne",
+        #     "isVerified": True, "status": "active",
+        # },
+        # {
+        #     "fullName": "Elena Rostova", "username": "elena-rostova", "email": "elena@knowledgegraph.io",
+        #     "passwordHash": placeholder, "role": "author",
+        #     "bio": "Quantum cryptography researcher at Neo-Geneva institute.",
+        #     "avatarUrl": "https://i.pravatar.cc/64?u=elena-rostova",
+        #     "isVerified": True, "status": "active",
+        # },
+        # {
+        #     "fullName": "Jax Zero Vance", "username": "jax-vance", "email": "jax@knowledgegraph.io",
+        #     "passwordHash": placeholder, "role": "author",
+        #     "bio": "Hardware journalist covering neural interfaces.",
+        #     "avatarUrl": "https://i.pravatar.cc/64?u=jax-vance",
+        #     "isVerified": True, "status": "active",
+        # },
+        # {
+        #     "fullName": "Kenji Sato", "username": "kenji-sato", "email": "kenji@knowledgegraph.io",
+        #     "passwordHash": placeholder, "role": "author",
+        #     "bio": "Synthetic biology and food technology writer.",
+        #     "avatarUrl": "https://i.pravatar.cc/64?u=kenji-sato",
+        #     "isVerified": True, "status": "active",
+        # },
+        # {
+        #     "fullName": "Mira Okafor", "username": "mira-okafor", "email": "mira@knowledgegraph.io",
+        #     "passwordHash": placeholder, "role": "author",
+        #     "bio": "VR/AR technology reviewer and immersive media critic.",
+        #     "avatarUrl": "https://i.pravatar.cc/64?u=mira-okafor",
+        #     "isVerified": True, "status": "active",
+        # },
     ]
     result   = await db["users"].insert_many(user_docs)
     user_ids = {user_docs[i]["username"]: result.inserted_ids[i] for i in range(len(user_docs))}
@@ -306,6 +307,7 @@ Fourteen scenarios across three environments: zero-gravity orbital repair, abyss
             "seoDescription": "SensaTech's exosuit reviewed — sub-5ms latency and 94/100 presence scores.",
             "publishedAt": dt("2042-10-17"), "createdAt": now, "updatedAt": now,
         },
+    
     ]
 
     result      = await db["articles"].insert_many(article_docs)
